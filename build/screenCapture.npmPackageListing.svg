@@ -1,292 +1,293 @@
-<svg height="4622" width="720" xmlns="http://www.w3.org/2000/svg">
-<rect height="4622" fill="#555" width="720"></rect>
+<svg height="4638" width="720" xmlns="http://www.w3.org/2000/svg">
+<rect height="4638" fill="#555" width="720"></rect>
 <text fill="#7f7" font-family="Courier New" font-size="12" xml:space="preserve">
-<tspan x="10" y="26">  0.  2017-04-06 19:43:54 +0000  1248201 byte  .</tspan>
-<tspan x="10" y="42">  1.  2017-04-06 19:43:54 +0000     5987 byte  CHANGELOG.md</tspan>
-<tspan x="10" y="58">  2.  2017-04-06 19:43:54 +0000     1529 byte  LICENSE</tspan>
-<tspan x="10" y="74">  3.  2017-04-06 19:43:54 +0000     1977 byte  PATENTS</tspan>
-<tspan x="10" y="90">  4.  2017-04-06 19:43:54 +0000     3879 byte  README.md</tspan>
-<tspan x="10" y="106">  5.  2017-04-06 19:43:54 +0000     4279 byte  dist/Draft.css</tspan>
-<tspan x="10" y="122">  6.  2017-04-06 19:43:54 +0000   458258 byte  dist/Draft.js</tspan>
-<tspan x="10" y="138">  7.  2017-04-06 19:43:54 +0000   123502 byte  dist/Draft.min.js</tspan>
-<tspan x="10" y="154">  8.  2017-04-06 19:43:54 +0000     2236 byte  lib/AtomicBlockUtils.js</tspan>
-<tspan x="10" y="170">  9.  2017-04-06 19:43:54 +0000     2287 byte  lib/AtomicBlockUtils.js.flow</tspan>
-<tspan x="10" y="186"> 10.  2017-04-06 19:43:54 +0000      358 byte  lib/BlockMap.js</tspan>
-<tspan x="10" y="202"> 11.  2017-04-06 19:43:54 +0000      515 byte  lib/BlockMap.js.flow</tspan>
-<tspan x="10" y="218"> 12.  2017-04-06 19:43:54 +0000      665 byte  lib/BlockMapBuilder.js</tspan>
-<tspan x="10" y="234"> 13.  2017-04-06 19:43:54 +0000      741 byte  lib/BlockMapBuilder.js.flow</tspan>
-<tspan x="10" y="250"> 14.  2017-04-06 19:43:54 +0000     2934 byte  lib/BlockTree.js</tspan>
-<tspan x="10" y="266"> 15.  2017-04-06 19:43:54 +0000     3337 byte  lib/BlockTree.js.flow</tspan>
-<tspan x="10" y="282"> 16.  2017-04-06 19:43:54 +0000     3829 byte  lib/CharacterMetadata.js</tspan>
-<tspan x="10" y="298"> 17.  2017-04-06 19:43:54 +0000     2908 byte  lib/CharacterMetadata.js.flow</tspan>
-<tspan x="10" y="314"> 18.  2017-04-06 19:43:54 +0000      515 byte  lib/ComposedEntityMutability.js</tspan>
-<tspan x="10" y="330"> 19.  2017-04-06 19:43:54 +0000      520 byte  lib/ComposedEntityMutability.js.flow</tspan>
-<tspan x="10" y="346"> 20.  2017-04-06 19:43:54 +0000      503 byte  lib/ComposedEntityType.js</tspan>
-<tspan x="10" y="362"> 21.  2017-04-06 19:43:54 +0000      508 byte  lib/ComposedEntityType.js.flow</tspan>
-<tspan x="10" y="378"> 22.  2017-04-06 19:43:54 +0000     3801 byte  lib/CompositeDraftDecorator.js</tspan>
-<tspan x="10" y="394"> 23.  2017-04-06 19:43:54 +0000     3695 byte  lib/CompositeDraftDecorator.js.flow</tspan>
-<tspan x="10" y="410"> 24.  2017-04-06 19:43:54 +0000     3822 byte  lib/ContentBlock.js</tspan>
-<tspan x="10" y="426"> 25.  2017-04-06 19:43:54 +0000     2800 byte  lib/ContentBlock.js.flow</tspan>
-<tspan x="10" y="442"> 26.  2017-04-06 19:43:54 +0000     6832 byte  lib/ContentState.js</tspan>
-<tspan x="10" y="458"> 27.  2017-04-06 19:43:54 +0000     5315 byte  lib/ContentState.js.flow</tspan>
-<tspan x="10" y="474"> 28.  2017-04-06 19:43:54 +0000     2243 byte  lib/ContentStateInlineStyle.js</tspan>
-<tspan x="10" y="490"> 29.  2017-04-06 19:43:54 +0000     2423 byte  lib/ContentStateInlineStyle.js.flow</tspan>
-<tspan x="10" y="506"> 30.  2017-04-06 19:43:54 +0000      369 byte  lib/DOMDerivedSelection.js</tspan>
-<tspan x="10" y="522"> 31.  2017-04-06 19:43:54 +0000      527 byte  lib/DOMDerivedSelection.js.flow</tspan>
-<tspan x="10" y="538"> 32.  2017-04-06 19:43:54 +0000     1485 byte  lib/DefaultDraftBlockRenderMap.js</tspan>
-<tspan x="10" y="554"> 33.  2017-04-06 19:43:54 +0000     1496 byte  lib/DefaultDraftBlockRenderMap.js.flow</tspan>
-<tspan x="10" y="570"> 34.  2017-04-06 19:43:54 +0000      660 byte  lib/DefaultDraftInlineStyle.js</tspan>
-<tspan x="10" y="586"> 35.  2017-04-06 19:43:54 +0000      665 byte  lib/DefaultDraftInlineStyle.js.flow</tspan>
-<tspan x="10" y="602"> 36.  2017-04-06 19:43:54 +0000     2629 byte  lib/Draft.js</tspan>
-<tspan x="10" y="618"> 37.  2017-04-06 19:43:54 +0000     2450 byte  lib/Draft.js.flow</tspan>
-<tspan x="10" y="634"> 38.  2017-04-06 19:43:54 +0000      372 byte  lib/DraftBlockRenderConfig.js</tspan>
-<tspan x="10" y="650"> 39.  2017-04-06 19:43:54 +0000      506 byte  lib/DraftBlockRenderConfig.js.flow</tspan>
-<tspan x="10" y="666"> 40.  2017-04-06 19:43:54 +0000      369 byte  lib/DraftBlockRenderMap.js</tspan>
-<tspan x="10" y="682"> 41.  2017-04-06 19:43:54 +0000      621 byte  lib/DraftBlockRenderMap.js.flow</tspan>
-<tspan x="10" y="698"> 42.  2017-04-06 19:43:54 +0000      415 byte  lib/DraftBlockType.js</tspan>
-<tspan x="10" y="714"> 43.  2017-04-06 19:43:54 +0000      657 byte  lib/DraftBlockType.js.flow</tspan>
-<tspan x="10" y="730"> 44.  2017-04-06 19:43:54 +0000      364 byte  lib/DraftDecorator.js</tspan>
-<tspan x="10" y="746"> 45.  2017-04-06 19:43:54 +0000     1330 byte  lib/DraftDecorator.js.flow</tspan>
-<tspan x="10" y="762"> 46.  2017-04-06 19:43:54 +0000      368 byte  lib/DraftDecoratorType.js</tspan>
-<tspan x="10" y="778"> 47.  2017-04-06 19:43:54 +0000     1219 byte  lib/DraftDecoratorType.js.flow</tspan>
-<tspan x="10" y="794"> 48.  2017-04-06 19:43:54 +0000      499 byte  lib/DraftDragType.js</tspan>
-<tspan x="10" y="810"> 49.  2017-04-06 19:43:54 +0000      558 byte  lib/DraftDragType.js.flow</tspan>
-<tspan x="10" y="826"> 50.  2017-04-06 19:43:54 +0000    15848 byte  lib/DraftEditor.react.js</tspan>
-<tspan x="10" y="842"> 51.  2017-04-06 19:43:54 +0000    14429 byte  lib/DraftEditor.react.js.flow</tspan>
-<tspan x="10" y="858"> 52.  2017-04-06 19:43:54 +0000     8437 byte  lib/DraftEditorBlock.react.js</tspan>
-<tspan x="10" y="874"> 53.  2017-04-06 19:43:54 +0000     7047 byte  lib/DraftEditorBlock.react.js.flow</tspan>
-<tspan x="10" y="890"> 54.  2017-04-06 19:43:54 +0000      619 byte  lib/DraftEditorCommand.js</tspan>
-<tspan x="10" y="906"> 55.  2017-04-06 19:43:54 +0000     1608 byte  lib/DraftEditorCommand.js.flow</tspan>
-<tspan x="10" y="922"> 56.  2017-04-06 19:43:54 +0000     6053 byte  lib/DraftEditorCompositionHandler.js</tspan>
-<tspan x="10" y="938"> 57.  2017-04-06 19:43:54 +0000     6228 byte  lib/DraftEditorCompositionHandler.js.flow</tspan>
-<tspan x="10" y="954"> 58.  2017-04-06 19:43:54 +0000     9432 byte  lib/DraftEditorContents.react.js</tspan>
-<tspan x="10" y="970"> 59.  2017-04-06 19:43:54 +0000     7865 byte  lib/DraftEditorContents.react.js.flow</tspan>
-<tspan x="10" y="986"> 60.  2017-04-06 19:43:54 +0000     3523 byte  lib/DraftEditorDragHandler.js</tspan>
-<tspan x="10" y="1002"> 61.  2017-04-06 19:43:54 +0000     3863 byte  lib/DraftEditorDragHandler.js.flow</tspan>
-<tspan x="10" y="1018"> 62.  2017-04-06 19:43:54 +0000     1261 byte  lib/DraftEditorEditHandler.js</tspan>
-<tspan x="10" y="1034"> 63.  2017-04-06 19:43:54 +0000     1161 byte  lib/DraftEditorEditHandler.js.flow</tspan>
-<tspan x="10" y="1050"> 64.  2017-04-06 19:43:54 +0000     5688 byte  lib/DraftEditorLeaf.react.js</tspan>
-<tspan x="10" y="1066"> 65.  2017-04-06 19:43:54 +0000     4862 byte  lib/DraftEditorLeaf.react.js.flow</tspan>
-<tspan x="10" y="1082"> 66.  2017-04-06 19:43:54 +0000      366 byte  lib/DraftEditorModes.js</tspan>
-<tspan x="10" y="1098"> 67.  2017-04-06 19:43:54 +0000      975 byte  lib/DraftEditorModes.js.flow</tspan>
-<tspan x="10" y="1114"> 68.  2017-04-06 19:43:54 +0000     2719 byte  lib/DraftEditorPlaceholder.react.js</tspan>
-<tspan x="10" y="1130"> 69.  2017-04-06 19:43:54 +0000     1621 byte  lib/DraftEditorPlaceholder.react.js.flow</tspan>
-<tspan x="10" y="1146"> 70.  2017-04-06 19:43:54 +0000      366 byte  lib/DraftEditorProps.js</tspan>
-<tspan x="10" y="1162"> 71.  2017-04-06 19:43:54 +0000     5551 byte  lib/DraftEditorProps.js.flow</tspan>
-<tspan x="10" y="1178"> 72.  2017-04-06 19:43:54 +0000     4313 byte  lib/DraftEditorTextNode.react.js</tspan>
-<tspan x="10" y="1194"> 73.  2017-04-06 19:43:54 +0000     2983 byte  lib/DraftEditorTextNode.react.js.flow</tspan>
-<tspan x="10" y="1210"> 74.  2017-04-06 19:43:54 +0000     6736 byte  lib/DraftEntity.js</tspan>
-<tspan x="10" y="1226"> 75.  2017-04-06 19:43:54 +0000     7723 byte  lib/DraftEntity.js.flow</tspan>
-<tspan x="10" y="1242"> 76.  2017-04-06 19:43:54 +0000     2641 byte  lib/DraftEntityInstance.js</tspan>
-<tspan x="10" y="1258"> 77.  2017-04-06 19:43:54 +0000     1473 byte  lib/DraftEntityInstance.js.flow</tspan>
-<tspan x="10" y="1274"> 78.  2017-04-06 19:43:54 +0000     1759 byte  lib/DraftEntityMutability.js</tspan>
-<tspan x="10" y="1290"> 79.  2017-04-06 19:43:54 +0000     1841 byte  lib/DraftEntityMutability.js.flow</tspan>
-<tspan x="10" y="1306"> 80.  2017-04-06 19:43:54 +0000     2586 byte  lib/DraftEntitySegments.js</tspan>
-<tspan x="10" y="1322"> 81.  2017-04-06 19:43:54 +0000     2766 byte  lib/DraftEntitySegments.js.flow</tspan>
-<tspan x="10" y="1338"> 82.  2017-04-06 19:43:54 +0000      365 byte  lib/DraftEntityType.js</tspan>
-<tspan x="10" y="1354"> 83.  2017-04-06 19:43:54 +0000      491 byte  lib/DraftEntityType.js.flow</tspan>
-<tspan x="10" y="1370"> 84.  2017-04-06 19:43:54 +0000      517 byte  lib/DraftHandleValue.js</tspan>
-<tspan x="10" y="1386"> 85.  2017-04-06 19:43:54 +0000      581 byte  lib/DraftHandleValue.js.flow</tspan>
-<tspan x="10" y="1402"> 86.  2017-04-06 19:43:54 +0000      366 byte  lib/DraftInlineStyle.js</tspan>
-<tspan x="10" y="1418"> 87.  2017-04-06 19:43:54 +0000      474 byte  lib/DraftInlineStyle.js.flow</tspan>
-<tspan x="10" y="1434"> 88.  2017-04-06 19:43:54 +0000     6019 byte  lib/DraftModifier.js</tspan>
-<tspan x="10" y="1450"> 89.  2017-04-06 19:43:54 +0000     6791 byte  lib/DraftModifier.js.flow</tspan>
-<tspan x="10" y="1466"> 90.  2017-04-06 19:43:54 +0000      954 byte  lib/DraftOffsetKey.js</tspan>
-<tspan x="10" y="1482"> 91.  2017-04-06 19:43:54 +0000      954 byte  lib/DraftOffsetKey.js.flow</tspan>
-<tspan x="10" y="1498"> 92.  2017-04-06 19:43:54 +0000      368 byte  lib/DraftOffsetKeyPath.js</tspan>
-<tspan x="10" y="1514"> 93.  2017-04-06 19:43:54 +0000      475 byte  lib/DraftOffsetKeyPath.js.flow</tspan>
-<tspan x="10" y="1530"> 94.  2017-04-06 19:43:54 +0000     1419 byte  lib/DraftPasteProcessor.js</tspan>
-<tspan x="10" y="1546"> 95.  2017-04-06 19:43:54 +0000     1633 byte  lib/DraftPasteProcessor.js.flow</tspan>
-<tspan x="10" y="1562"> 96.  2017-04-06 19:43:54 +0000      360 byte  lib/DraftRange.js</tspan>
-<tspan x="10" y="1578"> 97.  2017-04-06 19:43:54 +0000      428 byte  lib/DraftRange.js.flow</tspan>
-<tspan x="10" y="1594"> 98.  2017-04-06 19:43:54 +0000     1878 byte  lib/DraftRemovableWord.js</tspan>
-<tspan x="10" y="1610"> 99.  2017-04-06 19:43:54 +0000     1919 byte  lib/DraftRemovableWord.js.flow</tspan>
-<tspan x="10" y="1626">100.  2017-04-06 19:43:54 +0000      536 byte  lib/DraftRemovalDirection.js</tspan>
-<tspan x="10" y="1642">101.  2017-04-06 19:43:54 +0000      602 byte  lib/DraftRemovalDirection.js.flow</tspan>
-<tspan x="10" y="1658">102.  2017-04-06 19:43:54 +0000      369 byte  lib/DraftScrollPosition.js</tspan>
-<tspan x="10" y="1674">103.  2017-04-06 19:43:54 +0000      440 byte  lib/DraftScrollPosition.js.flow</tspan>
-<tspan x="10" y="1690">104.  2017-04-06 19:43:54 +0000      587 byte  lib/DraftStringKey.js</tspan>
-<tspan x="10" y="1706">105.  2017-04-06 19:43:54 +0000      603 byte  lib/DraftStringKey.js.flow</tspan>
-<tspan x="10" y="1722">106.  2017-04-06 19:43:54 +0000      368 byte  lib/DraftTextAlignment.js</tspan>
-<tspan x="10" y="1738">107.  2017-04-06 19:43:54 +0000      436 byte  lib/DraftTextAlignment.js.flow</tspan>
-<tspan x="10" y="1754">108.  2017-04-06 19:43:54 +0000     1217 byte  lib/EditorBidiService.js</tspan>
-<tspan x="10" y="1770">109.  2017-04-06 19:43:54 +0000     1277 byte  lib/EditorBidiService.js.flow</tspan>
-<tspan x="10" y="1786">110.  2017-04-06 19:43:54 +0000      397 byte  lib/EditorChangeType.js</tspan>
-<tspan x="10" y="1802">111.  2017-04-06 19:43:54 +0000      695 byte  lib/EditorChangeType.js.flow</tspan>
-<tspan x="10" y="1818">112.  2017-04-06 19:43:54 +0000    18732 byte  lib/EditorState.js</tspan>
-<tspan x="10" y="1834">113.  2017-04-06 19:43:54 +0000    18643 byte  lib/EditorState.js.flow</tspan>
-<tspan x="10" y="1850">114.  2017-04-06 19:43:54 +0000      375 byte  lib/EditorStateCreationConfig.js</tspan>
-<tspan x="10" y="1866">115.  2017-04-06 19:43:54 +0000      708 byte  lib/EditorStateCreationConfig.js.flow</tspan>
-<tspan x="10" y="1882">116.  2017-04-06 19:43:54 +0000      359 byte  lib/EntityMap.js</tspan>
-<tspan x="10" y="1898">117.  2017-04-06 19:43:54 +0000      585 byte  lib/EntityMap.js.flow</tspan>
-<tspan x="10" y="1914">118.  2017-04-06 19:43:54 +0000      576 byte  lib/EntityRange.js</tspan>
-<tspan x="10" y="1930">119.  2017-04-06 19:43:54 +0000      664 byte  lib/EntityRange.js.flow</tspan>
-<tspan x="10" y="1946">120.  2017-04-06 19:43:54 +0000      434 byte  lib/InlineStyleRange.js</tspan>
-<tspan x="10" y="1962">121.  2017-04-06 19:43:54 +0000      529 byte  lib/InlineStyleRange.js.flow</tspan>
-<tspan x="10" y="1978">122.  2017-04-06 19:43:54 +0000     1105 byte  lib/KeyBindingUtil.js</tspan>
-<tspan x="10" y="1994">123.  2017-04-06 19:43:54 +0000     1157 byte  lib/KeyBindingUtil.js.flow</tspan>
-<tspan x="10" y="2010">124.  2017-04-06 19:43:54 +0000      370 byte  lib/RawDraftContentBlock.js</tspan>
-<tspan x="10" y="2026">125.  2017-04-06 19:43:54 +0000      888 byte  lib/RawDraftContentBlock.js.flow</tspan>
-<tspan x="10" y="2042">126.  2017-04-06 19:43:54 +0000      370 byte  lib/RawDraftContentState.js</tspan>
-<tspan x="10" y="2058">127.  2017-04-06 19:43:54 +0000     1003 byte  lib/RawDraftContentState.js.flow</tspan>
-<tspan x="10" y="2074">128.  2017-04-06 19:43:54 +0000      364 byte  lib/RawDraftEntity.js</tspan>
-<tspan x="10" y="2090">129.  2017-04-06 19:43:54 +0000      691 byte  lib/RawDraftEntity.js.flow</tspan>
-<tspan x="10" y="2106">130.  2017-04-06 19:43:54 +0000    10915 byte  lib/RichTextEditorUtil.js</tspan>
-<tspan x="10" y="2122">131.  2017-04-06 19:43:54 +0000    11296 byte  lib/RichTextEditorUtil.js.flow</tspan>
-<tspan x="10" y="2138">132.  2017-04-06 19:43:54 +0000      912 byte  lib/SampleDraftInlineStyle.js</tspan>
-<tspan x="10" y="2154">133.  2017-04-06 19:43:54 +0000      885 byte  lib/SampleDraftInlineStyle.js.flow</tspan>
-<tspan x="10" y="2170">134.  2017-04-06 19:43:54 +0000     1978 byte  lib/SecondaryClipboard.js</tspan>
-<tspan x="10" y="2186">135.  2017-04-06 19:43:54 +0000     2152 byte  lib/SecondaryClipboard.js.flow</tspan>
-<tspan x="10" y="2202">136.  2017-04-06 19:43:54 +0000     4651 byte  lib/SelectionState.js</tspan>
-<tspan x="10" y="2218">137.  2017-04-06 19:43:54 +0000     3093 byte  lib/SelectionState.js.flow</tspan>
-<tspan x="10" y="2234">138.  2017-04-06 19:43:54 +0000      657 byte  lib/addEntityToContentState.js</tspan>
-<tspan x="10" y="2250">139.  2017-04-06 19:43:54 +0000      824 byte  lib/addEntityToContentState.js.flow</tspan>
-<tspan x="10" y="2266">140.  2017-04-06 19:43:54 +0000      647 byte  lib/addEntityToEntityMap.js</tspan>
-<tspan x="10" y="2282">141.  2017-04-06 19:43:54 +0000      816 byte  lib/addEntityToEntityMap.js.flow</tspan>
-<tspan x="10" y="2298">142.  2017-04-06 19:43:54 +0000     1208 byte  lib/adjustBlockDepthForContentState.js</tspan>
-<tspan x="10" y="2314">143.  2017-04-06 19:43:54 +0000     1308 byte  lib/adjustBlockDepthForContentState.js.flow</tspan>
-<tspan x="10" y="2330">144.  2017-04-06 19:43:54 +0000      838 byte  lib/applyEntityToContentBlock.js</tspan>
-<tspan x="10" y="2346">145.  2017-04-06 19:43:54 +0000      945 byte  lib/applyEntityToContentBlock.js.flow</tspan>
-<tspan x="10" y="2362">146.  2017-04-06 19:43:54 +0000     1489 byte  lib/applyEntityToContentState.js</tspan>
-<tspan x="10" y="2378">147.  2017-04-06 19:43:54 +0000     1610 byte  lib/applyEntityToContentState.js.flow</tspan>
-<tspan x="10" y="2394">148.  2017-04-06 19:43:54 +0000     2034 byte  lib/convertFromDraftStateToRaw.js</tspan>
-<tspan x="10" y="2410">149.  2017-04-06 19:43:54 +0000     2142 byte  lib/convertFromDraftStateToRaw.js.flow</tspan>
-<tspan x="10" y="2426">150.  2017-04-06 19:43:54 +0000    15402 byte  lib/convertFromHTMLToContentBlocks.js</tspan>
-<tspan x="10" y="2442">151.  2017-04-06 19:43:54 +0000    15938 byte  lib/convertFromHTMLToContentBlocks.js.flow</tspan>
-<tspan x="10" y="2458">152.  2017-04-06 19:43:54 +0000     2878 byte  lib/convertFromRawToDraftState.js</tspan>
-<tspan x="10" y="2474">153.  2017-04-06 19:43:54 +0000     2383 byte  lib/convertFromRawToDraftState.js.flow</tspan>
-<tspan x="10" y="2490">154.  2017-04-06 19:43:54 +0000      807 byte  lib/createCharacterList.js</tspan>
-<tspan x="10" y="2506">155.  2017-04-06 19:43:54 +0000      916 byte  lib/createCharacterList.js.flow</tspan>
-<tspan x="10" y="2522">156.  2017-04-06 19:43:54 +0000      777 byte  lib/createEntityInContentState.js</tspan>
-<tspan x="10" y="2538">157.  2017-04-06 19:43:54 +0000     1022 byte  lib/createEntityInContentState.js.flow</tspan>
-<tspan x="10" y="2554">158.  2017-04-06 19:43:54 +0000     1107 byte  lib/decodeEntityRanges.js</tspan>
-<tspan x="10" y="2570">159.  2017-04-06 19:43:54 +0000     1139 byte  lib/decodeEntityRanges.js.flow</tspan>
-<tspan x="10" y="2586">160.  2017-04-06 19:43:54 +0000     1145 byte  lib/decodeInlineStyleRanges.js</tspan>
-<tspan x="10" y="2602">161.  2017-04-06 19:43:54 +0000     1218 byte  lib/decodeInlineStyleRanges.js.flow</tspan>
-<tspan x="10" y="2618">162.  2017-04-06 19:43:54 +0000     5674 byte  lib/editOnBeforeInput.js</tspan>
-<tspan x="10" y="2634">163.  2017-04-06 19:43:54 +0000     5905 byte  lib/editOnBeforeInput.js.flow</tspan>
-<tspan x="10" y="2650">164.  2017-04-06 19:43:54 +0000     1476 byte  lib/editOnBlur.js</tspan>
-<tspan x="10" y="2666">165.  2017-04-06 19:43:54 +0000     1569 byte  lib/editOnBlur.js.flow</tspan>
-<tspan x="10" y="2682">166.  2017-04-06 19:43:54 +0000      890 byte  lib/editOnCompositionStart.js</tspan>
-<tspan x="10" y="2698">167.  2017-04-06 19:43:54 +0000      983 byte  lib/editOnCompositionStart.js.flow</tspan>
-<tspan x="10" y="2714">168.  2017-04-06 19:43:54 +0000      990 byte  lib/editOnCopy.js</tspan>
-<tspan x="10" y="2730">169.  2017-04-06 19:43:54 +0000     1092 byte  lib/editOnCopy.js.flow</tspan>
-<tspan x="10" y="2746">170.  2017-04-06 19:43:54 +0000     2235 byte  lib/editOnCut.js</tspan>
-<tspan x="10" y="2762">171.  2017-04-06 19:43:54 +0000     2296 byte  lib/editOnCut.js.flow</tspan>
-<tspan x="10" y="2778">172.  2017-04-06 19:43:54 +0000      586 byte  lib/editOnDragOver.js</tspan>
-<tspan x="10" y="2794">173.  2017-04-06 19:43:54 +0000      683 byte  lib/editOnDragOver.js.flow</tspan>
-<tspan x="10" y="2810">174.  2017-04-06 19:43:54 +0000      570 byte  lib/editOnDragStart.js</tspan>
-<tspan x="10" y="2826">175.  2017-04-06 19:43:54 +0000      647 byte  lib/editOnDragStart.js.flow</tspan>
-<tspan x="10" y="2842">176.  2017-04-06 19:43:54 +0000     1248 byte  lib/editOnFocus.js</tspan>
-<tspan x="10" y="2858">177.  2017-04-06 19:43:54 +0000     1346 byte  lib/editOnFocus.js.flow</tspan>
-<tspan x="10" y="2874">178.  2017-04-06 19:43:54 +0000     5541 byte  lib/editOnInput.js</tspan>
-<tspan x="10" y="2890">179.  2017-04-06 19:43:54 +0000     5330 byte  lib/editOnInput.js.flow</tspan>
-<tspan x="10" y="2906">180.  2017-04-06 19:43:54 +0000     5252 byte  lib/editOnKeyDown.js</tspan>
-<tspan x="10" y="2922">181.  2017-04-06 19:43:54 +0000     5461 byte  lib/editOnKeyDown.js.flow</tspan>
-<tspan x="10" y="2938">182.  2017-04-06 19:43:54 +0000     6352 byte  lib/editOnPaste.js</tspan>
-<tspan x="10" y="2954">183.  2017-04-06 19:43:54 +0000     6570 byte  lib/editOnPaste.js.flow</tspan>
-<tspan x="10" y="2970">184.  2017-04-06 19:43:54 +0000     1256 byte  lib/editOnSelect.js</tspan>
-<tspan x="10" y="2986">185.  2017-04-06 19:43:54 +0000     1333 byte  lib/editOnSelect.js.flow</tspan>
-<tspan x="10" y="3002">186.  2017-04-06 19:43:54 +0000     1154 byte  lib/encodeEntityRanges.js</tspan>
-<tspan x="10" y="3018">187.  2017-04-06 19:43:54 +0000     1264 byte  lib/encodeEntityRanges.js.flow</tspan>
-<tspan x="10" y="3034">188.  2017-04-06 19:43:54 +0000     1888 byte  lib/encodeInlineStyleRanges.js</tspan>
-<tspan x="10" y="3050">189.  2017-04-06 19:43:54 +0000     2069 byte  lib/encodeInlineStyleRanges.js.flow</tspan>
-<tspan x="10" y="3066">190.  2017-04-06 19:43:54 +0000     7181 byte  lib/expandRangeToStartOfLine.js</tspan>
-<tspan x="10" y="3082">191.  2017-04-06 19:43:54 +0000     7119 byte  lib/expandRangeToStartOfLine.js.flow</tspan>
-<tspan x="10" y="3098">192.  2017-04-06 19:43:54 +0000      871 byte  lib/findAncestorOffsetKey.js</tspan>
-<tspan x="10" y="3114">193.  2017-04-06 19:43:54 +0000      891 byte  lib/findAncestorOffsetKey.js.flow</tspan>
-<tspan x="10" y="3130">194.  2017-04-06 19:43:54 +0000     1189 byte  lib/findRangesImmutable.js</tspan>
-<tspan x="10" y="3146">195.  2017-04-06 19:43:54 +0000     1340 byte  lib/findRangesImmutable.js.flow</tspan>
-<tspan x="10" y="3162">196.  2017-04-06 19:43:54 +0000      710 byte  lib/generateRandomKey.js</tspan>
-<tspan x="10" y="3178">197.  2017-04-06 19:43:54 +0000      718 byte  lib/generateRandomKey.js.flow</tspan>
-<tspan x="10" y="3194">198.  2017-04-06 19:43:54 +0000     2646 byte  lib/getCharacterRemovalRange.js</tspan>
-<tspan x="10" y="3210">199.  2017-04-06 19:43:54 +0000     2843 byte  lib/getCharacterRemovalRange.js.flow</tspan>
-<tspan x="10" y="3226">200.  2017-04-06 19:43:54 +0000     2158 byte  lib/getContentStateFragment.js</tspan>
-<tspan x="10" y="3242">201.  2017-04-06 19:43:54 +0000     2342 byte  lib/getContentStateFragment.js.flow</tspan>
-<tspan x="10" y="3258">202.  2017-04-06 19:43:54 +0000     3501 byte  lib/getDefaultKeyBinding.js</tspan>
-<tspan x="10" y="3274">203.  2017-04-06 19:43:54 +0000     3734 byte  lib/getDefaultKeyBinding.js.flow</tspan>
-<tspan x="10" y="3290">204.  2017-04-06 19:43:54 +0000     1095 byte  lib/getDraftEditorSelection.js</tspan>
-<tspan x="10" y="3306">205.  2017-04-06 19:43:54 +0000     1260 byte  lib/getDraftEditorSelection.js.flow</tspan>
-<tspan x="10" y="3322">206.  2017-04-06 19:43:54 +0000     6891 byte  lib/getDraftEditorSelectionWithNodes.js</tspan>
-<tspan x="10" y="3338">207.  2017-04-06 19:43:54 +0000     7086 byte  lib/getDraftEditorSelectionWithNodes.js.flow</tspan>
-<tspan x="10" y="3354">208.  2017-04-06 19:43:54 +0000     1714 byte  lib/getEntityKeyForSelection.js</tspan>
-<tspan x="10" y="3370">209.  2017-04-06 19:43:54 +0000     1934 byte  lib/getEntityKeyForSelection.js.flow</tspan>
-<tspan x="10" y="3386">210.  2017-04-06 19:43:54 +0000      734 byte  lib/getFragmentFromSelection.js</tspan>
-<tspan x="10" y="3402">211.  2017-04-06 19:43:54 +0000      854 byte  lib/getFragmentFromSelection.js.flow</tspan>
-<tspan x="10" y="3418">212.  2017-04-06 19:43:54 +0000     1608 byte  lib/getRangeBoundingClientRect.js</tspan>
-<tspan x="10" y="3434">213.  2017-04-06 19:43:54 +0000     1660 byte  lib/getRangeBoundingClientRect.js.flow</tspan>
-<tspan x="10" y="3450">214.  2017-04-06 19:43:54 +0000     2196 byte  lib/getRangeClientRects.js</tspan>
-<tspan x="10" y="3466">215.  2017-04-06 19:43:54 +0000     2141 byte  lib/getRangeClientRects.js.flow</tspan>
-<tspan x="10" y="3482">216.  2017-04-06 19:43:54 +0000     1147 byte  lib/getRangesForDraftEntity.js</tspan>
-<tspan x="10" y="3498">217.  2017-04-06 19:43:54 +0000     1169 byte  lib/getRangesForDraftEntity.js.flow</tspan>
-<tspan x="10" y="3514">218.  2017-04-06 19:43:54 +0000     1079 byte  lib/getSafeBodyFromHTML.js</tspan>
-<tspan x="10" y="3530">219.  2017-04-06 19:43:54 +0000     1102 byte  lib/getSafeBodyFromHTML.js.flow</tspan>
-<tspan x="10" y="3546">220.  2017-04-06 19:43:54 +0000     2153 byte  lib/getSampleStateForTesting.js</tspan>
-<tspan x="10" y="3562">221.  2017-04-06 19:43:54 +0000     2075 byte  lib/getSampleStateForTesting.js.flow</tspan>
-<tspan x="10" y="3578">222.  2017-04-06 19:43:54 +0000      988 byte  lib/getSelectionOffsetKeyForNode.js</tspan>
-<tspan x="10" y="3594">223.  2017-04-06 19:43:54 +0000     1008 byte  lib/getSelectionOffsetKeyForNode.js.flow</tspan>
-<tspan x="10" y="3610">224.  2017-04-06 19:43:54 +0000      849 byte  lib/getTextAfterNearestEntity.js</tspan>
-<tspan x="10" y="3626">225.  2017-04-06 19:43:54 +0000      933 byte  lib/getTextAfterNearestEntity.js.flow</tspan>
-<tspan x="10" y="3642">226.  2017-04-06 19:43:54 +0000     1945 byte  lib/getTextContentFromFiles.js</tspan>
-<tspan x="10" y="3658">227.  2017-04-06 19:43:54 +0000     2037 byte  lib/getTextContentFromFiles.js.flow</tspan>
-<tspan x="10" y="3674">228.  2017-04-06 19:43:54 +0000     2674 byte  lib/getUpdatedSelectionState.js</tspan>
-<tspan x="10" y="3690">229.  2017-04-06 19:43:54 +0000     2845 byte  lib/getUpdatedSelectionState.js.flow</tspan>
-<tspan x="10" y="3706">230.  2017-04-06 19:43:54 +0000     1363 byte  lib/getVisibleSelectionRect.js</tspan>
-<tspan x="10" y="3722">231.  2017-04-06 19:43:54 +0000     1387 byte  lib/getVisibleSelectionRect.js.flow</tspan>
-<tspan x="10" y="3738">232.  2017-04-06 19:43:54 +0000     3983 byte  lib/insertFragmentIntoContentState.js</tspan>
-<tspan x="10" y="3754">233.  2017-04-06 19:43:54 +0000     4096 byte  lib/insertFragmentIntoContentState.js.flow</tspan>
-<tspan x="10" y="3770">234.  2017-04-06 19:43:54 +0000      959 byte  lib/insertIntoList.js</tspan>
-<tspan x="10" y="3786">235.  2017-04-06 19:43:54 +0000     1026 byte  lib/insertIntoList.js.flow</tspan>
-<tspan x="10" y="3802">236.  2017-04-06 19:43:54 +0000     1618 byte  lib/insertTextIntoContentState.js</tspan>
-<tspan x="10" y="3818">237.  2017-04-06 19:43:54 +0000     1772 byte  lib/insertTextIntoContentState.js.flow</tspan>
-<tspan x="10" y="3834">238.  2017-04-06 19:43:54 +0000      622 byte  lib/isEventHandled.js</tspan>
-<tspan x="10" y="3850">239.  2017-04-06 19:43:54 +0000      715 byte  lib/isEventHandled.js.flow</tspan>
-<tspan x="10" y="3866">240.  2017-04-06 19:43:54 +0000     1147 byte  lib/isSelectionAtLeafStart.js</tspan>
-<tspan x="10" y="3882">241.  2017-04-06 19:43:54 +0000     1205 byte  lib/isSelectionAtLeafStart.js.flow</tspan>
-<tspan x="10" y="3898">242.  2017-04-06 19:43:54 +0000      624 byte  lib/isSoftNewlineEvent.js</tspan>
-<tspan x="10" y="3914">243.  2017-04-06 19:43:54 +0000      662 byte  lib/isSoftNewlineEvent.js.flow</tspan>
-<tspan x="10" y="3930">244.  2017-04-06 19:43:54 +0000     1564 byte  lib/keyCommandBackspaceToStartOfLine.js</tspan>
-<tspan x="10" y="3946">245.  2017-04-06 19:43:54 +0000     1589 byte  lib/keyCommandBackspaceToStartOfLine.js.flow</tspan>
-<tspan x="10" y="3962">246.  2017-04-06 19:43:54 +0000     1620 byte  lib/keyCommandBackspaceWord.js</tspan>
-<tspan x="10" y="3978">247.  2017-04-06 19:43:54 +0000     1643 byte  lib/keyCommandBackspaceWord.js.flow</tspan>
-<tspan x="10" y="3994">248.  2017-04-06 19:43:54 +0000     1517 byte  lib/keyCommandDeleteWord.js</tspan>
-<tspan x="10" y="4010">249.  2017-04-06 19:43:54 +0000     1540 byte  lib/keyCommandDeleteWord.js.flow</tspan>
-<tspan x="10" y="4026">250.  2017-04-06 19:43:54 +0000      737 byte  lib/keyCommandInsertNewline.js</tspan>
-<tspan x="10" y="4042">251.  2017-04-06 19:43:54 +0000      768 byte  lib/keyCommandInsertNewline.js.flow</tspan>
-<tspan x="10" y="4058">252.  2017-04-06 19:43:54 +0000     1050 byte  lib/keyCommandMoveSelectionToEndOfBlock.js</tspan>
-<tspan x="10" y="4074">253.  2017-04-06 19:43:54 +0000     1081 byte  lib/keyCommandMoveSelectionToEndOfBlock.js.flow</tspan>
-<tspan x="10" y="4090">254.  2017-04-06 19:43:54 +0000     1113 byte  lib/keyCommandMoveSelectionToStartOfBlock.js</tspan>
-<tspan x="10" y="4106">255.  2017-04-06 19:43:54 +0000     1144 byte  lib/keyCommandMoveSelectionToStartOfBlock.js.flow</tspan>
-<tspan x="10" y="4122">256.  2017-04-06 19:43:54 +0000     1675 byte  lib/keyCommandPlainBackspace.js</tspan>
-<tspan x="10" y="4138">257.  2017-04-06 19:43:54 +0000     1698 byte  lib/keyCommandPlainBackspace.js.flow</tspan>
-<tspan x="10" y="4154">258.  2017-04-06 19:43:54 +0000     1653 byte  lib/keyCommandPlainDelete.js</tspan>
-<tspan x="10" y="4170">259.  2017-04-06 19:43:54 +0000     1676 byte  lib/keyCommandPlainDelete.js.flow</tspan>
-<tspan x="10" y="4186">260.  2017-04-06 19:43:54 +0000     2485 byte  lib/keyCommandTransposeCharacters.js</tspan>
-<tspan x="10" y="4202">261.  2017-04-06 19:43:54 +0000     2516 byte  lib/keyCommandTransposeCharacters.js.flow</tspan>
-<tspan x="10" y="4218">262.  2017-04-06 19:43:54 +0000     1583 byte  lib/keyCommandUndo.js</tspan>
-<tspan x="10" y="4234">263.  2017-04-06 19:43:54 +0000     1636 byte  lib/keyCommandUndo.js.flow</tspan>
-<tspan x="10" y="4250">264.  2017-04-06 19:43:54 +0000     1085 byte  lib/modifyBlockForContentState.js</tspan>
-<tspan x="10" y="4266">265.  2017-04-06 19:43:54 +0000     1277 byte  lib/modifyBlockForContentState.js.flow</tspan>
-<tspan x="10" y="4282">266.  2017-04-06 19:43:54 +0000     1472 byte  lib/moveSelectionBackward.js</tspan>
-<tspan x="10" y="4298">267.  2017-04-06 19:43:54 +0000     1590 byte  lib/moveSelectionBackward.js.flow</tspan>
-<tspan x="10" y="4314">268.  2017-04-06 19:43:54 +0000     1305 byte  lib/moveSelectionForward.js</tspan>
-<tspan x="10" y="4330">269.  2017-04-06 19:43:54 +0000     1423 byte  lib/moveSelectionForward.js.flow</tspan>
-<tspan x="10" y="4346">270.  2017-04-06 19:43:54 +0000     3188 byte  lib/removeEntitiesAtEdges.js</tspan>
-<tspan x="10" y="4362">271.  2017-04-06 19:43:54 +0000     3337 byte  lib/removeEntitiesAtEdges.js.flow</tspan>
-<tspan x="10" y="4378">272.  2017-04-06 19:43:54 +0000     2676 byte  lib/removeRangeFromContentState.js</tspan>
-<tspan x="10" y="4394">273.  2017-04-06 19:43:54 +0000     2884 byte  lib/removeRangeFromContentState.js.flow</tspan>
-<tspan x="10" y="4410">274.  2017-04-06 19:43:54 +0000     1228 byte  lib/removeTextWithStrategy.js</tspan>
-<tspan x="10" y="4426">275.  2017-04-06 19:43:54 +0000     1546 byte  lib/removeTextWithStrategy.js.flow</tspan>
-<tspan x="10" y="4442">276.  2017-04-06 19:43:54 +0000      546 byte  lib/sanitizeDraftText.js</tspan>
-<tspan x="10" y="4458">277.  2017-04-06 19:43:54 +0000      567 byte  lib/sanitizeDraftText.js.flow</tspan>
-<tspan x="10" y="4474">278.  2017-04-06 19:43:54 +0000     4942 byte  lib/setDraftEditorSelection.js</tspan>
-<tspan x="10" y="4490">279.  2017-04-06 19:43:54 +0000     5108 byte  lib/setDraftEditorSelection.js.flow</tspan>
-<tspan x="10" y="4506">280.  2017-04-06 19:43:54 +0000     2020 byte  lib/splitBlockInContentState.js</tspan>
-<tspan x="10" y="4522">281.  2017-04-06 19:43:54 +0000     2042 byte  lib/splitBlockInContentState.js.flow</tspan>
-<tspan x="10" y="4538">282.  2017-04-06 19:43:54 +0000      530 byte  lib/splitTextIntoTextBlocks.js</tspan>
-<tspan x="10" y="4554">283.  2017-04-06 19:43:54 +0000      558 byte  lib/splitTextIntoTextBlocks.js.flow</tspan>
-<tspan x="10" y="4570">284.  2017-04-06 19:43:54 +0000     1142 byte  lib/updateEntityDataInContentState.js</tspan>
-<tspan x="10" y="4586">285.  2017-04-06 19:43:54 +0000      977 byte  lib/updateEntityDataInContentState.js.flow</tspan>
-<tspan x="10" y="4602">286.  2017-04-06 19:43:54 +0000     4907 byte  package.json</tspan>
+<tspan x="10" y="26">  0.  2017-04-19 05:53:42 +0000  1248201 bytes  .</tspan>
+<tspan x="10" y="42">  1.  2017-04-19 05:53:42 +0000     5987 bytes  CHANGELOG.md</tspan>
+<tspan x="10" y="58">  2.  2017-04-19 05:53:42 +0000     1529 bytes  LICENSE</tspan>
+<tspan x="10" y="74">  3.  2017-04-19 05:53:42 +0000     1977 bytes  PATENTS</tspan>
+<tspan x="10" y="90">  4.  2017-04-19 05:53:42 +0000     3879 bytes  README.md</tspan>
+<tspan x="10" y="106">  5.  2017-04-19 05:53:42 +0000     4279 bytes  dist/Draft.css</tspan>
+<tspan x="10" y="122">  6.  2017-04-19 05:53:42 +0000   458258 bytes  dist/Draft.js</tspan>
+<tspan x="10" y="138">  7.  2017-04-19 05:53:42 +0000   123502 bytes  dist/Draft.min.js</tspan>
+<tspan x="10" y="154">  8.  2017-04-19 05:53:42 +0000     2236 bytes  lib/AtomicBlockUtils.js</tspan>
+<tspan x="10" y="170">  9.  2017-04-19 05:53:42 +0000     2287 bytes  lib/AtomicBlockUtils.js.flow</tspan>
+<tspan x="10" y="186"> 10.  2017-04-19 05:53:42 +0000      358 bytes  lib/BlockMap.js</tspan>
+<tspan x="10" y="202"> 11.  2017-04-19 05:53:42 +0000      515 bytes  lib/BlockMap.js.flow</tspan>
+<tspan x="10" y="218"> 12.  2017-04-19 05:53:42 +0000      665 bytes  lib/BlockMapBuilder.js</tspan>
+<tspan x="10" y="234"> 13.  2017-04-19 05:53:42 +0000      741 bytes  lib/BlockMapBuilder.js.flow</tspan>
+<tspan x="10" y="250"> 14.  2017-04-19 05:53:42 +0000     2934 bytes  lib/BlockTree.js</tspan>
+<tspan x="10" y="266"> 15.  2017-04-19 05:53:42 +0000     3337 bytes  lib/BlockTree.js.flow</tspan>
+<tspan x="10" y="282"> 16.  2017-04-19 05:53:42 +0000     3829 bytes  lib/CharacterMetadata.js</tspan>
+<tspan x="10" y="298"> 17.  2017-04-19 05:53:42 +0000     2908 bytes  lib/CharacterMetadata.js.flow</tspan>
+<tspan x="10" y="314"> 18.  2017-04-19 05:53:42 +0000      515 bytes  lib/ComposedEntityMutability.js</tspan>
+<tspan x="10" y="330"> 19.  2017-04-19 05:53:42 +0000      520 bytes  lib/ComposedEntityMutability.js.flow</tspan>
+<tspan x="10" y="346"> 20.  2017-04-19 05:53:42 +0000      503 bytes  lib/ComposedEntityType.js</tspan>
+<tspan x="10" y="362"> 21.  2017-04-19 05:53:42 +0000      508 bytes  lib/ComposedEntityType.js.flow</tspan>
+<tspan x="10" y="378"> 22.  2017-04-19 05:53:42 +0000     3801 bytes  lib/CompositeDraftDecorator.js</tspan>
+<tspan x="10" y="394"> 23.  2017-04-19 05:53:42 +0000     3695 bytes  lib/CompositeDraftDecorator.js.flow</tspan>
+<tspan x="10" y="410"> 24.  2017-04-19 05:53:42 +0000     3822 bytes  lib/ContentBlock.js</tspan>
+<tspan x="10" y="426"> 25.  2017-04-19 05:53:42 +0000     2800 bytes  lib/ContentBlock.js.flow</tspan>
+<tspan x="10" y="442"> 26.  2017-04-19 05:53:42 +0000     6832 bytes  lib/ContentState.js</tspan>
+<tspan x="10" y="458"> 27.  2017-04-19 05:53:42 +0000     5315 bytes  lib/ContentState.js.flow</tspan>
+<tspan x="10" y="474"> 28.  2017-04-19 05:53:42 +0000     2243 bytes  lib/ContentStateInlineStyle.js</tspan>
+<tspan x="10" y="490"> 29.  2017-04-19 05:53:42 +0000     2423 bytes  lib/ContentStateInlineStyle.js.flow</tspan>
+<tspan x="10" y="506"> 30.  2017-04-19 05:53:42 +0000      369 bytes  lib/DOMDerivedSelection.js</tspan>
+<tspan x="10" y="522"> 31.  2017-04-19 05:53:42 +0000      527 bytes  lib/DOMDerivedSelection.js.flow</tspan>
+<tspan x="10" y="538"> 32.  2017-04-19 05:53:42 +0000     1485 bytes  lib/DefaultDraftBlockRenderMap.js</tspan>
+<tspan x="10" y="554"> 33.  2017-04-19 05:53:42 +0000     1496 bytes  lib/DefaultDraftBlockRenderMap.js.flow</tspan>
+<tspan x="10" y="570"> 34.  2017-04-19 05:53:42 +0000      660 bytes  lib/DefaultDraftInlineStyle.js</tspan>
+<tspan x="10" y="586"> 35.  2017-04-19 05:53:42 +0000      665 bytes  lib/DefaultDraftInlineStyle.js.flow</tspan>
+<tspan x="10" y="602"> 36.  2017-04-19 05:53:42 +0000     2629 bytes  lib/Draft.js</tspan>
+<tspan x="10" y="618"> 37.  2017-04-19 05:53:42 +0000     2450 bytes  lib/Draft.js.flow</tspan>
+<tspan x="10" y="634"> 38.  2017-04-19 05:53:42 +0000      372 bytes  lib/DraftBlockRenderConfig.js</tspan>
+<tspan x="10" y="650"> 39.  2017-04-19 05:53:42 +0000      506 bytes  lib/DraftBlockRenderConfig.js.flow</tspan>
+<tspan x="10" y="666"> 40.  2017-04-19 05:53:42 +0000      369 bytes  lib/DraftBlockRenderMap.js</tspan>
+<tspan x="10" y="682"> 41.  2017-04-19 05:53:42 +0000      621 bytes  lib/DraftBlockRenderMap.js.flow</tspan>
+<tspan x="10" y="698"> 42.  2017-04-19 05:53:42 +0000      415 bytes  lib/DraftBlockType.js</tspan>
+<tspan x="10" y="714"> 43.  2017-04-19 05:53:42 +0000      657 bytes  lib/DraftBlockType.js.flow</tspan>
+<tspan x="10" y="730"> 44.  2017-04-19 05:53:42 +0000      364 bytes  lib/DraftDecorator.js</tspan>
+<tspan x="10" y="746"> 45.  2017-04-19 05:53:42 +0000     1330 bytes  lib/DraftDecorator.js.flow</tspan>
+<tspan x="10" y="762"> 46.  2017-04-19 05:53:42 +0000      368 bytes  lib/DraftDecoratorType.js</tspan>
+<tspan x="10" y="778"> 47.  2017-04-19 05:53:42 +0000     1219 bytes  lib/DraftDecoratorType.js.flow</tspan>
+<tspan x="10" y="794"> 48.  2017-04-19 05:53:42 +0000      499 bytes  lib/DraftDragType.js</tspan>
+<tspan x="10" y="810"> 49.  2017-04-19 05:53:42 +0000      558 bytes  lib/DraftDragType.js.flow</tspan>
+<tspan x="10" y="826"> 50.  2017-04-19 05:53:42 +0000    15848 bytes  lib/DraftEditor.react.js</tspan>
+<tspan x="10" y="842"> 51.  2017-04-19 05:53:42 +0000    14429 bytes  lib/DraftEditor.react.js.flow</tspan>
+<tspan x="10" y="858"> 52.  2017-04-19 05:53:42 +0000     8437 bytes  lib/DraftEditorBlock.react.js</tspan>
+<tspan x="10" y="874"> 53.  2017-04-19 05:53:42 +0000     7047 bytes  lib/DraftEditorBlock.react.js.flow</tspan>
+<tspan x="10" y="890"> 54.  2017-04-19 05:53:42 +0000      619 bytes  lib/DraftEditorCommand.js</tspan>
+<tspan x="10" y="906"> 55.  2017-04-19 05:53:42 +0000     1608 bytes  lib/DraftEditorCommand.js.flow</tspan>
+<tspan x="10" y="922"> 56.  2017-04-19 05:53:42 +0000     6053 bytes  lib/DraftEditorCompositionHandler.js</tspan>
+<tspan x="10" y="938"> 57.  2017-04-19 05:53:42 +0000     6228 bytes  lib/DraftEditorCompositionHandler.js.flow</tspan>
+<tspan x="10" y="954"> 58.  2017-04-19 05:53:42 +0000     9432 bytes  lib/DraftEditorContents.react.js</tspan>
+<tspan x="10" y="970"> 59.  2017-04-19 05:53:42 +0000     7865 bytes  lib/DraftEditorContents.react.js.flow</tspan>
+<tspan x="10" y="986"> 60.  2017-04-19 05:53:42 +0000     3523 bytes  lib/DraftEditorDragHandler.js</tspan>
+<tspan x="10" y="1002"> 61.  2017-04-19 05:53:42 +0000     3863 bytes  lib/DraftEditorDragHandler.js.flow</tspan>
+<tspan x="10" y="1018"> 62.  2017-04-19 05:53:42 +0000     1261 bytes  lib/DraftEditorEditHandler.js</tspan>
+<tspan x="10" y="1034"> 63.  2017-04-19 05:53:42 +0000     1161 bytes  lib/DraftEditorEditHandler.js.flow</tspan>
+<tspan x="10" y="1050"> 64.  2017-04-19 05:53:42 +0000     5688 bytes  lib/DraftEditorLeaf.react.js</tspan>
+<tspan x="10" y="1066"> 65.  2017-04-19 05:53:42 +0000     4862 bytes  lib/DraftEditorLeaf.react.js.flow</tspan>
+<tspan x="10" y="1082"> 66.  2017-04-19 05:53:42 +0000      366 bytes  lib/DraftEditorModes.js</tspan>
+<tspan x="10" y="1098"> 67.  2017-04-19 05:53:42 +0000      975 bytes  lib/DraftEditorModes.js.flow</tspan>
+<tspan x="10" y="1114"> 68.  2017-04-19 05:53:42 +0000     2719 bytes  lib/DraftEditorPlaceholder.react.js</tspan>
+<tspan x="10" y="1130"> 69.  2017-04-19 05:53:42 +0000     1621 bytes  lib/DraftEditorPlaceholder.react.js.flow</tspan>
+<tspan x="10" y="1146"> 70.  2017-04-19 05:53:42 +0000      366 bytes  lib/DraftEditorProps.js</tspan>
+<tspan x="10" y="1162"> 71.  2017-04-19 05:53:42 +0000     5551 bytes  lib/DraftEditorProps.js.flow</tspan>
+<tspan x="10" y="1178"> 72.  2017-04-19 05:53:42 +0000     4313 bytes  lib/DraftEditorTextNode.react.js</tspan>
+<tspan x="10" y="1194"> 73.  2017-04-19 05:53:42 +0000     2983 bytes  lib/DraftEditorTextNode.react.js.flow</tspan>
+<tspan x="10" y="1210"> 74.  2017-04-19 05:53:42 +0000     6736 bytes  lib/DraftEntity.js</tspan>
+<tspan x="10" y="1226"> 75.  2017-04-19 05:53:42 +0000     7723 bytes  lib/DraftEntity.js.flow</tspan>
+<tspan x="10" y="1242"> 76.  2017-04-19 05:53:42 +0000     2641 bytes  lib/DraftEntityInstance.js</tspan>
+<tspan x="10" y="1258"> 77.  2017-04-19 05:53:42 +0000     1473 bytes  lib/DraftEntityInstance.js.flow</tspan>
+<tspan x="10" y="1274"> 78.  2017-04-19 05:53:42 +0000     1759 bytes  lib/DraftEntityMutability.js</tspan>
+<tspan x="10" y="1290"> 79.  2017-04-19 05:53:42 +0000     1841 bytes  lib/DraftEntityMutability.js.flow</tspan>
+<tspan x="10" y="1306"> 80.  2017-04-19 05:53:42 +0000     2586 bytes  lib/DraftEntitySegments.js</tspan>
+<tspan x="10" y="1322"> 81.  2017-04-19 05:53:42 +0000     2766 bytes  lib/DraftEntitySegments.js.flow</tspan>
+<tspan x="10" y="1338"> 82.  2017-04-19 05:53:42 +0000      365 bytes  lib/DraftEntityType.js</tspan>
+<tspan x="10" y="1354"> 83.  2017-04-19 05:53:42 +0000      491 bytes  lib/DraftEntityType.js.flow</tspan>
+<tspan x="10" y="1370"> 84.  2017-04-19 05:53:42 +0000      517 bytes  lib/DraftHandleValue.js</tspan>
+<tspan x="10" y="1386"> 85.  2017-04-19 05:53:42 +0000      581 bytes  lib/DraftHandleValue.js.flow</tspan>
+<tspan x="10" y="1402"> 86.  2017-04-19 05:53:42 +0000      366 bytes  lib/DraftInlineStyle.js</tspan>
+<tspan x="10" y="1418"> 87.  2017-04-19 05:53:42 +0000      474 bytes  lib/DraftInlineStyle.js.flow</tspan>
+<tspan x="10" y="1434"> 88.  2017-04-19 05:53:42 +0000     6019 bytes  lib/DraftModifier.js</tspan>
+<tspan x="10" y="1450"> 89.  2017-04-19 05:53:42 +0000     6791 bytes  lib/DraftModifier.js.flow</tspan>
+<tspan x="10" y="1466"> 90.  2017-04-19 05:53:42 +0000      954 bytes  lib/DraftOffsetKey.js</tspan>
+<tspan x="10" y="1482"> 91.  2017-04-19 05:53:42 +0000      954 bytes  lib/DraftOffsetKey.js.flow</tspan>
+<tspan x="10" y="1498"> 92.  2017-04-19 05:53:42 +0000      368 bytes  lib/DraftOffsetKeyPath.js</tspan>
+<tspan x="10" y="1514"> 93.  2017-04-19 05:53:42 +0000      475 bytes  lib/DraftOffsetKeyPath.js.flow</tspan>
+<tspan x="10" y="1530"> 94.  2017-04-19 05:53:42 +0000     1419 bytes  lib/DraftPasteProcessor.js</tspan>
+<tspan x="10" y="1546"> 95.  2017-04-19 05:53:42 +0000     1633 bytes  lib/DraftPasteProcessor.js.flow</tspan>
+<tspan x="10" y="1562"> 96.  2017-04-19 05:53:42 +0000      360 bytes  lib/DraftRange.js</tspan>
+<tspan x="10" y="1578"> 97.  2017-04-19 05:53:42 +0000      428 bytes  lib/DraftRange.js.flow</tspan>
+<tspan x="10" y="1594"> 98.  2017-04-19 05:53:42 +0000     1878 bytes  lib/DraftRemovableWord.js</tspan>
+<tspan x="10" y="1610"> 99.  2017-04-19 05:53:42 +0000     1919 bytes  lib/DraftRemovableWord.js.flow</tspan>
+<tspan x="10" y="1626">100.  2017-04-19 05:53:42 +0000      536 bytes  lib/DraftRemovalDirection.js</tspan>
+<tspan x="10" y="1642">101.  2017-04-19 05:53:42 +0000      602 bytes  lib/DraftRemovalDirection.js.flow</tspan>
+<tspan x="10" y="1658">102.  2017-04-19 05:53:42 +0000      369 bytes  lib/DraftScrollPosition.js</tspan>
+<tspan x="10" y="1674">103.  2017-04-19 05:53:42 +0000      440 bytes  lib/DraftScrollPosition.js.flow</tspan>
+<tspan x="10" y="1690">104.  2017-04-19 05:53:42 +0000      587 bytes  lib/DraftStringKey.js</tspan>
+<tspan x="10" y="1706">105.  2017-04-19 05:53:42 +0000      603 bytes  lib/DraftStringKey.js.flow</tspan>
+<tspan x="10" y="1722">106.  2017-04-19 05:53:42 +0000      368 bytes  lib/DraftTextAlignment.js</tspan>
+<tspan x="10" y="1738">107.  2017-04-19 05:53:42 +0000      436 bytes  lib/DraftTextAlignment.js.flow</tspan>
+<tspan x="10" y="1754">108.  2017-04-19 05:53:42 +0000     1217 bytes  lib/EditorBidiService.js</tspan>
+<tspan x="10" y="1770">109.  2017-04-19 05:53:42 +0000     1277 bytes  lib/EditorBidiService.js.flow</tspan>
+<tspan x="10" y="1786">110.  2017-04-19 05:53:42 +0000      397 bytes  lib/EditorChangeType.js</tspan>
+<tspan x="10" y="1802">111.  2017-04-19 05:53:42 +0000      695 bytes  lib/EditorChangeType.js.flow</tspan>
+<tspan x="10" y="1818">112.  2017-04-19 05:53:42 +0000    18732 bytes  lib/EditorState.js</tspan>
+<tspan x="10" y="1834">113.  2017-04-19 05:53:42 +0000    18643 bytes  lib/EditorState.js.flow</tspan>
+<tspan x="10" y="1850">114.  2017-04-19 05:53:42 +0000      375 bytes  lib/EditorStateCreationConfig.js</tspan>
+<tspan x="10" y="1866">115.  2017-04-19 05:53:42 +0000      708 bytes  lib/EditorStateCreationConfig.js.flow</tspan>
+<tspan x="10" y="1882">116.  2017-04-19 05:53:42 +0000      359 bytes  lib/EntityMap.js</tspan>
+<tspan x="10" y="1898">117.  2017-04-19 05:53:42 +0000      585 bytes  lib/EntityMap.js.flow</tspan>
+<tspan x="10" y="1914">118.  2017-04-19 05:53:42 +0000      576 bytes  lib/EntityRange.js</tspan>
+<tspan x="10" y="1930">119.  2017-04-19 05:53:42 +0000      664 bytes  lib/EntityRange.js.flow</tspan>
+<tspan x="10" y="1946">120.  2017-04-19 05:53:42 +0000      434 bytes  lib/InlineStyleRange.js</tspan>
+<tspan x="10" y="1962">121.  2017-04-19 05:53:42 +0000      529 bytes  lib/InlineStyleRange.js.flow</tspan>
+<tspan x="10" y="1978">122.  2017-04-19 05:53:42 +0000     1105 bytes  lib/KeyBindingUtil.js</tspan>
+<tspan x="10" y="1994">123.  2017-04-19 05:53:42 +0000     1157 bytes  lib/KeyBindingUtil.js.flow</tspan>
+<tspan x="10" y="2010">124.  2017-04-19 05:53:42 +0000      370 bytes  lib/RawDraftContentBlock.js</tspan>
+<tspan x="10" y="2026">125.  2017-04-19 05:53:42 +0000      888 bytes  lib/RawDraftContentBlock.js.flow</tspan>
+<tspan x="10" y="2042">126.  2017-04-19 05:53:42 +0000      370 bytes  lib/RawDraftContentState.js</tspan>
+<tspan x="10" y="2058">127.  2017-04-19 05:53:42 +0000     1003 bytes  lib/RawDraftContentState.js.flow</tspan>
+<tspan x="10" y="2074">128.  2017-04-19 05:53:42 +0000      364 bytes  lib/RawDraftEntity.js</tspan>
+<tspan x="10" y="2090">129.  2017-04-19 05:53:42 +0000      691 bytes  lib/RawDraftEntity.js.flow</tspan>
+<tspan x="10" y="2106">130.  2017-04-19 05:53:42 +0000    10915 bytes  lib/RichTextEditorUtil.js</tspan>
+<tspan x="10" y="2122">131.  2017-04-19 05:53:42 +0000    11296 bytes  lib/RichTextEditorUtil.js.flow</tspan>
+<tspan x="10" y="2138">132.  2017-04-19 05:53:42 +0000      912 bytes  lib/SampleDraftInlineStyle.js</tspan>
+<tspan x="10" y="2154">133.  2017-04-19 05:53:42 +0000      885 bytes  lib/SampleDraftInlineStyle.js.flow</tspan>
+<tspan x="10" y="2170">134.  2017-04-19 05:53:42 +0000     1978 bytes  lib/SecondaryClipboard.js</tspan>
+<tspan x="10" y="2186">135.  2017-04-19 05:53:42 +0000     2152 bytes  lib/SecondaryClipboard.js.flow</tspan>
+<tspan x="10" y="2202">136.  2017-04-19 05:53:42 +0000     4651 bytes  lib/SelectionState.js</tspan>
+<tspan x="10" y="2218">137.  2017-04-19 05:53:42 +0000     3093 bytes  lib/SelectionState.js.flow</tspan>
+<tspan x="10" y="2234">138.  2017-04-19 05:53:42 +0000      657 bytes  lib/addEntityToContentState.js</tspan>
+<tspan x="10" y="2250">139.  2017-04-19 05:53:42 +0000      824 bytes  lib/addEntityToContentState.js.flow</tspan>
+<tspan x="10" y="2266">140.  2017-04-19 05:53:42 +0000      647 bytes  lib/addEntityToEntityMap.js</tspan>
+<tspan x="10" y="2282">141.  2017-04-19 05:53:42 +0000      816 bytes  lib/addEntityToEntityMap.js.flow</tspan>
+<tspan x="10" y="2298">142.  2017-04-19 05:53:42 +0000     1208 bytes  lib/adjustBlockDepthForContentState.js</tspan>
+<tspan x="10" y="2314">143.  2017-04-19 05:53:42 +0000     1308 bytes  lib/adjustBlockDepthForContentState.js.flow</tspan>
+<tspan x="10" y="2330">144.  2017-04-19 05:53:42 +0000      838 bytes  lib/applyEntityToContentBlock.js</tspan>
+<tspan x="10" y="2346">145.  2017-04-19 05:53:42 +0000      945 bytes  lib/applyEntityToContentBlock.js.flow</tspan>
+<tspan x="10" y="2362">146.  2017-04-19 05:53:42 +0000     1489 bytes  lib/applyEntityToContentState.js</tspan>
+<tspan x="10" y="2378">147.  2017-04-19 05:53:42 +0000     1610 bytes  lib/applyEntityToContentState.js.flow</tspan>
+<tspan x="10" y="2394">148.  2017-04-19 05:53:42 +0000     2034 bytes  lib/convertFromDraftStateToRaw.js</tspan>
+<tspan x="10" y="2410">149.  2017-04-19 05:53:42 +0000     2142 bytes  lib/convertFromDraftStateToRaw.js.flow</tspan>
+<tspan x="10" y="2426">150.  2017-04-19 05:53:42 +0000    15402 bytes  lib/convertFromHTMLToContentBlocks.js</tspan>
+<tspan x="10" y="2442">151.  2017-04-19 05:53:42 +0000    15938 bytes  lib/convertFromHTMLToContentBlocks.js.flow</tspan>
+<tspan x="10" y="2458">152.  2017-04-19 05:53:42 +0000     2878 bytes  lib/convertFromRawToDraftState.js</tspan>
+<tspan x="10" y="2474">153.  2017-04-19 05:53:42 +0000     2383 bytes  lib/convertFromRawToDraftState.js.flow</tspan>
+<tspan x="10" y="2490">154.  2017-04-19 05:53:42 +0000      807 bytes  lib/createCharacterList.js</tspan>
+<tspan x="10" y="2506">155.  2017-04-19 05:53:42 +0000      916 bytes  lib/createCharacterList.js.flow</tspan>
+<tspan x="10" y="2522">156.  2017-04-19 05:53:42 +0000      777 bytes  lib/createEntityInContentState.js</tspan>
+<tspan x="10" y="2538">157.  2017-04-19 05:53:42 +0000     1022 bytes  lib/createEntityInContentState.js.flow</tspan>
+<tspan x="10" y="2554">158.  2017-04-19 05:53:42 +0000     1107 bytes  lib/decodeEntityRanges.js</tspan>
+<tspan x="10" y="2570">159.  2017-04-19 05:53:42 +0000     1139 bytes  lib/decodeEntityRanges.js.flow</tspan>
+<tspan x="10" y="2586">160.  2017-04-19 05:53:42 +0000     1145 bytes  lib/decodeInlineStyleRanges.js</tspan>
+<tspan x="10" y="2602">161.  2017-04-19 05:53:42 +0000     1218 bytes  lib/decodeInlineStyleRanges.js.flow</tspan>
+<tspan x="10" y="2618">162.  2017-04-19 05:53:42 +0000     5674 bytes  lib/editOnBeforeInput.js</tspan>
+<tspan x="10" y="2634">163.  2017-04-19 05:53:42 +0000     5905 bytes  lib/editOnBeforeInput.js.flow</tspan>
+<tspan x="10" y="2650">164.  2017-04-19 05:53:42 +0000     1476 bytes  lib/editOnBlur.js</tspan>
+<tspan x="10" y="2666">165.  2017-04-19 05:53:42 +0000     1569 bytes  lib/editOnBlur.js.flow</tspan>
+<tspan x="10" y="2682">166.  2017-04-19 05:53:42 +0000      890 bytes  lib/editOnCompositionStart.js</tspan>
+<tspan x="10" y="2698">167.  2017-04-19 05:53:42 +0000      983 bytes  lib/editOnCompositionStart.js.flow</tspan>
+<tspan x="10" y="2714">168.  2017-04-19 05:53:42 +0000      990 bytes  lib/editOnCopy.js</tspan>
+<tspan x="10" y="2730">169.  2017-04-19 05:53:42 +0000     1092 bytes  lib/editOnCopy.js.flow</tspan>
+<tspan x="10" y="2746">170.  2017-04-19 05:53:42 +0000     2235 bytes  lib/editOnCut.js</tspan>
+<tspan x="10" y="2762">171.  2017-04-19 05:53:42 +0000     2296 bytes  lib/editOnCut.js.flow</tspan>
+<tspan x="10" y="2778">172.  2017-04-19 05:53:42 +0000      586 bytes  lib/editOnDragOver.js</tspan>
+<tspan x="10" y="2794">173.  2017-04-19 05:53:42 +0000      683 bytes  lib/editOnDragOver.js.flow</tspan>
+<tspan x="10" y="2810">174.  2017-04-19 05:53:42 +0000      570 bytes  lib/editOnDragStart.js</tspan>
+<tspan x="10" y="2826">175.  2017-04-19 05:53:42 +0000      647 bytes  lib/editOnDragStart.js.flow</tspan>
+<tspan x="10" y="2842">176.  2017-04-19 05:53:42 +0000     1248 bytes  lib/editOnFocus.js</tspan>
+<tspan x="10" y="2858">177.  2017-04-19 05:53:42 +0000     1346 bytes  lib/editOnFocus.js.flow</tspan>
+<tspan x="10" y="2874">178.  2017-04-19 05:53:42 +0000     5541 bytes  lib/editOnInput.js</tspan>
+<tspan x="10" y="2890">179.  2017-04-19 05:53:42 +0000     5330 bytes  lib/editOnInput.js.flow</tspan>
+<tspan x="10" y="2906">180.  2017-04-19 05:53:42 +0000     5252 bytes  lib/editOnKeyDown.js</tspan>
+<tspan x="10" y="2922">181.  2017-04-19 05:53:42 +0000     5461 bytes  lib/editOnKeyDown.js.flow</tspan>
+<tspan x="10" y="2938">182.  2017-04-19 05:53:42 +0000     6352 bytes  lib/editOnPaste.js</tspan>
+<tspan x="10" y="2954">183.  2017-04-19 05:53:42 +0000     6570 bytes  lib/editOnPaste.js.flow</tspan>
+<tspan x="10" y="2970">184.  2017-04-19 05:53:42 +0000     1256 bytes  lib/editOnSelect.js</tspan>
+<tspan x="10" y="2986">185.  2017-04-19 05:53:42 +0000     1333 bytes  lib/editOnSelect.js.flow</tspan>
+<tspan x="10" y="3002">186.  2017-04-19 05:53:42 +0000     1154 bytes  lib/encodeEntityRanges.js</tspan>
+<tspan x="10" y="3018">187.  2017-04-19 05:53:42 +0000     1264 bytes  lib/encodeEntityRanges.js.flow</tspan>
+<tspan x="10" y="3034">188.  2017-04-19 05:53:42 +0000     1888 bytes  lib/encodeInlineStyleRanges.js</tspan>
+<tspan x="10" y="3050">189.  2017-04-19 05:53:42 +0000     2069 bytes  lib/encodeInlineStyleRanges.js.flow</tspan>
+<tspan x="10" y="3066">190.  2017-04-19 05:53:42 +0000     7181 bytes  lib/expandRangeToStartOfLine.js</tspan>
+<tspan x="10" y="3082">191.  2017-04-19 05:53:42 +0000     7119 bytes  lib/expandRangeToStartOfLine.js.flow</tspan>
+<tspan x="10" y="3098">192.  2017-04-19 05:53:42 +0000      871 bytes  lib/findAncestorOffsetKey.js</tspan>
+<tspan x="10" y="3114">193.  2017-04-19 05:53:42 +0000      891 bytes  lib/findAncestorOffsetKey.js.flow</tspan>
+<tspan x="10" y="3130">194.  2017-04-19 05:53:42 +0000     1189 bytes  lib/findRangesImmutable.js</tspan>
+<tspan x="10" y="3146">195.  2017-04-19 05:53:42 +0000     1340 bytes  lib/findRangesImmutable.js.flow</tspan>
+<tspan x="10" y="3162">196.  2017-04-19 05:53:42 +0000      710 bytes  lib/generateRandomKey.js</tspan>
+<tspan x="10" y="3178">197.  2017-04-19 05:53:42 +0000      718 bytes  lib/generateRandomKey.js.flow</tspan>
+<tspan x="10" y="3194">198.  2017-04-19 05:53:42 +0000     2646 bytes  lib/getCharacterRemovalRange.js</tspan>
+<tspan x="10" y="3210">199.  2017-04-19 05:53:42 +0000     2843 bytes  lib/getCharacterRemovalRange.js.flow</tspan>
+<tspan x="10" y="3226">200.  2017-04-19 05:53:42 +0000     2158 bytes  lib/getContentStateFragment.js</tspan>
+<tspan x="10" y="3242">201.  2017-04-19 05:53:42 +0000     2342 bytes  lib/getContentStateFragment.js.flow</tspan>
+<tspan x="10" y="3258">202.  2017-04-19 05:53:42 +0000     3501 bytes  lib/getDefaultKeyBinding.js</tspan>
+<tspan x="10" y="3274">203.  2017-04-19 05:53:42 +0000     3734 bytes  lib/getDefaultKeyBinding.js.flow</tspan>
+<tspan x="10" y="3290">204.  2017-04-19 05:53:42 +0000     1095 bytes  lib/getDraftEditorSelection.js</tspan>
+<tspan x="10" y="3306">205.  2017-04-19 05:53:42 +0000     1260 bytes  lib/getDraftEditorSelection.js.flow</tspan>
+<tspan x="10" y="3322">206.  2017-04-19 05:53:42 +0000     6891 bytes  lib/getDraftEditorSelectionWithNodes.js</tspan>
+<tspan x="10" y="3338">207.  2017-04-19 05:53:42 +0000     7086 bytes  lib/getDraftEditorSelectionWithNodes.js.flow</tspan>
+<tspan x="10" y="3354">208.  2017-04-19 05:53:42 +0000     1714 bytes  lib/getEntityKeyForSelection.js</tspan>
+<tspan x="10" y="3370">209.  2017-04-19 05:53:42 +0000     1934 bytes  lib/getEntityKeyForSelection.js.flow</tspan>
+<tspan x="10" y="3386">210.  2017-04-19 05:53:42 +0000      734 bytes  lib/getFragmentFromSelection.js</tspan>
+<tspan x="10" y="3402">211.  2017-04-19 05:53:42 +0000      854 bytes  lib/getFragmentFromSelection.js.flow</tspan>
+<tspan x="10" y="3418">212.  2017-04-19 05:53:42 +0000     1608 bytes  lib/getRangeBoundingClientRect.js</tspan>
+<tspan x="10" y="3434">213.  2017-04-19 05:53:42 +0000     1660 bytes  lib/getRangeBoundingClientRect.js.flow</tspan>
+<tspan x="10" y="3450">214.  2017-04-19 05:53:42 +0000     2196 bytes  lib/getRangeClientRects.js</tspan>
+<tspan x="10" y="3466">215.  2017-04-19 05:53:42 +0000     2141 bytes  lib/getRangeClientRects.js.flow</tspan>
+<tspan x="10" y="3482">216.  2017-04-19 05:53:42 +0000     1147 bytes  lib/getRangesForDraftEntity.js</tspan>
+<tspan x="10" y="3498">217.  2017-04-19 05:53:42 +0000     1169 bytes  lib/getRangesForDraftEntity.js.flow</tspan>
+<tspan x="10" y="3514">218.  2017-04-19 05:53:42 +0000     1079 bytes  lib/getSafeBodyFromHTML.js</tspan>
+<tspan x="10" y="3530">219.  2017-04-19 05:53:42 +0000     1102 bytes  lib/getSafeBodyFromHTML.js.flow</tspan>
+<tspan x="10" y="3546">220.  2017-04-19 05:53:42 +0000     2153 bytes  lib/getSampleStateForTesting.js</tspan>
+<tspan x="10" y="3562">221.  2017-04-19 05:53:42 +0000     2075 bytes  lib/getSampleStateForTesting.js.flow</tspan>
+<tspan x="10" y="3578">222.  2017-04-19 05:53:42 +0000      988 bytes  lib/getSelectionOffsetKeyForNode.js</tspan>
+<tspan x="10" y="3594">223.  2017-04-19 05:53:42 +0000     1008 bytes  lib/getSelectionOffsetKeyForNode.js.flow</tspan>
+<tspan x="10" y="3610">224.  2017-04-19 05:53:42 +0000      849 bytes  lib/getTextAfterNearestEntity.js</tspan>
+<tspan x="10" y="3626">225.  2017-04-19 05:53:42 +0000      933 bytes  lib/getTextAfterNearestEntity.js.flow</tspan>
+<tspan x="10" y="3642">226.  2017-04-19 05:53:42 +0000     1945 bytes  lib/getTextContentFromFiles.js</tspan>
+<tspan x="10" y="3658">227.  2017-04-19 05:53:42 +0000     2037 bytes  lib/getTextContentFromFiles.js.flow</tspan>
+<tspan x="10" y="3674">228.  2017-04-19 05:53:42 +0000     2674 bytes  lib/getUpdatedSelectionState.js</tspan>
+<tspan x="10" y="3690">229.  2017-04-19 05:53:42 +0000     2845 bytes  lib/getUpdatedSelectionState.js.flow</tspan>
+<tspan x="10" y="3706">230.  2017-04-19 05:53:42 +0000     1363 bytes  lib/getVisibleSelectionRect.js</tspan>
+<tspan x="10" y="3722">231.  2017-04-19 05:53:42 +0000     1387 bytes  lib/getVisibleSelectionRect.js.flow</tspan>
+<tspan x="10" y="3738">232.  2017-04-19 05:53:42 +0000     3983 bytes  lib/insertFragmentIntoContentState.js</tspan>
+<tspan x="10" y="3754">233.  2017-04-19 05:53:42 +0000     4096 bytes  lib/insertFragmentIntoContentState.js.flow</tspan>
+<tspan x="10" y="3770">234.  2017-04-19 05:53:42 +0000      959 bytes  lib/insertIntoList.js</tspan>
+<tspan x="10" y="3786">235.  2017-04-19 05:53:42 +0000     1026 bytes  lib/insertIntoList.js.flow</tspan>
+<tspan x="10" y="3802">236.  2017-04-19 05:53:42 +0000     1618 bytes  lib/insertTextIntoContentState.js</tspan>
+<tspan x="10" y="3818">237.  2017-04-19 05:53:42 +0000     1772 bytes  lib/insertTextIntoContentState.js.flow</tspan>
+<tspan x="10" y="3834">238.  2017-04-19 05:53:42 +0000      622 bytes  lib/isEventHandled.js</tspan>
+<tspan x="10" y="3850">239.  2017-04-19 05:53:42 +0000      715 bytes  lib/isEventHandled.js.flow</tspan>
+<tspan x="10" y="3866">240.  2017-04-19 05:53:42 +0000     1147 bytes  lib/isSelectionAtLeafStart.js</tspan>
+<tspan x="10" y="3882">241.  2017-04-19 05:53:42 +0000     1205 bytes  lib/isSelectionAtLeafStart.js.flow</tspan>
+<tspan x="10" y="3898">242.  2017-04-19 05:53:42 +0000      624 bytes  lib/isSoftNewlineEvent.js</tspan>
+<tspan x="10" y="3914">243.  2017-04-19 05:53:42 +0000      662 bytes  lib/isSoftNewlineEvent.js.flow</tspan>
+<tspan x="10" y="3930">244.  2017-04-19 05:53:42 +0000     1564 bytes  lib/keyCommandBackspaceToStartOfLine.js</tspan>
+<tspan x="10" y="3946">245.  2017-04-19 05:53:42 +0000     1589 bytes  lib/keyCommandBackspaceToStartOfLine.js.flow</tspan>
+<tspan x="10" y="3962">246.  2017-04-19 05:53:42 +0000     1620 bytes  lib/keyCommandBackspaceWord.js</tspan>
+<tspan x="10" y="3978">247.  2017-04-19 05:53:42 +0000     1643 bytes  lib/keyCommandBackspaceWord.js.flow</tspan>
+<tspan x="10" y="3994">248.  2017-04-19 05:53:42 +0000     1517 bytes  lib/keyCommandDeleteWord.js</tspan>
+<tspan x="10" y="4010">249.  2017-04-19 05:53:42 +0000     1540 bytes  lib/keyCommandDeleteWord.js.flow</tspan>
+<tspan x="10" y="4026">250.  2017-04-19 05:53:42 +0000      737 bytes  lib/keyCommandInsertNewline.js</tspan>
+<tspan x="10" y="4042">251.  2017-04-19 05:53:42 +0000      768 bytes  lib/keyCommandInsertNewline.js.flow</tspan>
+<tspan x="10" y="4058">252.  2017-04-19 05:53:42 +0000     1050 bytes  lib/keyCommandMoveSelectionToEndOfBlock.js</tspan>
+<tspan x="10" y="4074">253.  2017-04-19 05:53:42 +0000     1081 bytes  lib/keyCommandMoveSelectionToEndOfBlock.js.flow</tspan>
+<tspan x="10" y="4090">254.  2017-04-19 05:53:42 +0000     1113 bytes  lib/keyCommandMoveSelectionToStartOfBlock.js</tspan>
+<tspan x="10" y="4106">255.  2017-04-19 05:53:42 +0000     1144 bytes  lib/keyCommandMoveSelectionToStartOfBlock.js.flo\</tspan>
+<tspan x="10" y="4122">w</tspan>
+<tspan x="10" y="4138">256.  2017-04-19 05:53:42 +0000     1675 bytes  lib/keyCommandPlainBackspace.js</tspan>
+<tspan x="10" y="4154">257.  2017-04-19 05:53:42 +0000     1698 bytes  lib/keyCommandPlainBackspace.js.flow</tspan>
+<tspan x="10" y="4170">258.  2017-04-19 05:53:42 +0000     1653 bytes  lib/keyCommandPlainDelete.js</tspan>
+<tspan x="10" y="4186">259.  2017-04-19 05:53:42 +0000     1676 bytes  lib/keyCommandPlainDelete.js.flow</tspan>
+<tspan x="10" y="4202">260.  2017-04-19 05:53:42 +0000     2485 bytes  lib/keyCommandTransposeCharacters.js</tspan>
+<tspan x="10" y="4218">261.  2017-04-19 05:53:42 +0000     2516 bytes  lib/keyCommandTransposeCharacters.js.flow</tspan>
+<tspan x="10" y="4234">262.  2017-04-19 05:53:42 +0000     1583 bytes  lib/keyCommandUndo.js</tspan>
+<tspan x="10" y="4250">263.  2017-04-19 05:53:42 +0000     1636 bytes  lib/keyCommandUndo.js.flow</tspan>
+<tspan x="10" y="4266">264.  2017-04-19 05:53:42 +0000     1085 bytes  lib/modifyBlockForContentState.js</tspan>
+<tspan x="10" y="4282">265.  2017-04-19 05:53:42 +0000     1277 bytes  lib/modifyBlockForContentState.js.flow</tspan>
+<tspan x="10" y="4298">266.  2017-04-19 05:53:42 +0000     1472 bytes  lib/moveSelectionBackward.js</tspan>
+<tspan x="10" y="4314">267.  2017-04-19 05:53:42 +0000     1590 bytes  lib/moveSelectionBackward.js.flow</tspan>
+<tspan x="10" y="4330">268.  2017-04-19 05:53:42 +0000     1305 bytes  lib/moveSelectionForward.js</tspan>
+<tspan x="10" y="4346">269.  2017-04-19 05:53:42 +0000     1423 bytes  lib/moveSelectionForward.js.flow</tspan>
+<tspan x="10" y="4362">270.  2017-04-19 05:53:42 +0000     3188 bytes  lib/removeEntitiesAtEdges.js</tspan>
+<tspan x="10" y="4378">271.  2017-04-19 05:53:42 +0000     3337 bytes  lib/removeEntitiesAtEdges.js.flow</tspan>
+<tspan x="10" y="4394">272.  2017-04-19 05:53:42 +0000     2676 bytes  lib/removeRangeFromContentState.js</tspan>
+<tspan x="10" y="4410">273.  2017-04-19 05:53:42 +0000     2884 bytes  lib/removeRangeFromContentState.js.flow</tspan>
+<tspan x="10" y="4426">274.  2017-04-19 05:53:42 +0000     1228 bytes  lib/removeTextWithStrategy.js</tspan>
+<tspan x="10" y="4442">275.  2017-04-19 05:53:42 +0000     1546 bytes  lib/removeTextWithStrategy.js.flow</tspan>
+<tspan x="10" y="4458">276.  2017-04-19 05:53:42 +0000      546 bytes  lib/sanitizeDraftText.js</tspan>
+<tspan x="10" y="4474">277.  2017-04-19 05:53:42 +0000      567 bytes  lib/sanitizeDraftText.js.flow</tspan>
+<tspan x="10" y="4490">278.  2017-04-19 05:53:42 +0000     4942 bytes  lib/setDraftEditorSelection.js</tspan>
+<tspan x="10" y="4506">279.  2017-04-19 05:53:42 +0000     5108 bytes  lib/setDraftEditorSelection.js.flow</tspan>
+<tspan x="10" y="4522">280.  2017-04-19 05:53:42 +0000     2020 bytes  lib/splitBlockInContentState.js</tspan>
+<tspan x="10" y="4538">281.  2017-04-19 05:53:42 +0000     2042 bytes  lib/splitBlockInContentState.js.flow</tspan>
+<tspan x="10" y="4554">282.  2017-04-19 05:53:42 +0000      530 bytes  lib/splitTextIntoTextBlocks.js</tspan>
+<tspan x="10" y="4570">283.  2017-04-19 05:53:42 +0000      558 bytes  lib/splitTextIntoTextBlocks.js.flow</tspan>
+<tspan x="10" y="4586">284.  2017-04-19 05:53:42 +0000     1142 bytes  lib/updateEntityDataInContentState.js</tspan>
+<tspan x="10" y="4602">285.  2017-04-19 05:53:42 +0000      977 bytes  lib/updateEntityDataInContentState.js.flow</tspan>
+<tspan x="10" y="4618">286.  2017-04-19 05:53:42 +0000     4907 bytes  package.json</tspan>
 </text>
 </svg>
