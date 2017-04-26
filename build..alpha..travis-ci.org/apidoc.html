@@ -3332,22 +3332,21 @@
   }));
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-  var blocks = splitTextIntoTextBlocks(fileText);
-  var character = CharacterMetadata.create({
-    style: editorState.getCurrentInlineStyle(),
-    entity: getEntityKeyForSelection(editorState.getCurrentContent(), editorState.getSelection())
-  });
+	  };
 
-  var text = DraftPasteProcessor.processText(blocks, character);
-  var fragment = BlockMapBuilder.<span class="apidocCodeKeywordSpan">createFromArray</span>(text);
-
-  var withInsertedText = DraftModifier.replaceWithFragment(editorState.getCurrentContent(), editorState.getSelection(), fragment
-);
-
-  editor.update(EditorState.push(editorState, withInsertedText, &#x27;insert-fragment&#x27;));
-});
-
-return;
+	  ContentState.createFromBlockArray = function createFromBlockArray(
+	  // TODO: update flow type when we completely deprecate the old entity API
+	  blocks, entityMap) {
+	    // TODO: remove this when we completely deprecate the old entity API
+	    var theBlocks = Array.isArray(blocks) ? blocks : blocks.contentBlocks;
+	    var blockMap = BlockMapBuilder.<span class="apidocCodeKeywordSpan">createFromArray</span>(theBlocks);
+	    var selectionState = blockMap.isEmpty() ? new SelectionState() : SelectionState.createEmpty(blockMap.first().getKey());
+	    return new ContentState({
+	      blockMap: blockMap,
+	      entityMap: entityMap || DraftEntity,
+	      selectionBefore: selectionState,
+	      selectionAfter: selectionState
+	    });
 ...</pre></li>
     </ul>
 
@@ -3392,7 +3391,23 @@ return;
 
   return List(leafSets);
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+	/**
+	 * Regenerate the entire tree map for a given ContentState and decorator.
+	 * Returns an OrderedMap that maps all available ContentBlock objects.
+	 */
+	function generateNewTreeMap(contentState, decorator) {
+	  return contentState.getBlockMap().map(function (block) {
+	    return BlockTree.<span class="apidocCodeKeywordSpan">generate</span>(contentState, block, decorator);
+	  }).toOrderedMap();
+	}
+
+	/**
+	 * Regenerate tree map objects for all ContentBlocks that have changed
+	 * between the current editorState and newContent. Returns an OrderedMap
+	 * with only changed regenerated tree map objects.
+...</pre></li>
     </ul>
 
 
@@ -3467,21 +3482,21 @@ if (mustPreventDefaultForCharacter(chars) || originalFingerprint !== newFingerpr
   return CharacterMetadata.create(withEntity);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-&#x27;use strict&#x27;;
 
-var CharacterMetadata = require(&#x27;./CharacterMetadata&#x27;);
+	      var start = _getRemovalRange.start;
+	      var end = _getRemovalRange.end;
 
-function applyEntityToContentBlock(contentBlock, start, end, entityKey) {
-  var characterList = contentBlock.getCharacterList();
-  while (start &#x3c; end) {
-    characterList = characterList.set(start, CharacterMetadata.<span class="apidocCodeKeywordSpan">applyEntity</span>(characterList
-.get(start), entityKey));
-    start++;
-  }
-  return contentBlock.set(&#x27;characterList&#x27;, characterList);
-}
+	      var current;
+	      while (start &#x3c; end) {
+	        current = chars.get(start);
+	        chars = chars.set(start, CharacterMetadata.<span class="apidocCodeKeywordSpan">applyEntity</span>(current, null));
+	        start++;
+	      }
+	      return block.set(&#x27;characterList&#x27;, chars);
+	    }
+	  }
 
-module.exports = applyEntityToContentBlock;
+	  return block;
 ...</pre></li>
     </ul>
 
@@ -3499,22 +3514,22 @@ module.exports = applyEntityToContentBlock;
   return CharacterMetadata.create(withStyle);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-    sliceEnd = blockKey === endKey ? endOffset : block.getLength();
-  }
+	      sliceEnd = blockKey === endKey ? endOffset : block.getLength();
+	    }
 
-  var chars = block.getCharacterList();
-  var current;
-  while (sliceStart &#x3c; sliceEnd) {
-    current = chars.get(sliceStart);
-    chars = chars.set(sliceStart, addOrRemove ? CharacterMetadata.<span class="apidocCodeKeywordSpan">applyStyle</span>(current,
-inlineStyle) : CharacterMetadata.removeStyle(current, inlineStyle));
-    sliceStart++;
-  }
+	    var chars = block.getCharacterList();
+	    var current;
+	    while (sliceStart &#x3c; sliceEnd) {
+	      current = chars.get(sliceStart);
+	      chars = chars.set(sliceStart, addOrRemove ? CharacterMetadata.<span class="apidocCodeKeywordSpan">applyStyle</span>(current
+, inlineStyle) : CharacterMetadata.removeStyle(current, inlineStyle));
+	      sliceStart++;
+	    }
 
-  return block.set(&#x27;characterList&#x27;, chars);
-});
+	    return block.set(&#x27;characterList&#x27;, chars);
+	  });
 
-return contentState.merge({
+	  return contentState.merge({
 ...</pre></li>
     </ul>
 
@@ -3547,29 +3562,21 @@ return contentState.merge({
   return newCharacter;
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
+	var EditorState = function () {
+	  EditorState.createEmpty = function createEmpty(decorator) {
+	    return EditorState.createWithContent(ContentState.createFromText(&#x27;&#x27;), decorator);
+	  };
 
-var _extends = _assign || function (target) { for (var i = 1; i &#x3c; arguments.length; i++) { var source = arguments[i]; for (
-var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(&#x22;Cannot call
- a class as a function&#x22;); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError(&#x22;this hasn&#x27;t been initialised -
-super() hasn&#x27;t been called&#x22;); } return call &#x26;&#x26; (typeof call === &#x22;object&#x22; || typeof call === &#x22;
-function&#x22;) ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== &#x22;function&#x22; &#x26;&#x26; superClass !== null) { throw
- new TypeError(&#x22;Super expression must either be null or a function, not &#x22; + typeof superClass); } subClass.prototype =
-Object.<span class="apidocCodeKeywordSpan">create</span>(superClass &#x26;&#x26; superClass.prototype, { constructor: { value: subClass
-, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass
-, superClass) : subClass.__proto__ = superClass; }
-
-var DraftEditorBlock = require(&#x27;./DraftEditorBlock.react&#x27;);
-var DraftOffsetKey = require(&#x27;./DraftOffsetKey&#x27;);
-var EditorState = require(&#x27;./EditorState&#x27;);
-var React = require(&#x27;react&#x27;);
-
-var cx = require(&#x27;fbjs/lib/cx&#x27;);
+	  EditorState.createWithContent = function createWithContent(contentState, decorator) {
+	    var firstKey = contentState.getBlockMap().first().getKey();
+	    return EditorState.<span class="apidocCodeKeywordSpan">create</span>({
+	      currentContent: contentState,
+	      undoStack: Stack(),
+	      redoStack: Stack(),
+	      decorator: decorator || null,
+	      selection: SelectionState.createEmpty(firstKey)
+	    });
+	  };
 ...</pre></li>
     </ul>
 
@@ -3587,22 +3594,22 @@ var cx = require(&#x27;fbjs/lib/cx&#x27;);
   return CharacterMetadata.create(withoutStyle);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-    sliceEnd = blockKey === endKey ? endOffset : block.getLength();
-  }
+	      sliceEnd = blockKey === endKey ? endOffset : block.getLength();
+	    }
 
-  var chars = block.getCharacterList();
-  var current;
-  while (sliceStart &#x3c; sliceEnd) {
-    current = chars.get(sliceStart);
-    chars = chars.set(sliceStart, addOrRemove ? CharacterMetadata.applyStyle(current, inlineStyle) : CharacterMetadata.<span class
-="apidocCodeKeywordSpan">removeStyle</span>(current, inlineStyle));
-    sliceStart++;
-  }
+	    var chars = block.getCharacterList();
+	    var current;
+	    while (sliceStart &#x3c; sliceEnd) {
+	      current = chars.get(sliceStart);
+	      chars = chars.set(sliceStart, addOrRemove ? CharacterMetadata.applyStyle(current, inlineStyle) : CharacterMetadata.<span
+class="apidocCodeKeywordSpan">removeStyle</span>(current, inlineStyle));
+	      sliceStart++;
+	    }
 
-  return block.set(&#x27;characterList&#x27;, chars);
-});
+	    return block.set(&#x27;characterList&#x27;, chars);
+	  });
 
-return contentState.merge({
+	  return contentState.merge({
 ...</pre></li>
     </ul>
 
@@ -3626,21 +3633,22 @@ return contentState.merge({
   return this.get(&#x27;entity&#x27;);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-function convertFromDraftStateToRaw(contentState) {
-var entityStorageKey = 0;
-var entityStorageMap = {};
-var rawBlocks = [];
 
-contentState.getBlockMap().forEach(function (block, blockKey) {
-  block.findEntityRanges(function (character) {
-    return character.<span class="apidocCodeKeywordSpan">getEntity</span>() !== null;
-  }, function (start) {
-    // Stringify to maintain order of otherwise numeric keys.
-    var stringifiedEntityKey = DraftStringKey.stringify(block.getEntityAt(start));
-    if (!entityStorageMap.hasOwnProperty(stringifiedEntityKey)) {
-      entityStorageMap[stringifiedEntityKey] = &#x27;&#x27; + entityStorageKey++;
-    }
-  });
+	  CharacterMetadata.removeStyle = function removeStyle(record, style) {
+	    var withoutStyle = record.set(&#x27;style&#x27;, record.getStyle().remove(style));
+	    return CharacterMetadata.create(withoutStyle);
+	  };
+
+	  CharacterMetadata.applyEntity = function applyEntity(record, entityKey) {
+	    var withEntity = record.<span class="apidocCodeKeywordSpan">getEntity</span>() === entityKey ? record : record.set(&#x27;entity
+&#x27;, entityKey);
+	    return CharacterMetadata.create(withEntity);
+	  };
+
+	  /**
+	   * Use this function instead of the `CharacterMetadata` constructor.
+	   * Since most content generally uses only a very small number of
+	   * style/entity permutations, we can reuse these objects as often as
 ...</pre></li>
     </ul>
 
@@ -3657,21 +3665,20 @@ contentState.getBlockMap().forEach(function (block, blockKey) {
   return this.get(&#x27;style&#x27;);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
+	  };
 
-/**
- * Generate LeafRange records for a given character list.
- */
-function generateLeaves(characters, offset) {
-var leaves = [];
-var inlineStyles = characters.map(function (c) {
-  return c.<span class="apidocCodeKeywordSpan">getStyle</span>();
-}).toList();
-findRangesImmutable(inlineStyles, areEqual, returnTrue, function (start, end) {
-  leaves.push(new LeafRange({
-    start: start + offset,
-    end: end + offset
-  }));
-});
+	  CharacterMetadata.prototype.getEntity = function getEntity() {
+	    return this.get(&#x27;entity&#x27;);
+	  };
+
+	  CharacterMetadata.prototype.hasStyle = function hasStyle(style) {
+	    return this.<span class="apidocCodeKeywordSpan">getStyle</span>().has(style);
+	  };
+
+	  CharacterMetadata.applyStyle = function applyStyle(record, style) {
+	    var withStyle = record.set(&#x27;style&#x27;, record.getStyle().add(style));
+	    return CharacterMetadata.create(withStyle);
+	  };
 ...</pre></li>
     </ul>
 
@@ -3733,7 +3740,24 @@ findRangesImmutable(inlineStyles, areEqual, returnTrue, function (start, end) {
   var componentKey = parseInt(key.split(DELIMITER)[0], 10);
   return this._decorators[componentKey].component;
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+	      if (!_this2.props.decorator) {
+	        return leaves;
+	      }
+
+	      var decorator = nullthrows(_this2.props.decorator);
+
+	      var DecoratorComponent = decorator.<span class="apidocCodeKeywordSpan">getComponentForKey</span>(decoratorKey);
+	      if (!DecoratorComponent) {
+	        return leaves;
+	      }
+
+	      var decoratorProps = decorator.getPropsForKey(decoratorKey);
+	      var decoratorOffsetKey = DraftOffsetKey.encode(blockKey, ii, 0);
+	      var decoratedText = text.slice(leavesForLeafSet.first().get(&#x27;start&#x27;), leavesForLeafSet.last().get(&#x27;end&#x27
+;));
+...</pre></li>
     </ul>
 
 
@@ -3766,22 +3790,22 @@ findRangesImmutable(inlineStyles, areEqual, returnTrue, function (start, end) {
   return List(decorations);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-    end: 0,
-    decoratorKey: null,
-    leaves: List.of(new LeafRange({ start: 0, end: 0 }))
-  }));
-}
+	 *
+	 * Note that in order for this to perform optimally, decoration Lists for
+	 * decorators should be preserved when possible to allow for direct immutable
+	 * List comparison.
+	 */
+	function regenerateTreeForNewDecorator(content, blockMap, previousTreeMap, decorator, existingDecorator) {
+	  return previousTreeMap.merge(blockMap.toSeq().filter(function (block) {
+	    return decorator.<span class="apidocCodeKeywordSpan">getDecorations</span>(block, content) !== existingDecorator.getDecorations
+(block, content);
+	  }).map(function (block) {
+	    return BlockTree.generate(content, block, decorator);
+	  }));
+	}
 
-var leafSets = [];
-var decorations = decorator ? decorator.<span class="apidocCodeKeywordSpan">getDecorations</span>(block, contentState) : List(Repeat
-(null, textLength));
-
-var chars = block.getCharacterList();
-
-findRangesImmutable(decorations, areEqual, returnTrue, function (start, end) {
-  leafSets.push(new DecoratorRange({
-    start: start,
-    end: end,
+	/**
+	 * Return whether a change should be considered a boundary state, given
 ...</pre></li>
     </ul>
 
@@ -3798,7 +3822,23 @@ findRangesImmutable(decorations, areEqual, returnTrue, function (start, end) {
   var componentKey = parseInt(key.split(DELIMITER)[0], 10);
   return this._decorators[componentKey].props;
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+	      var decorator = nullthrows(_this2.props.decorator);
+
+	      var DecoratorComponent = decorator.getComponentForKey(decoratorKey);
+	      if (!DecoratorComponent) {
+	        return leaves;
+	      }
+
+	      var decoratorProps = decorator.<span class="apidocCodeKeywordSpan">getPropsForKey</span>(decoratorKey);
+	      var decoratorOffsetKey = DraftOffsetKey.encode(blockKey, ii, 0);
+	      var decoratedText = text.slice(leavesForLeafSet.first().get(&#x27;start&#x27;), leavesForLeafSet.last().get(&#x27;end&#x27
+;));
+
+	      // Resetting dir to the same value on a child node makes Chrome/Firefox
+	      // confused on cursor movement. See http://jsfiddle.net/d157kLck/3/
+	      var dir = UnicodeBidiDirection.getHTMLDirIfDifferent(UnicodeBidi.getDirection(decoratedText), _this2.props.direction);
+...</pre></li>
     </ul>
 
 
@@ -3887,21 +3927,21 @@ contentState.getBlockMap().forEach(function (block, blockKey) {
   return this.get(&#x27;characterList&#x27;);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-    leaves: List.of(new LeafRange({ start: 0, end: 0 }))
-  }));
-}
+	  };
 
-var leafSets = [];
-var decorations = decorator ? decorator.getDecorations(block, contentState) : List(Repeat(null, textLength));
+	  ContentBlock.prototype.getData = function getData() {
+	    return this.get(&#x27;data&#x27;);
+	  };
 
-var chars = block.<span class="apidocCodeKeywordSpan">getCharacterList</span>();
+	  ContentBlock.prototype.getInlineStyleAt = function getInlineStyleAt(offset) {
+	    var character = this.<span class="apidocCodeKeywordSpan">getCharacterList</span>().get(offset);
+	    return character ? character.getStyle() : EMPTY_SET;
+	  };
 
-findRangesImmutable(decorations, areEqual, returnTrue, function (start, end) {
-  leafSets.push(new DecoratorRange({
-    start: start,
-    end: end,
-    decoratorKey: decorations.get(start),
-    leaves: generateLeaves(chars.slice(start, end).toList(), start)
+	  ContentBlock.prototype.getEntityAt = function getEntityAt(offset) {
+	    var character = this.getCharacterList().get(offset);
+	    return character ? character.getEntity() : null;
+	  };
 ...</pre></li>
     </ul>
 
@@ -3918,21 +3958,21 @@ findRangesImmutable(decorations, areEqual, returnTrue, function (start, end) {
   return this.get(&#x27;data&#x27;);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-  rawBlocks.push({
-    key: blockKey,
-    text: block.getText(),
-    type: block.getType(),
-    depth: block.getDepth(),
-    inlineStyleRanges: encodeInlineStyleRanges(block),
-    entityRanges: encodeEntityRanges(block, entityStorageMap),
-    data: block.<span class="apidocCodeKeywordSpan">getData</span>().toObject()
-  });
-});
+	    return modifyBlockForContentState(contentState, selectionState, function (block) {
+	      return block.merge({ data: blockData });
+	    });
+	  },
 
-// Flip storage map so that our storage keys map to global
-// DraftEntity keys.
-var entityKeys = Object.keys(entityStorageMap);
-var flippedStorageMap = {};
+	  mergeBlockData: function mergeBlockData(contentState, selectionState, blockData) {
+	    return modifyBlockForContentState(contentState, selectionState, function (block) {
+	      return block.merge({ data: block.<span class="apidocCodeKeywordSpan">getData</span>().merge(blockData) });
+	    });
+	  },
+
+	  applyEntity: function applyEntity(contentState, selectionState, entityKey) {
+	    var withoutEntities = removeEntitiesAtEdges(contentState, selectionState);
+	    return applyEntityToContentState(withoutEntities, selectionState, entityKey);
+	  }
 ...</pre></li>
     </ul>
 
@@ -3949,21 +3989,21 @@ var flippedStorageMap = {};
   return this.get(&#x27;depth&#x27;);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-};
+	      };
 
-var configForType = blockRenderMap.get(blockType);
-var wrapperTemplate = configForType.wrapper;
+	      var configForType = blockRenderMap.get(blockType);
+	      var wrapperTemplate = configForType.wrapper;
 
-var _Element = configForType.element || blockRenderMap.get(&#x27;unstyled&#x27;).element;
+	      var _Element = configForType.element || blockRenderMap.get(&#x27;unstyled&#x27;).element;
 
-var depth = _block.<span class="apidocCodeKeywordSpan">getDepth</span>();
-var className = this.props.blockStyleFn(_block);
+	      var depth = _block.<span class="apidocCodeKeywordSpan">getDepth</span>();
+	      var className = this.props.blockStyleFn(_block);
 
-// List items are special snowflakes, since we handle nesting and
-// counters manually.
-if (_Element === &#x27;li&#x27;) {
-  var shouldResetCount = lastWrapperTemplate !== wrapperTemplate || currentDepth === null || depth &#x3e; currentDepth;
-  className = joinClasses(className, getListItemClasses(blockType, depth, shouldResetCount, direction));
+	      // List items are special snowflakes, since we handle nesting and
+	      // counters manually.
+	      if (_Element === &#x27;li&#x27;) {
+	        var shouldResetCount = lastWrapperTemplate !== wrapperTemplate || currentDepth === null || depth &#x3e; currentDepth;
+	        className = joinClasses(className, getListItemClasses(blockType, depth, shouldResetCount, direction));
 ...</pre></li>
     </ul>
 
@@ -3981,21 +4021,21 @@ if (_Element === &#x27;li&#x27;) {
   return character ? character.getEntity() : null;
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-  var rawBlocks = [];
+	    // If so, try to remove the appropriate substring of the entity text.
+	    if (rangeToRemove.getAnchorKey() === rangeToRemove.getFocusKey()) {
+	      var key = rangeToRemove.getAnchorKey();
+	      var startOffset = rangeToRemove.getStartOffset();
+	      var endOffset = rangeToRemove.getEndOffset();
+	      var block = contentState.getBlockForKey(key);
 
-  contentState.getBlockMap().forEach(function (block, blockKey) {
-block.findEntityRanges(function (character) {
-  return character.getEntity() !== null;
-}, function (start) {
-  // Stringify to maintain order of otherwise numeric keys.
-  var stringifiedEntityKey = DraftStringKey.stringify(block.<span class="apidocCodeKeywordSpan">getEntityAt</span>(start));
-  if (!entityStorageMap.hasOwnProperty(stringifiedEntityKey)) {
-    entityStorageMap[stringifiedEntityKey] = &#x27;&#x27; + entityStorageKey++;
-  }
-});
-
-rawBlocks.push({
-  key: blockKey,
+	      var startEntity = block.<span class="apidocCodeKeywordSpan">getEntityAt</span>(startOffset);
+	      var endEntity = block.getEntityAt(endOffset - 1);
+	      if (startEntity &#x26;&#x26; startEntity === endEntity) {
+	        var adjustedRemovalRange = getCharacterRemovalRange(contentState.getEntityMap(), block, rangeToRemove, removalDirection
+);
+	        return removeRangeFromContentState(contentState, adjustedRemovalRange);
+	      }
+	    }
 ...</pre></li>
     </ul>
 
@@ -4013,22 +4053,21 @@ rawBlocks.push({
   return character ? character.getStyle() : EMPTY_SET;
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
+	  var startKey = selection.getStartKey();
+	  var startOffset = selection.getStartOffset();
+	  var startBlock = content.getBlockForKey(startKey);
 
-// Immutable or segmented entities cannot properly be handled by the
-// default browser undo, so we have to use a different change type to
-// force using our internal undo method instead of falling through to the
-// native browser undo.
-var changeType = preserveEntity ? &#x27;spellcheck-change&#x27; : &#x27;apply-entity&#x27;;
+	  // If the cursor is not at the start of the block, look backward to
+	  // preserve the style of the preceding character.
+	  if (startOffset &#x3e; 0) {
+	    return startBlock.<span class="apidocCodeKeywordSpan">getInlineStyleAt</span>(startOffset - 1);
+	  }
 
-var newContent = DraftModifier.replaceText(content, targetRange, domText, block.<span class="apidocCodeKeywordSpan">getInlineStyleAt
-</span>(start), preserveEntity ? block.getEntityAt(start) : null);
-
-var anchorOffset, focusOffset, startOffset, endOffset;
-
-if (isGecko) {
-  // Firefox selection does not change while the context menu is open, so
-  // we preserve the anchor and focus values of the DOM selection.
-  anchorOffset = domSelection.anchorOffset;
+	  // The caret is at position zero in this block. If the block has any
+	  // text at all, use the style of the first character.
+	  if (startBlock.getLength()) {
+	    return startBlock.getInlineStyleAt(0);
+	  }
 ...</pre></li>
     </ul>
 
@@ -4045,21 +4084,21 @@ if (isGecko) {
   return this.get(&#x27;key&#x27;);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-    var blocksAsArray = content.getBlocksAsArray();
-    var processedBlocks = [];
-    var currentDepth = null;
-    var lastWrapperTemplate = null;
 
-    for (var ii = 0; ii &#x3c; blocksAsArray.length; ii++) {
-var _block = blocksAsArray[ii];
-var key = _block.<span class="apidocCodeKeywordSpan">getKey</span>();
-var blockType = _block.getType();
+	var EditorState = function () {
+	  EditorState.createEmpty = function createEmpty(decorator) {
+	    return EditorState.createWithContent(ContentState.createFromText(&#x27;&#x27;), decorator);
+	  };
 
-var customRenderer = blockRendererFn(_block);
-var CustomComponent = void 0,
-    customProps = void 0,
-    customEditable = void 0;
-if (customRenderer) {
+	  EditorState.createWithContent = function createWithContent(contentState, decorator) {
+	    var firstKey = contentState.getBlockMap().first().<span class="apidocCodeKeywordSpan">getKey</span>();
+	    return EditorState.create({
+	      currentContent: contentState,
+	      undoStack: Stack(),
+	      redoStack: Stack(),
+	      decorator: decorator || null,
+	      selection: SelectionState.createEmpty(firstKey)
+	    });
 ...</pre></li>
     </ul>
 
@@ -4076,21 +4115,20 @@ if (customRenderer) {
   return this.getText().length;
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-var DecoratorRange = Record(defaultDecoratorRange);
+	    return this.getSelection().hasEdgeWithin(firstKey, 0, 0);
+	  };
 
-var BlockTree = {
-/**
- * Generate a block tree for a given ContentBlock/decorator pair.
- */
-generate: function generate(contentState, block, decorator) {
-  var textLength = block.<span class="apidocCodeKeywordSpan">getLength</span>();
-  if (!textLength) {
-    return List.of(new DecoratorRange({
-      start: 0,
-      end: 0,
-      decoratorKey: null,
-      leaves: List.of(new LeafRange({ start: 0, end: 0 }))
-    }));
+	  EditorState.prototype.isSelectionAtEndOfContent = function isSelectionAtEndOfContent() {
+	    var content = this.getCurrentContent();
+	    var blockMap = content.getBlockMap();
+	    var last = blockMap.last();
+	    var end = last.<span class="apidocCodeKeywordSpan">getLength</span>();
+	    return this.getSelection().hasEdgeWithin(last.getKey(), end, end);
+	  };
+
+	  EditorState.prototype.getDirectionMap = function getDirectionMap() {
+	    return this.getImmutable().get(&#x27;directionMap&#x27;);
+	  };
 ...</pre></li>
     </ul>
 
@@ -4107,21 +4145,21 @@ generate: function generate(contentState, block, decorator) {
   return this.get(&#x27;text&#x27;);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-  }
+	  };
 
-  if (editor._internalDrag) {
-    editor.update(moveText(editorState, dropSelection));
-    return;
-  }
+	  ContentBlock.prototype.getCharacterList = function getCharacterList() {
+	    return this.get(&#x27;characterList&#x27;);
+	  };
 
-  editor.update(insertTextAtSelection(editorState, dropSelection, data.<span class="apidocCodeKeywordSpan">getText</span>()));
-}
+	  ContentBlock.prototype.getLength = function getLength() {
+	    return this.<span class="apidocCodeKeywordSpan">getText</span>().length;
+	  };
 
-};
+	  ContentBlock.prototype.getDepth = function getDepth() {
+	    return this.get(&#x27;depth&#x27;);
+	  };
 
-function moveText(editorState, targetSelection) {
-var newContentState = DraftModifier.moveText(editorState.getCurrentContent(), editorState.getSelection(), targetSelection);
-return EditorState.push(editorState, newContentState, &#x27;insert-fragment&#x27;);
+	  ContentBlock.prototype.getData = function getData() {
 ...</pre></li>
     </ul>
 
@@ -4138,21 +4176,21 @@ return EditorState.push(editorState, newContentState, &#x27;insert-fragment&#x27
   return this.get(&#x27;type&#x27;);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-    var processedBlocks = [];
-    var currentDepth = null;
-    var lastWrapperTemplate = null;
+	    var processedBlocks = [];
+	    var currentDepth = null;
+	    var lastWrapperTemplate = null;
 
-    for (var ii = 0; ii &#x3c; blocksAsArray.length; ii++) {
-var _block = blocksAsArray[ii];
-var key = _block.getKey();
-var blockType = _block.<span class="apidocCodeKeywordSpan">getType</span>();
+	    for (var ii = 0; ii &#x3c; blocksAsArray.length; ii++) {
+	      var _block = blocksAsArray[ii];
+	      var key = _block.getKey();
+	      var blockType = _block.<span class="apidocCodeKeywordSpan">getType</span>();
 
-var customRenderer = blockRendererFn(_block);
-var CustomComponent = void 0,
-    customProps = void 0,
-    customEditable = void 0;
-if (customRenderer) {
-  CustomComponent = customRenderer.component;
+	      var customRenderer = blockRendererFn(_block);
+	      var CustomComponent = void 0,
+	          customProps = void 0,
+	          customEditable = void 0;
+	      if (customRenderer) {
+	        CustomComponent = customRenderer.component;
 ...</pre></li>
     </ul>
 
@@ -4200,17 +4238,20 @@ if (customRenderer) {
   });
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
+	      return new ContentBlock({
+	        key: generateRandomKey(),
+	        text: block,
+	        type: &#x27;unstyled&#x27;,
+	        characterList: List(Repeat(CharacterMetadata.EMPTY, block.length))
+	      });
+	    });
+	    return ContentState.<span class="apidocCodeKeywordSpan">createFromBlockArray</span>(blocks);
+	  };
 
-    var entities = decodeEntityRanges(text, filteredEntityRanges);
-    var characterList = createCharacterList(inlineStyles, entities);
+	  return ContentState;
+	}(ContentStateRecord);
 
-    return new ContentBlock({ key: key, type: type, text: text, depth: depth, characterList: characterList, data: data });
-  });
-
-  return ContentState.<span class="apidocCodeKeywordSpan">createFromBlockArray</span>(contentBlocks);
-}
-
-module.exports = convertFromRawToDraftState;
+	module.exports = ContentState;
 ...</pre></li>
     </ul>
 
@@ -4238,7 +4279,24 @@ module.exports = convertFromRawToDraftState;
   });
   return ContentState.createFromBlockArray(blocks);
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+	  undoStack: Stack()
+	};
+
+	var EditorStateRecord = Record(defaultRecord);
+
+	var EditorState = function () {
+	  EditorState.createEmpty = function createEmpty(decorator) {
+	    return EditorState.createWithContent(ContentState.<span class="apidocCodeKeywordSpan">createFromText</span>(&#x27;&#x27;),
+decorator);
+	  };
+
+	  EditorState.createWithContent = function createWithContent(contentState, decorator) {
+	    var firstKey = contentState.getBlockMap().first().getKey();
+	    return EditorState.create({
+	      currentContent: contentState,
+	      undoStack: Stack(),
+...</pre></li>
     </ul>
 
 
@@ -4294,7 +4352,23 @@ module.exports = convertFromRawToDraftState;
     return k === key;
   }).skip(1).first();
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+	    var length = block.getLength();
+
+	    // The cursor is somewhere within the text. Behave normally.
+	    if (selection.getStartOffset() &#x3c; length) {
+	      return null;
+	    }
+
+	    var blockAfter = content.<span class="apidocCodeKeywordSpan">getBlockAfter</span>(startKey);
+
+	    if (!blockAfter || blockAfter.getType() !== &#x27;atomic&#x27;) {
+	      return null;
+	    }
+
+	    var atomicBlockTarget = selection.merge({
+	      focusKey: blockAfter.getKey(),
+...</pre></li>
     </ul>
 
 
@@ -4311,7 +4385,23 @@ module.exports = convertFromRawToDraftState;
     return k === key;
   }).skip(1).first();
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+	  }
+
+	  // Otherwise, look upward in the document to find the closest character.
+	  return lookUpwardForInlineStyle(content, startKey);
+	}
+
+	function lookUpwardForInlineStyle(content, fromKey) {
+	  var previousBlock = content.<span class="apidocCodeKeywordSpan">getBlockBefore</span>(fromKey);
+	  var previousLength;
+
+	  while (previousBlock) {
+	    previousLength = previousBlock.getLength();
+	    if (previousLength) {
+	      return previousBlock.getInlineStyleAt(previousLength - 1);
+	    }
+...</pre></li>
     </ul>
 
 
@@ -4328,21 +4418,21 @@ module.exports = convertFromRawToDraftState;
   return block;
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-  cut: function cut(editorState) {
-var content = editorState.getCurrentContent();
-var selection = editorState.getSelection();
-var targetRange = null;
+	  var lastChangeType = editorState.getLastChangeType();
+	  return changeType !== lastChangeType || changeType !== &#x27;insert-characters&#x27; &#x26;&#x26; changeType !== &#x27;backspace
+-character&#x27; &#x26;&#x26; changeType !== &#x27;delete-character&#x27;;
+	}
 
-if (selection.isCollapsed()) {
-  var anchorKey = selection.getAnchorKey();
-  var blockEnd = content.<span class="apidocCodeKeywordSpan">getBlockForKey</span>(anchorKey).getLength();
+	function getInlineStyleForCollapsedSelection(content, selection) {
+	  var startKey = selection.getStartKey();
+	  var startOffset = selection.getStartOffset();
+	  var startBlock = content.<span class="apidocCodeKeywordSpan">getBlockForKey</span>(startKey);
 
-  if (blockEnd === selection.getAnchorOffset()) {
-    return editorState;
-  }
-
-  targetRange = selection.set(&#x27;focusOffset&#x27;, blockEnd);
-} else {
+	  // If the cursor is not at the start of the block, look backward to
+	  // preserve the style of the preceding character.
+	  if (startOffset &#x3e; 0) {
+	    return startBlock.getInlineStyleAt(startOffset - 1);
+	  }
 ...</pre></li>
     </ul>
 
@@ -4360,20 +4450,20 @@ if (selection.isCollapsed()) {
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
 
-remove: function remove(contentState, selectionState, inlineStyle) {
-  return modifyInlineStyle(contentState, selectionState, inlineStyle, false);
-}
-};
+	var EditorState = function () {
+	  EditorState.createEmpty = function createEmpty(decorator) {
+	    return EditorState.createWithContent(ContentState.createFromText(&#x27;&#x27;), decorator);
+	  };
 
-function modifyInlineStyle(contentState, selectionState, inlineStyle, addOrRemove) {
-var blockMap = contentState.<span class="apidocCodeKeywordSpan">getBlockMap</span>();
-var startKey = selectionState.getStartKey();
-var startOffset = selectionState.getStartOffset();
-var endKey = selectionState.getEndKey();
-var endOffset = selectionState.getEndOffset();
-
-var newBlocks = blockMap.skipUntil(function (_, k) {
-  return k === startKey;
+	  EditorState.createWithContent = function createWithContent(contentState, decorator) {
+	    var firstKey = contentState.<span class="apidocCodeKeywordSpan">getBlockMap</span>().first().getKey();
+	    return EditorState.create({
+	      currentContent: contentState,
+	      undoStack: Stack(),
+	      redoStack: Stack(),
+	      decorator: decorator || null,
+	      selection: SelectionState.createEmpty(firstKey)
+	    });
 ...</pre></li>
     </ul>
 
@@ -4391,20 +4481,20 @@ var newBlocks = blockMap.skipUntil(function (_, k) {
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
 
-var content = editorState.getCurrentContent();
-var selection = editorState.getSelection();
-var forceSelection = editorState.mustForceSelection();
-var decorator = editorState.getDecorator();
-var directionMap = nullthrows(editorState.getDirectionMap());
+	    var content = editorState.getCurrentContent();
+	    var selection = editorState.getSelection();
+	    var forceSelection = editorState.mustForceSelection();
+	    var decorator = editorState.getDecorator();
+	    var directionMap = nullthrows(editorState.getDirectionMap());
 
-var blocksAsArray = content.<span class="apidocCodeKeywordSpan">getBlocksAsArray</span>();
-var processedBlocks = [];
-var currentDepth = null;
-var lastWrapperTemplate = null;
+	    var blocksAsArray = content.<span class="apidocCodeKeywordSpan">getBlocksAsArray</span>();
+	    var processedBlocks = [];
+	    var currentDepth = null;
+	    var lastWrapperTemplate = null;
 
-for (var ii = 0; ii &#x3c; blocksAsArray.length; ii++) {
-  var _block = blocksAsArray[ii];
-  var key = _block.getKey();
+	    for (var ii = 0; ii &#x3c; blocksAsArray.length; ii++) {
+	      var _block = blocksAsArray[ii];
+	      var key = _block.getKey();
 ...</pre></li>
     </ul>
 
@@ -4422,21 +4512,22 @@ for (var ii = 0; ii &#x3c; blocksAsArray.length; ii++) {
   return DraftEntity.__get(key);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-function convertFromDraftStateToRaw(contentState) {
-var entityStorageKey = 0;
-var entityStorageMap = {};
-var rawBlocks = [];
 
-contentState.getBlockMap().forEach(function (block, blockKey) {
-  block.findEntityRanges(function (character) {
-    return character.<span class="apidocCodeKeywordSpan">getEntity</span>() !== null;
-  }, function (start) {
-    // Stringify to maintain order of otherwise numeric keys.
-    var stringifiedEntityKey = DraftStringKey.stringify(block.getEntityAt(start));
-    if (!entityStorageMap.hasOwnProperty(stringifiedEntityKey)) {
-      entityStorageMap[stringifiedEntityKey] = &#x27;&#x27; + entityStorageKey++;
-    }
-  });
+	  CharacterMetadata.removeStyle = function removeStyle(record, style) {
+	    var withoutStyle = record.set(&#x27;style&#x27;, record.getStyle().remove(style));
+	    return CharacterMetadata.create(withoutStyle);
+	  };
+
+	  CharacterMetadata.applyEntity = function applyEntity(record, entityKey) {
+	    var withEntity = record.<span class="apidocCodeKeywordSpan">getEntity</span>() === entityKey ? record : record.set(&#x27;entity
+&#x27;, entityKey);
+	    return CharacterMetadata.create(withEntity);
+	  };
+
+	  /**
+	   * Use this function instead of the `CharacterMetadata` constructor.
+	   * Since most content generally uses only a very small number of
+	   * style/entity permutations, we can reuse these objects as often as
 ...</pre></li>
     </ul>
 
@@ -4454,18 +4545,22 @@ contentState.getBlockMap().forEach(function (block, blockKey) {
   return DraftEntity;
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
- */
+	          nativelyRenderedContent: null
+	        });
+	        return;
+	      }
 
-&#x27;use strict&#x27;;
+	      var existingContent = editorState.getCurrentContent();
+	      if (newContent !== existingContent) {
+	        state.set(&#x27;treeMap&#x27;, regenerateTreeForNewBlocks(editorState, newContent.getBlockMap(), newContent.<span class
+="apidocCodeKeywordSpan">getEntityMap</span>(), decorator));
+	      }
 
-var addEntityToEntityMap = require(&#x27;./addEntityToEntityMap&#x27;);
+	      state.merge(put);
+	    });
 
-function addEntityToContentState(contentState, instance) {
-  return contentState.set(&#x27;entityMap&#x27;, addEntityToEntityMap(contentState.<span class="apidocCodeKeywordSpan">getEntityMap
-</span>(), instance));
-}
-
-module.exports = addEntityToContentState;
+	    return new EditorState(map);
+	  };
 ...</pre></li>
     </ul>
 
@@ -4481,7 +4576,24 @@ module.exports = addEntityToContentState;
     <li>description and source-code<pre class="apidocCodePre">function getFirstBlock() {
   return this.getBlockMap().first();
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+* Match Chrome `&#x3c;textarea&#x3e;` behavior during &#x3c;kbd&#x3e;cmd&#x3c;/kbd&#x3e;+&#x3c;kbd&#x3e;backspace&#x3c;/kbd&#x3e
+;
+command at visual line-start
+
+## 0.6.0 (April 27, 2016)
+
+### Added
+
+* `ContentState.<span class="apidocCodeKeywordSpan">getFirstBlock</span>()` convenience method
+
+### Changed
+
+* &#x3c;kbd&#x3e;return&#x3c;/kbd&#x3e; key handling now goes through command flow to enable easier
+custom `&#x27;split-block&#x27;` handling.
+* `convertFromRaw` now returns a `ContentState` object instead of an
+`Array&#x3c;ContentBlock&#x3e;`
+...</pre></li>
     </ul>
 
 
@@ -4500,20 +4612,20 @@ module.exports = addEntityToContentState;
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
 
-  var focusKey = key;
-  var focusOffset;
+	  var focusKey = key;
+	  var focusOffset;
 
-  var block = content.getBlockForKey(key);
+	  var block = content.getBlockForKey(key);
 
-  if (maxDistance &#x3e; block.getText().length - offset) {
-    focusKey = content.<span class="apidocCodeKeywordSpan">getKeyAfter</span>(key);
-    focusOffset = 0;
-  } else {
-    focusOffset = offset + maxDistance;
-  }
+	  if (maxDistance &#x3e; block.getText().length - offset) {
+	    focusKey = content.<span class="apidocCodeKeywordSpan">getKeyAfter</span>(key);
+	    focusOffset = 0;
+	  } else {
+	    focusOffset = offset + maxDistance;
+	  }
 
-  return selection.merge({ focusKey: focusKey, focusOffset: focusOffset });
-}
+	  return selection.merge({ focusKey: focusKey, focusOffset: focusOffset });
+	}
 ...</pre></li>
     </ul>
 
@@ -4532,21 +4644,21 @@ module.exports = addEntityToContentState;
   }).skip(1).first();
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-var key = selection.getStartKey();
-var offset = selection.getStartOffset();
+	  var key = selection.getStartKey();
+	  var offset = selection.getStartOffset();
 
-var focusKey = key;
-var focusOffset = 0;
+	  var focusKey = key;
+	  var focusOffset = 0;
 
-if (maxDistance &#x3e; offset) {
-  var keyBefore = content.<span class="apidocCodeKeywordSpan">getKeyBefore</span>(key);
-  if (keyBefore == null) {
-    focusKey = key;
-  } else {
-    focusKey = keyBefore;
-    var blockBefore = content.getBlockForKey(keyBefore);
-    focusOffset = blockBefore.getText().length;
-  }
+	  if (maxDistance &#x3e; offset) {
+	    var keyBefore = content.<span class="apidocCodeKeywordSpan">getKeyBefore</span>(key);
+	    if (keyBefore == null) {
+	      focusKey = key;
+	    } else {
+	      focusKey = keyBefore;
+	      var blockBefore = content.getBlockForKey(keyBefore);
+	      focusOffset = blockBefore.getText().length;
+	    }
 ...</pre></li>
     </ul>
 
@@ -4562,7 +4674,23 @@ if (maxDistance &#x3e; offset) {
     <li>description and source-code<pre class="apidocCodePre">function getLastBlock() {
   return this.getBlockMap().last();
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+	  /**
+	   * Move selection to the end of the editor without forcing focus.
+	   */
+
+
+	  EditorState.moveSelectionToEnd = function moveSelectionToEnd(editorState) {
+	    var content = editorState.getCurrentContent();
+	    var lastBlock = content.<span class="apidocCodeKeywordSpan">getLastBlock</span>();
+	    var lastKey = lastBlock.getKey();
+	    var length = lastBlock.getLength();
+
+	    return EditorState.acceptSelection(editorState, new SelectionState({
+	      anchorKey: lastKey,
+	      anchorOffset: length,
+	      focusKey: lastKey,
+...</pre></li>
     </ul>
 
 
@@ -4611,21 +4739,21 @@ if (maxDistance &#x3e; offset) {
   return this.get(&#x27;selectionAfter&#x27;);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-    focusOffset = endOffset + charDelta;
-  }
+	    var directionMap = EditorBidiService.getDirectionMap(contentState, editorState.getDirectionMap());
 
-  // Segmented entities are completely or partially removed when their
-  // text content changes. For this case we do not want any text to be selected
-  // after the change, so we are not merging the selection.
-  var contentWithAdjustedDOMSelection = newContent.merge({
-    selectionBefore: content.<span class="apidocCodeKeywordSpan">getSelectionAfter</span>(),
-    selectionAfter: selection.merge({ anchorOffset: anchorOffset, focusOffset: focusOffset })
-  });
+	    if (!editorState.getAllowUndo()) {
+	      return EditorState.set(editorState, {
+	        currentContent: contentState,
+	        directionMap: directionMap,
+	        lastChangeType: changeType,
+	        selection: contentState.<span class="apidocCodeKeywordSpan">getSelectionAfter</span>(),
+	        forceSelection: forceSelection,
+	        inlineStyleOverride: null
+	      });
+	    }
 
-  editor.update(EditorState.push(editorState, contentWithAdjustedDOMSelection, changeType));
-}
-
-module.exports = editOnInput;
+	    var selection = editorState.getSelection();
+	    var currentContent = editorState.getCurrentContent();
 ...</pre></li>
     </ul>
 
@@ -4641,7 +4769,25 @@ module.exports = editOnInput;
     <li>description and source-code<pre class="apidocCodePre">function getSelectionBefore() {
   return this.get(&#x27;selectionBefore&#x27;);
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+	    var newContent = contentState;
+
+	    if (selection !== currentContent.getSelectionAfter() || mustBecomeBoundary(editorState, changeType)) {
+	      undoStack = undoStack.push(currentContent);
+	      newContent = newContent.set(&#x27;selectionBefore&#x27;, selection);
+	    } else if (changeType === &#x27;insert-characters&#x27; || changeType === &#x27;backspace-character&#x27; || changeType === &#
+x27;delete-character&#x27;) {
+	      // Preserve the previous selection.
+	      newContent = newContent.set(&#x27;selectionBefore&#x27;, currentContent.<span class="apidocCodeKeywordSpan">getSelectionBefore
+</span>());
+	    }
+
+	    var inlineStyleOverride = editorState.getInlineStyleOverride();
+
+	    // Don&#x27;t discard inline style overrides on block type or depth changes.
+	    if (changeType !== &#x27;adjust-depth&#x27; &#x26;&#x26; changeType !== &#x27;change-block-type&#x27;) {
+	      inlineStyleOverride = null;
+...</pre></li>
     </ul>
 
 
@@ -4657,7 +4803,24 @@ module.exports = editOnInput;
   var blockMap = this.getBlockMap();
   return blockMap.size &#x3e; 1 || blockMap.first().getLength() &#x3e; 0;
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+	        var method = _this2._handler &#x26;&#x26; _this2._handler[eventName];
+	        method &#x26;&#x26; method(_this2, e);
+	      }
+	    };
+	  };
+
+	  DraftEditor.prototype._showPlaceholder = function _showPlaceholder() {
+	    return !!this.props.placeholder &#x26;&#x26; !this.props.editorState.isInCompositionMode() &#x26;&#x26; !this.props.editorState
+.getCurrentContent().<span class="apidocCodeKeywordSpan">hasText</span>();
+	  };
+
+	  DraftEditor.prototype._renderPlaceholder = function _renderPlaceholder() {
+	    if (this._showPlaceholder()) {
+	      return React.createElement(DraftEditorPlaceholder, {
+	        text: nullthrows(this.props.placeholder),
+	        editorState: this.props.editorState,
+...</pre></li>
     </ul>
 
 
@@ -4712,21 +4875,21 @@ module.exports = editOnInput;
   return modifyInlineStyle(contentState, selectionState, inlineStyle, true);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-function getBlockMapSupportedTags(blockRenderMap) {
-var unstyledElement = blockRenderMap.get(&#x27;unstyled&#x27;).element;
-var tags = new Set([]);
+	    var withoutEntities = removeEntitiesAtEdges(contentState, selectionState);
+	    var withoutText = removeRangeFromContentState(withoutEntities, selectionState);
 
-blockRenderMap.forEach(function (draftBlock) {
-  if (draftBlock.aliasedElements) {
-    draftBlock.aliasedElements.forEach(function (tag) {
-      tags = tags.<span class="apidocCodeKeywordSpan">add</span>(tag);
-    });
-  }
+	    return splitBlockInContentState(withoutText, withoutText.getSelectionAfter());
+	  },
 
-  tags = tags.add(draftBlock.element);
-});
+	  applyInlineStyle: function applyInlineStyle(contentState, selectionState, inlineStyle) {
+	    return ContentStateInlineStyle.<span class="apidocCodeKeywordSpan">add</span>(contentState, selectionState, inlineStyle);
+	  },
 
-return tags.filter(function (tag) {
+	  removeInlineStyle: function removeInlineStyle(contentState, selectionState, inlineStyle) {
+	    return ContentStateInlineStyle.remove(contentState, selectionState, inlineStyle);
+	  },
+
+	  setBlockType: function setBlockType(contentState, selectionState, blockType) {
 ...</pre></li>
     </ul>
 
@@ -4743,21 +4906,21 @@ return tags.filter(function (tag) {
   return modifyInlineStyle(contentState, selectionState, inlineStyle, false);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-var fontWeight = htmlElement.style.fontWeight;
-var fontStyle = htmlElement.style.fontStyle;
-var textDecoration = htmlElement.style.textDecoration;
+	  },
 
-if (boldValues.indexOf(fontWeight) &#x3e;= 0) {
-  style.add(&#x27;BOLD&#x27;);
-} else if (notBoldValues.indexOf(fontWeight) &#x3e;= 0) {
-  style.<span class="apidocCodeKeywordSpan">remove</span>(&#x27;BOLD&#x27;);
-}
+	  applyInlineStyle: function applyInlineStyle(contentState, selectionState, inlineStyle) {
+	    return ContentStateInlineStyle.add(contentState, selectionState, inlineStyle);
+	  },
 
-if (fontStyle === &#x27;italic&#x27;) {
-  style.add(&#x27;ITALIC&#x27;);
-} else if (fontStyle === &#x27;normal&#x27;) {
-  style.remove(&#x27;ITALIC&#x27;);
-}
+	  removeInlineStyle: function removeInlineStyle(contentState, selectionState, inlineStyle) {
+	    return ContentStateInlineStyle.<span class="apidocCodeKeywordSpan">remove</span>(contentState, selectionState, inlineStyle);
+	  },
+
+	  setBlockType: function setBlockType(contentState, selectionState, blockType) {
+	    return modifyBlockForContentState(contentState, selectionState, function (block) {
+	      return block.merge({ type: blockType, depth: 0 });
+	    });
+	  },
 ...</pre></li>
     </ul>
 
@@ -4910,21 +5073,21 @@ if (fontStyle === &#x27;italic&#x27;) {
   }
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
- * Google Input Tools on Windows 8.1 fires `compositionend` three times.
- */
-onCompositionEnd: function onCompositionEnd(editor) {
-  resolved = false;
-  stillComposing = false;
-  setTimeout(function () {
-    if (!resolved) {
-      DraftEditorCompositionHandler.<span class="apidocCodeKeywordSpan">resolveComposition</span>(editor);
-    }
-  }, RESOLVE_DELAY);
-},
+	   * Google Input Tools on Windows 8.1 fires `compositionend` three times.
+	   */
+	  onCompositionEnd: function onCompositionEnd(editor) {
+	    resolved = false;
+	    stillComposing = false;
+	    setTimeout(function () {
+	      if (!resolved) {
+	        DraftEditorCompositionHandler.<span class="apidocCodeKeywordSpan">resolveComposition</span>(editor);
+	      }
+	    }, RESOLVE_DELAY);
+	  },
 
-/**
- * In Safari, keydown events may fire when committing compositions. If
- * the arrow keys are used to commit, prevent default so that the cursor
+	  /**
+	   * In Safari, keydown events may fire when committing compositions. If
+	   * the arrow keys are used to commit, prevent default so that the cursor
 ...</pre></li>
     </ul>
 
@@ -5943,22 +6106,22 @@ editor.props.onFocus &#x26;&#x26; editor.props.<span class="apidocCodeKeywordSpa
   setDraftEditorSelection(selection, targetNode, blockKey, start, end);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-};
+	  };
 
-DraftEditorLeaf.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps) {
-  return ReactDOM.findDOMNode(this.refs.leaf).textContent !== nextProps.text || nextProps.styleSet !== this.props.styleSet || nextProps
-.forceSelection;
-};
+	  DraftEditorLeaf.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps) {
+	    return ReactDOM.findDOMNode(this.refs.leaf).textContent !== nextProps.text || nextProps.styleSet !== this.props.styleSet ||
+nextProps.forceSelection;
+	  };
 
-DraftEditorLeaf.prototype.componentDidUpdate = function componentDidUpdate() {
-  this.<span class="apidocCodeKeywordSpan">_setSelection</span>();
-};
+	  DraftEditorLeaf.prototype.componentDidUpdate = function componentDidUpdate() {
+	    this.<span class="apidocCodeKeywordSpan">_setSelection</span>();
+	  };
 
-DraftEditorLeaf.prototype.componentDidMount = function componentDidMount() {
-  this._setSelection();
-};
+	  DraftEditorLeaf.prototype.componentDidMount = function componentDidMount() {
+	    this._setSelection();
+	  };
 
-DraftEditorLeaf.prototype.render = function render() {
+	  DraftEditorLeaf.prototype.render = function render() {
 ...</pre></li>
     </ul>
 
@@ -6399,20 +6562,21 @@ slice(entityRange.start, entityRange.end), entityRange.start, direction);
   };
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-  return;
-}
+	      /*eslint-disable no-console */
+	      console.warn(&#x27;Invalid selection state.&#x27;, arguments, editorState.toJS());
+	      /*eslint-enable no-console */
+	      return selection;
+	    }
+	  }
 
-var domText = anchorNode.textContent;
-var editorState = editor._latestEditorState;
-var offsetKey = nullthrows(findAncestorOffsetKey(anchorNode));
+	  var anchorPath = DraftOffsetKey.<span class="apidocCodeKeywordSpan">decode</span>(anchorKey);
+	  var anchorBlockKey = anchorPath.blockKey;
+	  var anchorLeaf = editorState.getBlockTree(anchorBlockKey).getIn([anchorPath.decoratorKey, &#x27;leaves&#x27;, anchorPath.leafKey
+]);
 
-var _DraftOffsetKey$decod = DraftOffsetKey.<span class="apidocCodeKeywordSpan">decode</span>(offsetKey);
-
-var blockKey = _DraftOffsetKey$decod.blockKey;
-var decoratorKey = _DraftOffsetKey$decod.decoratorKey;
-var leafKey = _DraftOffsetKey$decod.leafKey;
-
-var _editorState$getBlock = editorState.getBlockTree(blockKey).getIn([decoratorKey, &#x27;leaves&#x27;, leafKey]);
+	  var focusPath = DraftOffsetKey.decode(focusKey);
+	  var focusBlockKey = focusPath.blockKey;
+	  var focusLeaf = editorState.getBlockTree(focusBlockKey).getIn([focusPath.decoratorKey, &#x27;leaves&#x27;, focusPath.leafKey]);
 ...</pre></li>
     </ul>
 
@@ -6429,21 +6593,21 @@ var _editorState$getBlock = editorState.getBlockTree(blockKey).getIn([decoratorK
   return blockKey + KEY_DELIMITER + decoratorKey + KEY_DELIMITER + leafKey;
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-if (customRenderer) {
-  CustomComponent = customRenderer.component;
-  customProps = customRenderer.props;
-  customEditable = customRenderer.editable;
-}
+	    var lastLeafSet = this.props.tree.size - 1;
+	    var hasSelection = isBlockOnSelectionEdge(this.props.selection, blockKey);
 
-var direction = directionMap.get(key);
-var offsetKey = DraftOffsetKey.<span class="apidocCodeKeywordSpan">encode</span>(key, 0, 0);
-var componentProps = {
-  contentState: content,
-  block: _block,
-  blockProps: customProps,
-  customStyleMap: customStyleMap,
-  customStyleFn: customStyleFn,
-  decorator: decorator,
+	    return this.props.tree.map(function (leafSet, ii) {
+	      var leavesForLeafSet = leafSet.get(&#x27;leaves&#x27;);
+	      var lastLeaf = leavesForLeafSet.size - 1;
+	      var leaves = leavesForLeafSet.map(function (leaf, jj) {
+	        var offsetKey = DraftOffsetKey.<span class="apidocCodeKeywordSpan">encode</span>(blockKey, ii, jj);
+	        var start = leaf.get(&#x27;start&#x27;);
+	        var end = leaf.get(&#x27;end&#x27;);
+	        return React.createElement(DraftEditorLeaf, {
+	          key: offsetKey,
+	          offsetKey: offsetKey,
+	          blockKey: blockKey,
+	          start: start,
 ...</pre></li>
     </ul>
 
@@ -6767,20 +6931,20 @@ entityKeys.forEach(function (key, jj) {
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
 
-var configForType = blockRenderMap.get(blockType);
-var wrapperTemplate = configForType.wrapper;
+	      var configForType = blockRenderMap.get(blockType);
+	      var wrapperTemplate = configForType.wrapper;
 
-var _Element = configForType.element || blockRenderMap.get(&#x27;unstyled&#x27;).element;
+	      var _Element = configForType.element || blockRenderMap.get(&#x27;unstyled&#x27;).element;
 
-var depth = _block.getDepth();
-var className = this.props.<span class="apidocCodeKeywordSpan">blockStyleFn</span>(_block);
+	      var depth = _block.getDepth();
+	      var className = this.props.<span class="apidocCodeKeywordSpan">blockStyleFn</span>(_block);
 
-// List items are special snowflakes, since we handle nesting and
-// counters manually.
-if (_Element === &#x27;li&#x27;) {
-  var shouldResetCount = lastWrapperTemplate !== wrapperTemplate || currentDepth === null || depth &#x3e; currentDepth;
-  className = joinClasses(className, getListItemClasses(blockType, depth, shouldResetCount, direction));
-}
+	      // List items are special snowflakes, since we handle nesting and
+	      // counters manually.
+	      if (_Element === &#x27;li&#x27;) {
+	        var shouldResetCount = lastWrapperTemplate !== wrapperTemplate || currentDepth === null || depth &#x3e; currentDepth;
+	        className = joinClasses(className, getListItemClasses(blockType, depth, shouldResetCount, direction));
+	      }
 ...</pre></li>
     </ul>
 
@@ -6912,7 +7076,23 @@ if (command === &#x27;undo&#x27;) {
     }
   };
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+	    _this._clipboard = null;
+	    _this._handler = null;
+	    _this._dragCount = 0;
+	    _this._editorKey = generateRandomKey();
+	    _this._placeholderAccessibilityID = &#x27;placeholder-&#x27; + _this._editorKey;
+	    _this._latestEditorState = props.editorState;
+
+	    _this._onBeforeInput = _this.<span class="apidocCodeKeywordSpan">_buildHandler</span>(&#x27;onBeforeInput&#x27;);
+	    _this._onBlur = _this._buildHandler(&#x27;onBlur&#x27;);
+	    _this._onCharacterData = _this._buildHandler(&#x27;onCharacterData&#x27;);
+	    _this._onCompositionEnd = _this._buildHandler(&#x27;onCompositionEnd&#x27;);
+	    _this._onCompositionStart = _this._buildHandler(&#x27;onCompositionStart&#x27;);
+	    _this._onCopy = _this._buildHandler(&#x27;onCopy&#x27;);
+	    _this._onCut = _this._buildHandler(&#x27;onCut&#x27;);
+	    _this._onDragEnd = _this._buildHandler(&#x27;onDragEnd&#x27;);
+...</pre></li>
     </ul>
 
 
@@ -6968,7 +7148,23 @@ if (command === &#x27;undo&#x27;) {
     this.update(EditorState.forceSelection(editorState, editorState.getSelection()));
   }
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+	   */
+
+
+	  DraftEditor.prototype._restoreEditorDOM = function _restoreEditorDOM(scrollPosition) {
+	    var _this3 = this;
+
+	    this.setState({ containerKey: this.state.containerKey + 1 }, function () {
+	      _this3.<span class="apidocCodeKeywordSpan">_focus</span>(scrollPosition);
+	    });
+	  };
+
+	  /**
+	   * Used via `this.setClipboard(...)`.
+	   *
+	   * Set the clipboard state for a cut/copy event.
+...</pre></li>
     </ul>
 
 
@@ -7039,7 +7235,23 @@ if (command === &#x27;undo&#x27;) {
   }
   return null;
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+	      whiteSpace: &#x27;pre-wrap&#x27;,
+	      wordWrap: &#x27;break-word&#x27;
+	    };
+
+	    return React.createElement(
+	      &#x27;div&#x27;,
+	      { className: rootClass },
+	      this.<span class="apidocCodeKeywordSpan">_renderPlaceholder</span>(),
+	      React.createElement(
+	        &#x27;div&#x27;,
+	        {
+	          className: cx(&#x27;DraftEditor/editorContainer&#x27;),
+	          key: &#x27;editor&#x27; + this.state.containerKey,
+	          ref: &#x27;editorContainer&#x27; },
+	        React.createElement(
+...</pre></li>
     </ul>
 
 
@@ -7104,7 +7316,24 @@ if (command === &#x27;undo&#x27;) {
   return !!this.props.placeholder &#x26;&#x26; !this.props.editorState.isInCompositionMode() &#x26;&#x26; !this.props.editorState.getCurrentContent().
 hasText();
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+	  };
+
+	  DraftEditor.prototype._showPlaceholder = function _showPlaceholder() {
+	    return !!this.props.placeholder &#x26;&#x26; !this.props.editorState.isInCompositionMode() &#x26;&#x26; !this.props.editorState
+.getCurrentContent().hasText();
+	  };
+
+	  DraftEditor.prototype._renderPlaceholder = function _renderPlaceholder() {
+	    if (this.<span class="apidocCodeKeywordSpan">_showPlaceholder</span>()) {
+	      return React.createElement(DraftEditorPlaceholder, {
+	        text: nullthrows(this.props.placeholder),
+	        editorState: this.props.editorState,
+	        textAlignment: this.props.textAlignment,
+	        accessibilityID: this._placeholderAccessibilityID
+	      });
+	    }
+...</pre></li>
     </ul>
 
 
@@ -7322,20 +7551,21 @@ Because Draft.js supports unicode, you must have the following meta tag in the `
   return bidiMap;
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-return _possibleConstructorReturn(this, _React$Component.apply(this, arguments));
-  }
 
-  DraftEditorContents.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps) {
-var prevEditorState = this.props.editorState;
-var nextEditorState = nextProps.editorState;
+	  EditorState.create = function create(config) {
+	    var currentContent = config.currentContent;
+	    var decorator = config.decorator;
 
-var prevDirectionMap = prevEditorState.<span class="apidocCodeKeywordSpan">getDirectionMap</span>();
-var nextDirectionMap = nextEditorState.getDirectionMap();
+	    var recordConfig = _extends({}, config, {
+	      treeMap: generateNewTreeMap(currentContent, decorator),
+	      directionMap: EditorBidiService.<span class="apidocCodeKeywordSpan">getDirectionMap</span>(currentContent)
+	    });
+	    return new EditorState(new EditorStateRecord(recordConfig));
+	  };
 
-// Text direction has changed for one or more blocks. We must re-render.
-if (prevDirectionMap !== nextDirectionMap) {
-  return true;
-}
+	  EditorState.set = function set(editorState, put) {
+	    var map = editorState.getImmutable().withMutations(function (state) {
+	      var existingDecorator = state.get(&#x27;decorator&#x27;);
 ...</pre></li>
     </ul>
 
@@ -7443,7 +7673,23 @@ if (prevDirectionMap !== nextDirectionMap) {
     );
   }).toArray();
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+	      &#x27;public/DraftStyleDefault/ltr&#x27;: direction === &#x27;LTR&#x27;,
+	      &#x27;public/DraftStyleDefault/rtl&#x27;: direction === &#x27;RTL&#x27;
+	    });
+
+	    return React.createElement(
+	      &#x27;div&#x27;,
+	      { &#x27;data-offset-key&#x27;: offsetKey, className: className },
+	      this.<span class="apidocCodeKeywordSpan">_renderChildren</span>()
+	    );
+	  };
+
+	  return DraftEditorBlock;
+	}(React.Component);
+
+	/**
+...</pre></li>
     </ul>
 
 
@@ -7583,17 +7829,21 @@ Because Draft.js supports unicode, you must have the following meta tag in the `
   return updateSelection(editorState, selection, false);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-  var currentSelection = editorState.getSelection();
-  if (!currentSelection.getHasFocus()) {
-    return;
-  }
 
-  var selection = currentSelection.set(&#x27;hasFocus&#x27;, false);
-  editor.props.onBlur &#x26;&#x26; editor.props.onBlur(e);
-  editor.update(EditorState.<span class="apidocCodeKeywordSpan">acceptSelection</span>(editorState, selection));
-}
+	  EditorState.moveSelectionToEnd = function moveSelectionToEnd(editorState) {
+	    var content = editorState.getCurrentContent();
+	    var lastBlock = content.getLastBlock();
+	    var lastKey = lastBlock.getKey();
+	    var length = lastBlock.getLength();
 
-module.exports = editOnBlur;
+	    return EditorState.<span class="apidocCodeKeywordSpan">acceptSelection</span>(editorState, new SelectionState({
+	      anchorKey: lastKey,
+	      anchorOffset: length,
+	      focusKey: lastKey,
+	      focusOffset: length,
+	      isBackward: false
+	    }));
+	  };
 ...</pre></li>
     </ul>
 
@@ -7617,29 +7867,21 @@ module.exports = editOnBlur;
   return new EditorState(new EditorStateRecord(recordConfig));
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
+	var EditorState = function () {
+	  EditorState.createEmpty = function createEmpty(decorator) {
+	    return EditorState.createWithContent(ContentState.createFromText(&#x27;&#x27;), decorator);
+	  };
 
-var _extends = _assign || function (target) { for (var i = 1; i &#x3c; arguments.length; i++) { var source = arguments[i]; for (
-var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(&#x22;Cannot call
- a class as a function&#x22;); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError(&#x22;this hasn&#x27;t been initialised -
-super() hasn&#x27;t been called&#x22;); } return call &#x26;&#x26; (typeof call === &#x22;object&#x22; || typeof call === &#x22;
-function&#x22;) ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== &#x22;function&#x22; &#x26;&#x26; superClass !== null) { throw
- new TypeError(&#x22;Super expression must either be null or a function, not &#x22; + typeof superClass); } subClass.prototype =
-Object.<span class="apidocCodeKeywordSpan">create</span>(superClass &#x26;&#x26; superClass.prototype, { constructor: { value: subClass
-, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass
-, superClass) : subClass.__proto__ = superClass; }
-
-var DraftEditorBlock = require(&#x27;./DraftEditorBlock.react&#x27;);
-var DraftOffsetKey = require(&#x27;./DraftOffsetKey&#x27;);
-var EditorState = require(&#x27;./EditorState&#x27;);
-var React = require(&#x27;react&#x27;);
-
-var cx = require(&#x27;fbjs/lib/cx&#x27;);
+	  EditorState.createWithContent = function createWithContent(contentState, decorator) {
+	    var firstKey = contentState.getBlockMap().first().getKey();
+	    return EditorState.<span class="apidocCodeKeywordSpan">create</span>({
+	      currentContent: contentState,
+	      undoStack: Stack(),
+	      redoStack: Stack(),
+	      decorator: decorator || null,
+	      selection: SelectionState.createEmpty(firstKey)
+	    });
+	  };
 ...</pre></li>
     </ul>
 
@@ -7694,21 +7936,22 @@ render() {
   });
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-var contentState = new ContentState({
-  blockMap: blockMap,
-  entityMap: Immutable.OrderedMap(),
-  selectionBefore: selectionState,
-  selectionAfter: selectionState
-});
+	  undoStack: Stack()
+	};
 
-var editorState = EditorState.<span class="apidocCodeKeywordSpan">createWithContent</span>(contentState);
-editorState = EditorState.forceSelection(editorState, selectionState);
+	var EditorStateRecord = Record(defaultRecord);
 
-function getSampleStateForTesting() {
-  return { editorState: editorState, contentState: contentState, selectionState: selectionState };
-}
+	var EditorState = function () {
+	  EditorState.createEmpty = function createEmpty(decorator) {
+	    return EditorState.<span class="apidocCodeKeywordSpan">createWithContent</span>(ContentState.createFromText(&#x27;&#x27;),
+decorator);
+	  };
 
-module.exports = getSampleStateForTesting;
+	  EditorState.createWithContent = function createWithContent(contentState, decorator) {
+	    var firstKey = contentState.getBlockMap().first().getKey();
+	    return EditorState.create({
+	      currentContent: contentState,
+	      undoStack: Stack(),
 ...</pre></li>
     </ul>
 
@@ -7728,17 +7971,22 @@ module.exports = getSampleStateForTesting;
   return updateSelection(editorState, selection, true);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
+	   * where we want to programmatically focus the input and it makes sense
+	   * to allow the user to continue working seamlessly.
+	   */
 
-  // When the tab containing this text editor is hidden and the user does a
-  // find-in-page in a _different_ tab, Chrome on Mac likes to forget what the
-  // selection was right after sending this focus event and (if you let it)
-  // moves the cursor back to the beginning of the editor, so we force the
-  // selection here instead of simply accepting it in order to preserve the
-  // old cursor position. See https://crbug.com/540004.
-  editor.update(EditorState.<span class="apidocCodeKeywordSpan">forceSelection</span>(editorState, selection));
-}
 
-module.exports = editOnFocus;
+	  EditorState.moveFocusToEnd = function moveFocusToEnd(editorState) {
+	    var afterSelectionMove = EditorState.moveSelectionToEnd(editorState);
+	    return EditorState.<span class="apidocCodeKeywordSpan">forceSelection</span>(afterSelectionMove, afterSelectionMove.getSelection
+());
+	  };
+
+	  /**
+	   * Push the current ContentState onto the undo stack if it should be
+	   * considered a boundary state, and set the provided ContentState as the
+	   * new current content.
+	   */
 ...</pre></li>
     </ul>
 
@@ -7781,7 +8029,23 @@ module.exports = editOnFocus;
     isBackward: false
   }));
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+	   * Force focus to the end of the editor. This is useful in scenarios
+	   * where we want to programmatically focus the input and it makes sense
+	   * to allow the user to continue working seamlessly.
+	   */
+
+
+	  EditorState.moveFocusToEnd = function moveFocusToEnd(editorState) {
+	    var afterSelectionMove = EditorState.<span class="apidocCodeKeywordSpan">moveSelectionToEnd</span>(editorState);
+	    return EditorState.forceSelection(afterSelectionMove, afterSelectionMove.getSelection());
+	  };
+
+	  /**
+	   * Push the current ContentState onto the undo stack if it should be
+	   * considered a boundary state, and set the provided ContentState as the
+	   * new current content.
+...</pre></li>
     </ul>
 
 
@@ -7847,19 +8111,21 @@ module.exports = editOnFocus;
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
 
-var leafSets = [];
-var decorations = decorator ? decorator.getDecorations(block, contentState) : List(Repeat(null, textLength));
+	    var selection = editorState.getSelection();
+	    var currentContent = editorState.getCurrentContent();
+	    var undoStack = editorState.getUndoStack();
+	    var newContent = contentState;
 
-var chars = block.getCharacterList();
+	    if (selection !== currentContent.getSelectionAfter() || mustBecomeBoundary(editorState, changeType)) {
+	      undoStack = undoStack.<span class="apidocCodeKeywordSpan">push</span>(currentContent);
+	      newContent = newContent.set(&#x27;selectionBefore&#x27;, selection);
+	    } else if (changeType === &#x27;insert-characters&#x27; || changeType === &#x27;backspace-character&#x27; || changeType === &#
+x27;delete-character&#x27;) {
+	      // Preserve the previous selection.
+	      newContent = newContent.set(&#x27;selectionBefore&#x27;, currentContent.getSelectionBefore());
+	    }
 
-findRangesImmutable(decorations, areEqual, returnTrue, function (start, end) {
-  leafSets.<span class="apidocCodeKeywordSpan">push</span>(new DecoratorRange({
-    start: start,
-    end: end,
-    decoratorKey: decorations.get(start),
-    leaves: generateLeaves(chars.slice(start, end).toList(), start)
-  }));
-});
+	    var inlineStyleOverride = editorState.getInlineStyleOverride();
 ...</pre></li>
     </ul>
 
@@ -7967,22 +8233,22 @@ switch (command) {
   return new EditorState(map);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-    sliceEnd = blockKey === endKey ? endOffset : block.getLength();
-  }
+	          nativelyRenderedContent: null
+	        });
+	        return;
+	      }
 
-  var chars = block.getCharacterList();
-  var current;
-  while (sliceStart &#x3c; sliceEnd) {
-    current = chars.get(sliceStart);
-    chars = chars.<span class="apidocCodeKeywordSpan">set</span>(sliceStart, addOrRemove ? CharacterMetadata.applyStyle(current,
-inlineStyle) : CharacterMetadata.removeStyle(current, inlineStyle));
-    sliceStart++;
-  }
+	      var existingContent = editorState.getCurrentContent();
+	      if (newContent !== existingContent) {
+	        state.<span class="apidocCodeKeywordSpan">set</span>(&#x27;treeMap&#x27;, regenerateTreeForNewBlocks(editorState, newContent
+.getBlockMap(), newContent.getEntityMap(), decorator));
+	      }
 
-  return block.set(&#x27;characterList&#x27;, chars);
-});
+	      state.merge(put);
+	    });
 
-return contentState.merge({
+	    return new EditorState(map);
+	  };
 ...</pre></li>
     </ul>
 
@@ -7998,7 +8264,23 @@ return contentState.merge({
     <li>description and source-code<pre class="apidocCodePre">function setInlineStyleOverride(editorState, inlineStyleOverride) {
   return EditorState.set(editorState, { inlineStyleOverride: inlineStyleOverride });
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+	    var selection = editorState.getSelection();
+	    var currentStyle = editorState.getCurrentInlineStyle();
+
+	    // If the selection is collapsed, toggle the specified style on or off and
+	    // set the result as the new inline style override. This will then be
+	    // used as the inline style for the next character to be inserted.
+	    if (selection.isCollapsed()) {
+	      return EditorState.<span class="apidocCodeKeywordSpan">setInlineStyleOverride</span>(editorState, currentStyle.has(inlineStyle
+) ? currentStyle.remove(inlineStyle) : currentStyle.add(inlineStyle));
+	    }
+
+	    // If characters are selected, immediately apply or remove the
+	    // inline style on the document state itself.
+	    var content = editorState.getCurrentContent();
+	    var newContent;
+...</pre></li>
     </ul>
 
 
@@ -8072,7 +8354,23 @@ if (editorState.getLastChangeType() === &#x27;spellcheck-change&#x27;) {
     <li>description and source-code<pre class="apidocCodePre">function getAllowUndo() {
   return this.getImmutable().get(&#x27;allowUndo&#x27;);
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+	    if (editorState.getCurrentContent() === contentState) {
+	      return editorState;
+	    }
+
+	    var forceSelection = changeType !== &#x27;insert-characters&#x27;;
+	    var directionMap = EditorBidiService.getDirectionMap(contentState, editorState.getDirectionMap());
+
+	    if (!editorState.<span class="apidocCodeKeywordSpan">getAllowUndo</span>()) {
+	      return EditorState.set(editorState, {
+	        currentContent: contentState,
+	        directionMap: directionMap,
+	        lastChangeType: changeType,
+	        selection: contentState.getSelectionAfter(),
+	        forceSelection: forceSelection,
+	        inlineStyleOverride: null
+...</pre></li>
     </ul>
 
 
@@ -8088,20 +8386,22 @@ if (editorState.getLastChangeType() === &#x27;spellcheck-change&#x27;) {
   return this.getImmutable().getIn([&#x27;treeMap&#x27;, blockKey]);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-  customStyleFn: customStyleFn,
-  decorator: decorator,
-  direction: direction,
-  forceSelection: forceSelection,
-  key: key,
-  offsetKey: offsetKey,
-  selection: selection,
-  tree: editorState.<span class="apidocCodeKeywordSpan">getBlockTree</span>(key)
-};
+	      /*eslint-enable no-console */
+	      return selection;
+	    }
+	  }
 
-var configForType = blockRenderMap.get(blockType);
-var wrapperTemplate = configForType.wrapper;
+	  var anchorPath = DraftOffsetKey.decode(anchorKey);
+	  var anchorBlockKey = anchorPath.blockKey;
+	  var anchorLeaf = editorState.<span class="apidocCodeKeywordSpan">getBlockTree</span>(anchorBlockKey).getIn([anchorPath.decoratorKey
+, &#x27;leaves&#x27;, anchorPath.leafKey]);
 
-var _Element = configForType.element || blockRenderMap.get(&#x27;unstyled&#x27;).element;
+	  var focusPath = DraftOffsetKey.decode(focusKey);
+	  var focusBlockKey = focusPath.blockKey;
+	  var focusLeaf = editorState.getBlockTree(focusBlockKey).getIn([focusPath.decoratorKey, &#x27;leaves&#x27;, focusPath.leafKey]);
+
+	  var anchorLeafStart = anchorLeaf.get(&#x27;start&#x27;);
+	  var focusLeafStart = focusLeaf.get(&#x27;start&#x27;);
 ...</pre></li>
     </ul>
 
@@ -8118,21 +8418,22 @@ var _Element = configForType.element || blockRenderMap.get(&#x27;unstyled&#x27;)
   return this.getImmutable().get(&#x27;currentContent&#x27;);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-textInputData = &#x27;&#x27;;
+	      var decorator = existingDecorator;
+	      if (put.decorator === null) {
+	        decorator = null;
+	      } else if (put.decorator) {
+	        decorator = put.decorator;
+	      }
 
-var editorState = EditorState.set(editor._latestEditorState, {
-  inCompositionMode: false
-});
+	      var newContent = put.currentContent || editorState.<span class="apidocCodeKeywordSpan">getCurrentContent</span>();
 
-var currentStyle = editorState.getCurrentInlineStyle();
-var entityKey = getEntityKeyForSelection(editorState.<span class="apidocCodeKeywordSpan">getCurrentContent</span>(), editorState
-.getSelection());
-
-var mustReset = !composedChars || isSelectionAtLeafStart(editorState) || currentStyle.size &#x3e; 0 || entityKey !== null;
-
-if (mustReset) {
-  editor.restoreEditorDOM();
-}
+	      if (decorator !== existingDecorator) {
+	        var treeMap = state.get(&#x27;treeMap&#x27;);
+	        var newTreeMap;
+	        if (decorator &#x26;&#x26; existingDecorator) {
+	          newTreeMap = regenerateTreeForNewDecorator(newContent, newContent.getBlockMap(), treeMap, decorator, existingDecorator
+);
+	        } else {
 ...</pre></li>
     </ul>
 
@@ -8161,21 +8462,21 @@ if (mustReset) {
   return getInlineStyleForNonCollapsedSelection(content, selection);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-var composedChars = textInputData;
-textInputData = &#x27;&#x27;;
+	    var composedChars = textInputData;
+	    textInputData = &#x27;&#x27;;
 
-var editorState = EditorState.set(editor._latestEditorState, {
-  inCompositionMode: false
-});
+	    var editorState = EditorState.set(editor._latestEditorState, {
+	      inCompositionMode: false
+	    });
 
-var currentStyle = editorState.<span class="apidocCodeKeywordSpan">getCurrentInlineStyle</span>();
-var entityKey = getEntityKeyForSelection(editorState.getCurrentContent(), editorState.getSelection());
+	    var currentStyle = editorState.<span class="apidocCodeKeywordSpan">getCurrentInlineStyle</span>();
+	    var entityKey = getEntityKeyForSelection(editorState.getCurrentContent(), editorState.getSelection());
 
-var mustReset = !composedChars || isSelectionAtLeafStart(editorState) || currentStyle.size &#x3e; 0 || entityKey !== null;
+	    var mustReset = !composedChars || isSelectionAtLeafStart(editorState) || currentStyle.size &#x3e; 0 || entityKey !== null;
 
-if (mustReset) {
-  editor.restoreEditorDOM();
-}
+	    if (mustReset) {
+	      editor.restoreEditorDOM();
+	    }
 ...</pre></li>
     </ul>
 
@@ -8192,23 +8493,23 @@ if (mustReset) {
   return this.getImmutable().get(&#x27;decorator&#x27;);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-  // rendered state, there&#x27;s nothing new to be done.
-  if (prevEditorState === nextEditorState || nextNativeContent !== null &#x26;&#x26; nextEditorState.getCurrentContent() === nextNativeContent
- || wasComposing &#x26;&#x26; nowComposing) {
-    return false;
-  }
+	    // rendered state, there&#x27;s nothing new to be done.
+	    if (prevEditorState === nextEditorState || nextNativeContent !== null &#x26;&#x26; nextEditorState.getCurrentContent() ===
+nextNativeContent || wasComposing &#x26;&#x26; nowComposing) {
+	      return false;
+	    }
 
-  var prevContent = prevEditorState.getCurrentContent();
-  var nextContent = nextEditorState.getCurrentContent();
-  var prevDecorator = prevEditorState.<span class="apidocCodeKeywordSpan">getDecorator</span>();
-  var nextDecorator = nextEditorState.getDecorator();
-  return wasComposing !== nowComposing || prevContent !== nextContent || prevDecorator !== nextDecorator || nextEditorState.mustForceSelection
+	    var prevContent = prevEditorState.getCurrentContent();
+	    var nextContent = nextEditorState.getCurrentContent();
+	    var prevDecorator = prevEditorState.<span class="apidocCodeKeywordSpan">getDecorator</span>();
+	    var nextDecorator = nextEditorState.getDecorator();
+	    return wasComposing !== nowComposing || prevContent !== nextContent || prevDecorator !== nextDecorator || nextEditorState.mustForceSelection
 ();
-};
+	  };
 
-DraftEditorContents.prototype.render = function render() {
-  var _props = this.props;
-  var blockRenderMap = _props.blockRenderMap;
+	  DraftEditorContents.prototype.render = function render() {
+	    var _props = this.props;
+	    var blockRenderMap = _props.blockRenderMap;
 ...</pre></li>
     </ul>
 
@@ -8225,20 +8526,21 @@ DraftEditorContents.prototype.render = function render() {
   return this.getImmutable().get(&#x27;directionMap&#x27;);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-return _possibleConstructorReturn(this, _React$Component.apply(this, arguments));
-  }
 
-  DraftEditorContents.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps) {
-var prevEditorState = this.props.editorState;
-var nextEditorState = nextProps.editorState;
+	  EditorState.create = function create(config) {
+	    var currentContent = config.currentContent;
+	    var decorator = config.decorator;
 
-var prevDirectionMap = prevEditorState.<span class="apidocCodeKeywordSpan">getDirectionMap</span>();
-var nextDirectionMap = nextEditorState.getDirectionMap();
+	    var recordConfig = _extends({}, config, {
+	      treeMap: generateNewTreeMap(currentContent, decorator),
+	      directionMap: EditorBidiService.<span class="apidocCodeKeywordSpan">getDirectionMap</span>(currentContent)
+	    });
+	    return new EditorState(new EditorStateRecord(recordConfig));
+	  };
 
-// Text direction has changed for one or more blocks. We must re-render.
-if (prevDirectionMap !== nextDirectionMap) {
-  return true;
-}
+	  EditorState.set = function set(editorState, put) {
+	    var map = editorState.getImmutable().withMutations(function (state) {
+	      var existingDecorator = state.get(&#x27;decorator&#x27;);
 ...</pre></li>
     </ul>
 
@@ -8254,7 +8556,23 @@ if (prevDirectionMap !== nextDirectionMap) {
     <li>description and source-code<pre class="apidocCodePre">function getImmutable() {
   return this._immutable;
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+	      treeMap: generateNewTreeMap(currentContent, decorator),
+	      directionMap: EditorBidiService.getDirectionMap(currentContent)
+	    });
+	    return new EditorState(new EditorStateRecord(recordConfig));
+	  };
+
+	  EditorState.set = function set(editorState, put) {
+	    var map = editorState.<span class="apidocCodeKeywordSpan">getImmutable</span>().withMutations(function (state) {
+	      var existingDecorator = state.get(&#x27;decorator&#x27;);
+	      var decorator = existingDecorator;
+	      if (put.decorator === null) {
+	        decorator = null;
+	      } else if (put.decorator) {
+	        decorator = put.decorator;
+	      }
+...</pre></li>
     </ul>
 
 
@@ -8269,7 +8587,22 @@ if (prevDirectionMap !== nextDirectionMap) {
     <li>description and source-code<pre class="apidocCodePre">function getInlineStyleOverride() {
   return this.getImmutable().get(&#x27;inlineStyleOverride&#x27;);
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+	   * Get the appropriate inline style for the editor state. If an
+	   * override is in place, use it. Otherwise, the current style is
+	   * based on the location of the selection state.
+	   */
+
+
+	  EditorState.prototype.getCurrentInlineStyle = function getCurrentInlineStyle() {
+	    var override = this.<span class="apidocCodeKeywordSpan">getInlineStyleOverride</span>();
+	    if (override != null) {
+	      return override;
+	    }
+
+	    var content = this.getCurrentContent();
+	    var selection = this.getSelection();
+...</pre></li>
     </ul>
 
 
@@ -8285,21 +8618,22 @@ if (prevDirectionMap !== nextDirectionMap) {
   return this.getImmutable().get(&#x27;lastChangeType&#x27;);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-function keyCommandUndo(e, editorState, updateFn) {
-var undoneState = EditorState.undo(editorState);
 
-// If the last change to occur was a spellcheck change, allow the undo
-// event to fall through to the browser. This allows the browser to record
-// the unwanted change, which should soon lead it to learn not to suggest
-// the correction again.
-if (editorState.<span class="apidocCodeKeywordSpan">getLastChangeType</span>() === &#x27;spellcheck-change&#x27;) {
-  var nativelyRenderedContent = undoneState.getCurrentContent();
-  updateFn(EditorState.set(undoneState, { nativelyRenderedContent: nativelyRenderedContent }));
-  return;
-}
+	/**
+	 * Return whether a change should be considered a boundary state, given
+	 * the previous change type. Allows us to discard potential boundary states
+	 * during standard typing or deletion behavior.
+	 */
+	function mustBecomeBoundary(editorState, changeType) {
+	  var lastChangeType = editorState.<span class="apidocCodeKeywordSpan">getLastChangeType</span>();
+	  return changeType !== lastChangeType || changeType !== &#x27;insert-characters&#x27; &#x26;&#x26; changeType !== &#x27;backspace
+-character&#x27; &#x26;&#x26; changeType !== &#x27;delete-character&#x27;;
+	}
 
-// Otheriwse, manage the undo behavior manually.
-e.preventDefault();
+	function getInlineStyleForCollapsedSelection(content, selection) {
+	  var startKey = selection.getStartKey();
+	  var startOffset = selection.getStartOffset();
+	  var startBlock = content.getBlockForKey(startKey);
 ...</pre></li>
     </ul>
 
@@ -8316,22 +8650,22 @@ e.preventDefault();
   return this.getImmutable().get(&#x27;nativelyRenderedContent&#x27;);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-var didHaveFocus = prevEditorState.getSelection().getHasFocus();
-var nowHasFocus = nextEditorState.getSelection().getHasFocus();
+	    var didHaveFocus = prevEditorState.getSelection().getHasFocus();
+	    var nowHasFocus = nextEditorState.getSelection().getHasFocus();
 
-if (didHaveFocus !== nowHasFocus) {
-  return true;
-}
+	    if (didHaveFocus !== nowHasFocus) {
+	      return true;
+	    }
 
-var nextNativeContent = nextEditorState.<span class="apidocCodeKeywordSpan">getNativelyRenderedContent</span>();
+	    var nextNativeContent = nextEditorState.<span class="apidocCodeKeywordSpan">getNativelyRenderedContent</span>();
 
-var wasComposing = prevEditorState.isInCompositionMode();
-var nowComposing = nextEditorState.isInCompositionMode();
+	    var wasComposing = prevEditorState.isInCompositionMode();
+	    var nowComposing = nextEditorState.isInCompositionMode();
 
-// If the state is unchanged or we&#x27;re currently rendering a natively
-// rendered state, there&#x27;s nothing new to be done.
-if (prevEditorState === nextEditorState || nextNativeContent !== null &#x26;&#x26; nextEditorState.getCurrentContent() === nextNativeContent
- || wasComposing &#x26;&#x26; nowComposing) {
+	    // If the state is unchanged or we&#x27;re currently rendering a natively
+	    // rendered state, there&#x27;s nothing new to be done.
+	    if (prevEditorState === nextEditorState || nextNativeContent !== null &#x26;&#x26; nextEditorState.getCurrentContent() ===
+nextNativeContent || wasComposing &#x26;&#x26; nowComposing) {
 ...</pre></li>
     </ul>
 
@@ -8347,7 +8681,23 @@ if (prevEditorState === nextEditorState || nextNativeContent !== null &#x26;&#x2
     <li>description and source-code<pre class="apidocCodePre">function getRedoStack() {
   return this.getImmutable().get(&#x27;redoStack&#x27;);
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+	    var currentContent = editorState.getCurrentContent();
+	    var directionMap = EditorBidiService.getDirectionMap(newCurrentContent, editorState.getDirectionMap());
+
+	    return EditorState.set(editorState, {
+	      currentContent: newCurrentContent,
+	      directionMap: directionMap,
+	      undoStack: undoStack.shift(),
+	      redoStack: editorState.<span class="apidocCodeKeywordSpan">getRedoStack</span>().push(currentContent),
+	      forceSelection: true,
+	      inlineStyleOverride: null,
+	      lastChangeType: &#x27;undo&#x27;,
+	      nativelyRenderedContent: null,
+	      selection: currentContent.getSelectionBefore()
+	    });
+	  };
+...</pre></li>
     </ul>
 
 
@@ -8363,21 +8713,21 @@ if (prevEditorState === nextEditorState || nextNativeContent !== null &#x26;&#x2
   return this.getImmutable().get(&#x27;selection&#x27;);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-textInputData = &#x27;&#x27;;
+	  EditorState.prototype.getCurrentInlineStyle = function getCurrentInlineStyle() {
+	    var override = this.getInlineStyleOverride();
+	    if (override != null) {
+	      return override;
+	    }
 
-var editorState = EditorState.set(editor._latestEditorState, {
-  inCompositionMode: false
-});
+	    var content = this.getCurrentContent();
+	    var selection = this.<span class="apidocCodeKeywordSpan">getSelection</span>();
 
-var currentStyle = editorState.getCurrentInlineStyle();
-var entityKey = getEntityKeyForSelection(editorState.getCurrentContent(), editorState.<span class="apidocCodeKeywordSpan">getSelection
-</span>());
+	    if (selection.isCollapsed()) {
+	      return getInlineStyleForCollapsedSelection(content, selection);
+	    }
 
-var mustReset = !composedChars || isSelectionAtLeafStart(editorState) || currentStyle.size &#x3e; 0 || entityKey !== null;
-
-if (mustReset) {
-  editor.restoreEditorDOM();
-}
+	    return getInlineStyleForNonCollapsedSelection(content, selection);
+	  };
 ...</pre></li>
     </ul>
 
@@ -8393,7 +8743,24 @@ if (mustReset) {
     <li>description and source-code<pre class="apidocCodePre">function getUndoStack() {
   return this.getImmutable().get(&#x27;undoStack&#x27;);
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+	        forceSelection: forceSelection,
+	        inlineStyleOverride: null
+	      });
+	    }
+
+	    var selection = editorState.getSelection();
+	    var currentContent = editorState.getCurrentContent();
+	    var undoStack = editorState.<span class="apidocCodeKeywordSpan">getUndoStack</span>();
+	    var newContent = contentState;
+
+	    if (selection !== currentContent.getSelectionAfter() || mustBecomeBoundary(editorState, changeType)) {
+	      undoStack = undoStack.push(currentContent);
+	      newContent = newContent.set(&#x27;selectionBefore&#x27;, selection);
+	    } else if (changeType === &#x27;insert-characters&#x27; || changeType === &#x27;backspace-character&#x27; || changeType === &#
+x27;delete-character&#x27;) {
+	      // Preserve the previous selection.
+...</pre></li>
     </ul>
 
 
@@ -8409,22 +8776,22 @@ if (mustReset) {
   return this.getImmutable().get(&#x27;inCompositionMode&#x27;);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
+	        var method = _this2._handler &#x26;&#x26; _this2._handler[eventName];
+	        method &#x26;&#x26; method(_this2, e);
+	      }
+	    };
+	  };
 
-if (didHaveFocus !== nowHasFocus) {
-  return true;
-}
+	  DraftEditor.prototype._showPlaceholder = function _showPlaceholder() {
+	    return !!this.props.placeholder &#x26;&#x26; !this.props.editorState.<span class="apidocCodeKeywordSpan">isInCompositionMode
+</span>() &#x26;&#x26; !this.props.editorState.getCurrentContent().hasText();
+	  };
 
-var nextNativeContent = nextEditorState.getNativelyRenderedContent();
-
-var wasComposing = prevEditorState.<span class="apidocCodeKeywordSpan">isInCompositionMode</span>();
-var nowComposing = nextEditorState.isInCompositionMode();
-
-// If the state is unchanged or we&#x27;re currently rendering a natively
-// rendered state, there&#x27;s nothing new to be done.
-if (prevEditorState === nextEditorState || nextNativeContent !== null &#x26;&#x26; nextEditorState.getCurrentContent() === nextNativeContent
- || wasComposing &#x26;&#x26; nowComposing) {
-  return false;
-}
+	  DraftEditor.prototype._renderPlaceholder = function _renderPlaceholder() {
+	    if (this._showPlaceholder()) {
+	      return React.createElement(DraftEditorPlaceholder, {
+	        text: nullthrows(this.props.placeholder),
+	        editorState: this.props.editorState,
 ...</pre></li>
     </ul>
 
@@ -8445,21 +8812,21 @@ if (prevEditorState === nextEditorState || nextNativeContent !== null &#x26;&#x2
   return this.getSelection().hasEdgeWithin(last.getKey(), end, end);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
- */
-function removeTextWithStrategy(editorState, strategy, direction) {
-  var selection = editorState.getSelection();
-  var content = editorState.getCurrentContent();
-  var target = selection;
-  if (selection.isCollapsed()) {
-if (direction === &#x27;forward&#x27;) {
-  if (editorState.<span class="apidocCodeKeywordSpan">isSelectionAtEndOfContent</span>()) {
-    return content;
-  }
-} else if (editorState.isSelectionAtStartOfContent()) {
-  return content;
-}
+	 */
+	function removeTextWithStrategy(editorState, strategy, direction) {
+	  var selection = editorState.getSelection();
+	  var content = editorState.getCurrentContent();
+	  var target = selection;
+	  if (selection.isCollapsed()) {
+	    if (direction === &#x27;forward&#x27;) {
+	      if (editorState.<span class="apidocCodeKeywordSpan">isSelectionAtEndOfContent</span>()) {
+	        return content;
+	      }
+	    } else if (editorState.isSelectionAtStartOfContent()) {
+	      return content;
+	    }
 
-target = strategy(editorState);
+	    target = strategy(editorState);
 ...</pre></li>
     </ul>
 
@@ -8477,21 +8844,21 @@ target = strategy(editorState);
   return this.getSelection().hasEdgeWithin(firstKey, 0, 0);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-  var content = editorState.getCurrentContent();
-  var target = selection;
-  if (selection.isCollapsed()) {
-if (direction === &#x27;forward&#x27;) {
-  if (editorState.isSelectionAtEndOfContent()) {
-    return content;
-  }
-} else if (editorState.<span class="apidocCodeKeywordSpan">isSelectionAtStartOfContent</span>()) {
-  return content;
-}
+	  var content = editorState.getCurrentContent();
+	  var target = selection;
+	  if (selection.isCollapsed()) {
+	    if (direction === &#x27;forward&#x27;) {
+	      if (editorState.isSelectionAtEndOfContent()) {
+	        return content;
+	      }
+	    } else if (editorState.<span class="apidocCodeKeywordSpan">isSelectionAtStartOfContent</span>()) {
+	      return content;
+	    }
 
-target = strategy(editorState);
-if (target === selection) {
-  return content;
-}
+	    target = strategy(editorState);
+	    if (target === selection) {
+	      return content;
+	    }
 ...</pre></li>
     </ul>
 
@@ -8508,22 +8875,22 @@ if (target === selection) {
   return this.getImmutable().get(&#x27;forceSelection&#x27;);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-    return false;
-  }
+	      return false;
+	    }
 
-  var prevContent = prevEditorState.getCurrentContent();
-  var nextContent = nextEditorState.getCurrentContent();
-  var prevDecorator = prevEditorState.getDecorator();
-  var nextDecorator = nextEditorState.getDecorator();
-  return wasComposing !== nowComposing || prevContent !== nextContent || prevDecorator !== nextDecorator || nextEditorState.<span
- class="apidocCodeKeywordSpan">mustForceSelection</span>();
-};
+	    var prevContent = prevEditorState.getCurrentContent();
+	    var nextContent = nextEditorState.getCurrentContent();
+	    var prevDecorator = prevEditorState.getDecorator();
+	    var nextDecorator = nextEditorState.getDecorator();
+	    return wasComposing !== nowComposing || prevContent !== nextContent || prevDecorator !== nextDecorator || nextEditorState.<
+span class="apidocCodeKeywordSpan">mustForceSelection</span>();
+	  };
 
-DraftEditorContents.prototype.render = function render() {
-  var _props = this.props;
-  var blockRenderMap = _props.blockRenderMap;
-  var blockRendererFn = _props.blockRendererFn;
-  var customStyleMap = _props.customStyleMap;
+	  DraftEditorContents.prototype.render = function render() {
+	    var _props = this.props;
+	    var blockRenderMap = _props.blockRenderMap;
+	    var blockRendererFn = _props.blockRendererFn;
+	    var customStyleMap = _props.customStyleMap;
 ...</pre></li>
     </ul>
 
@@ -8540,17 +8907,21 @@ DraftEditorContents.prototype.render = function render() {
   return this.getImmutable().toJS();
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-  var styleList = block.getCharacterList().map(function (c) {
-    return c.getStyle();
-  }).toList();
-  var ranges = styleList.flatten().toSet().map(function (style) {
-    return getEncodedInlinesForType(block, styleList, style);
-  });
+	      state.merge(put);
+	    });
 
-  return Array.prototype.concat.apply(EMPTY_ARRAY, ranges.<span class="apidocCodeKeywordSpan">toJS</span>());
-}
+	    return new EditorState(map);
+	  };
 
-module.exports = encodeInlineStyleRanges;
+	  EditorState.prototype.toJS = function toJS() {
+	    return this.getImmutable().<span class="apidocCodeKeywordSpan">toJS</span>();
+	  };
+
+	  EditorState.prototype.getAllowUndo = function getAllowUndo() {
+	    return this.getImmutable().get(&#x27;allowUndo&#x27;);
+	  };
+
+	  EditorState.prototype.getCurrentContent = function getCurrentContent() {
 ...</pre></li>
     </ul>
 
@@ -8573,7 +8944,23 @@ module.exports = encodeInlineStyleRanges;
   instances = instances.set(key, instance);
   return key;
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+	    // TODO: update this when we fully remove DraftEntity
+	    DraftEntity.__replaceData(key, newData);
+	    return this;
+	  };
+
+	  ContentState.prototype.addEntity = function addEntity(instance) {
+	    // TODO: update this when we fully remove DraftEntity
+	    DraftEntity.<span class="apidocCodeKeywordSpan">__add</span>(instance);
+	    return this;
+	  };
+
+	  ContentState.prototype.getEntity = function getEntity(key) {
+	    // TODO: update this when we fully remove DraftEntity
+	    return DraftEntity.__get(key);
+	  };
+...</pre></li>
     </ul>
 
 
@@ -8589,22 +8976,21 @@ module.exports = encodeInlineStyleRanges;
   return DraftEntity.__add(new DraftEntityInstance({ type: type, mutability: mutability, data: data || {} }));
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-        entityConfig[attr] = imageAttribute;
-      }
-    });
-    var imageURI = new URI(entityConfig.src).toString();
-    node.textContent = imageURI; // Output src if no decorator
+	  ContentState.prototype.hasText = function hasText() {
+	    var blockMap = this.getBlockMap();
+	    return blockMap.size &#x3e; 1 || blockMap.first().getLength() &#x3e; 0;
+	  };
 
-    // TODO: update this when we remove DraftEntity entirely
-    inEntity = DraftEntity.<span class="apidocCodeKeywordSpan">__create</span>(&#x27;IMAGE&#x27;, &#x27;MUTABLE&#x27;, entityConfig
- || {});
-  })();
-}
+	  ContentState.prototype.createEntity = function createEntity(type, mutability, data) {
+	    // TODO: update this when we fully remove DraftEntity
+	    DraftEntity.<span class="apidocCodeKeywordSpan">__create</span>(type, mutability, data);
+	    return this;
+	  };
 
-var chunk = getEmptyChunk();
-var newChunk = null;
-
-// Inline tags
+	  ContentState.prototype.mergeEntityData = function mergeEntityData(key, toMerge) {
+	    // TODO: update this when we fully remove DraftEntity
+	    DraftEntity.__mergeData(key, toMerge);
+	    return this;
 ...</pre></li>
     </ul>
 
@@ -8624,21 +9010,21 @@ var newChunk = null;
   return instance;
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-var start = selectionState.getStartOffset();
-var end = selectionState.getEndOffset();
-var entityKey = block.getEntityAt(start);
-if (!entityKey) {
-  return selectionState;
-}
+	    // TODO: update this when we fully remove DraftEntity
+	    DraftEntity.__add(instance);
+	    return this;
+	  };
 
-var entity = entityMap.<span class="apidocCodeKeywordSpan">__get</span>(entityKey);
-var mutability = entity.getMutability();
+	  ContentState.prototype.getEntity = function getEntity(key) {
+	    // TODO: update this when we fully remove DraftEntity
+	    return DraftEntity.<span class="apidocCodeKeywordSpan">__get</span>(key);
+	  };
 
-// `MUTABLE` entities can just have the specified range of text removed
-// directly. No adjustments are needed.
-if (mutability === &#x27;MUTABLE&#x27;) {
-  return selectionState;
-}
+	  ContentState.createFromBlockArray = function createFromBlockArray(
+	  // TODO: update flow type when we completely deprecate the old entity API
+	  blocks, entityMap) {
+	    // TODO: remove this when we completely deprecate the old entity API
+	    var theBlocks = Array.isArray(blocks) ? blocks : blocks.contentBlocks;
 ...</pre></li>
     </ul>
 
@@ -8654,7 +9040,22 @@ if (mutability === &#x27;MUTABLE&#x27;) {
     <li>description and source-code<pre class="apidocCodePre">function __getLastCreatedEntityKey() {
   return &#x27;&#x27; + instanceKey;
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+	    return this.getBlockMap().map(function (block) {
+	      return block ? block.getText() : &#x27;&#x27;;
+	    }).join(delimiter || &#x27;\n&#x27;);
+	  };
+
+	  ContentState.prototype.getLastCreatedEntityKey = function getLastCreatedEntityKey() {
+	    // TODO: update this when we fully remove DraftEntity
+	    return DraftEntity.<span class="apidocCodeKeywordSpan">__getLastCreatedEntityKey</span>();
+	  };
+
+	  ContentState.prototype.hasText = function hasText() {
+	    var blockMap = this.getBlockMap();
+	    return blockMap.size &#x3e; 1 || blockMap.first().getLength() &#x3e; 0;
+	  };
+...</pre></li>
     </ul>
 
 
@@ -8673,7 +9074,23 @@ if (mutability === &#x27;MUTABLE&#x27;) {
   instances = instances.set(key, newInstance);
   return newInstance;
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+	    // TODO: update this when we fully remove DraftEntity
+	    DraftEntity.__create(type, mutability, data);
+	    return this;
+	  };
+
+	  ContentState.prototype.mergeEntityData = function mergeEntityData(key, toMerge) {
+	    // TODO: update this when we fully remove DraftEntity
+	    DraftEntity.<span class="apidocCodeKeywordSpan">__mergeData</span>(key, toMerge);
+	    return this;
+	  };
+
+	  ContentState.prototype.replaceEntityData = function replaceEntityData(key, newData) {
+	    // TODO: update this when we fully remove DraftEntity
+	    DraftEntity.__replaceData(key, newData);
+	    return this;
+...</pre></li>
     </ul>
 
 
@@ -8691,7 +9108,23 @@ if (mutability === &#x27;MUTABLE&#x27;) {
   instances = instances.set(key, newInstance);
   return newInstance;
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+	    // TODO: update this when we fully remove DraftEntity
+	    DraftEntity.__mergeData(key, toMerge);
+	    return this;
+	  };
+
+	  ContentState.prototype.replaceEntityData = function replaceEntityData(key, newData) {
+	    // TODO: update this when we fully remove DraftEntity
+	    DraftEntity.<span class="apidocCodeKeywordSpan">__replaceData</span>(key, newData);
+	    return this;
+	  };
+
+	  ContentState.prototype.addEntity = function addEntity(instance) {
+	    // TODO: update this when we fully remove DraftEntity
+	    DraftEntity.__add(instance);
+	    return this;
+...</pre></li>
     </ul>
 
 
@@ -8708,21 +9141,21 @@ if (mutability === &#x27;MUTABLE&#x27;) {
   return DraftEntity.__add(instance);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-function getBlockMapSupportedTags(blockRenderMap) {
-var unstyledElement = blockRenderMap.get(&#x27;unstyled&#x27;).element;
-var tags = new Set([]);
+	    var withoutEntities = removeEntitiesAtEdges(contentState, selectionState);
+	    var withoutText = removeRangeFromContentState(withoutEntities, selectionState);
 
-blockRenderMap.forEach(function (draftBlock) {
-  if (draftBlock.aliasedElements) {
-    draftBlock.aliasedElements.forEach(function (tag) {
-      tags = tags.<span class="apidocCodeKeywordSpan">add</span>(tag);
-    });
-  }
+	    return splitBlockInContentState(withoutText, withoutText.getSelectionAfter());
+	  },
 
-  tags = tags.add(draftBlock.element);
-});
+	  applyInlineStyle: function applyInlineStyle(contentState, selectionState, inlineStyle) {
+	    return ContentStateInlineStyle.<span class="apidocCodeKeywordSpan">add</span>(contentState, selectionState, inlineStyle);
+	  },
 
-return tags.filter(function (tag) {
+	  removeInlineStyle: function removeInlineStyle(contentState, selectionState, inlineStyle) {
+	    return ContentStateInlineStyle.remove(contentState, selectionState, inlineStyle);
+	  },
+
+	  setBlockType: function setBlockType(contentState, selectionState, blockType) {
 ...</pre></li>
     </ul>
 
@@ -8740,29 +9173,21 @@ return tags.filter(function (tag) {
   return DraftEntity.__create(type, mutability, data);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
+	var EditorState = function () {
+	  EditorState.createEmpty = function createEmpty(decorator) {
+	    return EditorState.createWithContent(ContentState.createFromText(&#x27;&#x27;), decorator);
+	  };
 
-var _extends = _assign || function (target) { for (var i = 1; i &#x3c; arguments.length; i++) { var source = arguments[i]; for (
-var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(&#x22;Cannot call
- a class as a function&#x22;); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError(&#x22;this hasn&#x27;t been initialised -
-super() hasn&#x27;t been called&#x22;); } return call &#x26;&#x26; (typeof call === &#x22;object&#x22; || typeof call === &#x22;
-function&#x22;) ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== &#x22;function&#x22; &#x26;&#x26; superClass !== null) { throw
- new TypeError(&#x22;Super expression must either be null or a function, not &#x22; + typeof superClass); } subClass.prototype =
-Object.<span class="apidocCodeKeywordSpan">create</span>(superClass &#x26;&#x26; superClass.prototype, { constructor: { value: subClass
-, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass
-, superClass) : subClass.__proto__ = superClass; }
-
-var DraftEditorBlock = require(&#x27;./DraftEditorBlock.react&#x27;);
-var DraftOffsetKey = require(&#x27;./DraftOffsetKey&#x27;);
-var EditorState = require(&#x27;./EditorState&#x27;);
-var React = require(&#x27;react&#x27;);
-
-var cx = require(&#x27;fbjs/lib/cx&#x27;);
+	  EditorState.createWithContent = function createWithContent(contentState, decorator) {
+	    var firstKey = contentState.getBlockMap().first().getKey();
+	    return EditorState.<span class="apidocCodeKeywordSpan">create</span>({
+	      currentContent: contentState,
+	      undoStack: Stack(),
+	      redoStack: Stack(),
+	      decorator: decorator || null,
+	      selection: SelectionState.createEmpty(firstKey)
+	    });
+	  };
 ...</pre></li>
     </ul>
 
@@ -8780,20 +9205,20 @@ var cx = require(&#x27;fbjs/lib/cx&#x27;);
   return DraftEntity.__get(key);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
+	      directionMap: EditorBidiService.getDirectionMap(currentContent)
+	    });
+	    return new EditorState(new EditorStateRecord(recordConfig));
+	  };
 
-  var chars = block.getCharacterList();
-
-  findRangesImmutable(decorations, areEqual, returnTrue, function (start, end) {
-    leafSets.push(new DecoratorRange({
-      start: start,
-      end: end,
-      decoratorKey: decorations.<span class="apidocCodeKeywordSpan">get</span>(start),
-      leaves: generateLeaves(chars.slice(start, end).toList(), start)
-    }));
-  });
-
-  return List(leafSets);
-},
+	  EditorState.set = function set(editorState, put) {
+	    var map = editorState.getImmutable().withMutations(function (state) {
+	      var existingDecorator = state.<span class="apidocCodeKeywordSpan">get</span>(&#x27;decorator&#x27;);
+	      var decorator = existingDecorator;
+	      if (put.decorator === null) {
+	        decorator = null;
+	      } else if (put.decorator) {
+	        decorator = put.decorator;
+	      }
 ...</pre></li>
     </ul>
 
@@ -8885,21 +9310,21 @@ var cx = require(&#x27;fbjs/lib/cx&#x27;);
   return this.get(&#x27;data&#x27;);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-  rawBlocks.push({
-    key: blockKey,
-    text: block.getText(),
-    type: block.getType(),
-    depth: block.getDepth(),
-    inlineStyleRanges: encodeInlineStyleRanges(block),
-    entityRanges: encodeEntityRanges(block, entityStorageMap),
-    data: block.<span class="apidocCodeKeywordSpan">getData</span>().toObject()
-  });
-});
+	    return modifyBlockForContentState(contentState, selectionState, function (block) {
+	      return block.merge({ data: blockData });
+	    });
+	  },
 
-// Flip storage map so that our storage keys map to global
-// DraftEntity keys.
-var entityKeys = Object.keys(entityStorageMap);
-var flippedStorageMap = {};
+	  mergeBlockData: function mergeBlockData(contentState, selectionState, blockData) {
+	    return modifyBlockForContentState(contentState, selectionState, function (block) {
+	      return block.merge({ data: block.<span class="apidocCodeKeywordSpan">getData</span>().merge(blockData) });
+	    });
+	  },
+
+	  applyEntity: function applyEntity(contentState, selectionState, entityKey) {
+	    var withoutEntities = removeEntitiesAtEdges(contentState, selectionState);
+	    return applyEntityToContentState(withoutEntities, selectionState, entityKey);
+	  }
 ...</pre></li>
     </ul>
 
@@ -8916,21 +9341,21 @@ var flippedStorageMap = {};
   return this.get(&#x27;mutability&#x27;);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-// DraftEntity keys.
-var entityKeys = Object.keys(entityStorageMap);
-var flippedStorageMap = {};
-entityKeys.forEach(function (key, jj) {
-  var entity = contentState.getEntity(DraftStringKey.unstringify(key));
-  flippedStorageMap[jj] = {
-    type: entity.getType(),
-    mutability: entity.<span class="apidocCodeKeywordSpan">getMutability</span>(),
-    data: entity.getData()
-  };
-});
+	/**
+	 * Determine whether an entity key corresponds to a `MUTABLE` entity. If so,
+	 * return it. If not, return null.
+	 */
+	function filterKey(entityMap, entityKey) {
+	  if (entityKey) {
+	    var entity = entityMap.__get(entityKey);
+	    return entity.<span class="apidocCodeKeywordSpan">getMutability</span>() === &#x27;MUTABLE&#x27; ? entityKey : null;
+	  }
+	  return null;
+	}
 
-return {
-  entityMap: flippedStorageMap,
-  blocks: rawBlocks
+	module.exports = getEntityKeyForSelection;
+
+/***/ },
 ...</pre></li>
     </ul>
 
@@ -8947,21 +9372,21 @@ return {
   return this.get(&#x27;type&#x27;);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-    var processedBlocks = [];
-    var currentDepth = null;
-    var lastWrapperTemplate = null;
+	    var processedBlocks = [];
+	    var currentDepth = null;
+	    var lastWrapperTemplate = null;
 
-    for (var ii = 0; ii &#x3c; blocksAsArray.length; ii++) {
-var _block = blocksAsArray[ii];
-var key = _block.getKey();
-var blockType = _block.<span class="apidocCodeKeywordSpan">getType</span>();
+	    for (var ii = 0; ii &#x3c; blocksAsArray.length; ii++) {
+	      var _block = blocksAsArray[ii];
+	      var key = _block.getKey();
+	      var blockType = _block.<span class="apidocCodeKeywordSpan">getType</span>();
 
-var customRenderer = blockRendererFn(_block);
-var CustomComponent = void 0,
-    customProps = void 0,
-    customEditable = void 0;
-if (customRenderer) {
-  CustomComponent = customRenderer.component;
+	      var customRenderer = blockRendererFn(_block);
+	      var CustomComponent = void 0,
+	          customProps = void 0,
+	          customEditable = void 0;
+	      if (customRenderer) {
+	        CustomComponent = customRenderer.component;
 ...</pre></li>
     </ul>
 
@@ -8997,7 +9422,24 @@ if (customRenderer) {
     <li>description and source-code<pre class="apidocCodePre">function isCtrlKeyCommand(e) {
   return !!e.ctrlKey &#x26;&#x26; !e.altKey;
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+	  },
+
+	  isOptionKeyCommand: function isOptionKeyCommand(e) {
+	    return isOSX &#x26;&#x26; e.altKey;
+	  },
+
+	  hasCommandModifier: function hasCommandModifier(e) {
+	    return isOSX ? !!e.metaKey &#x26;&#x26; !e.altKey : KeyBindingUtil.<span class="apidocCodeKeywordSpan">isCtrlKeyCommand</span
+>(e);
+	  }
+	};
+
+	module.exports = KeyBindingUtil;
+
+/***/ },
+/* 26 */
+...</pre></li>
     </ul>
 
 
@@ -9034,21 +9476,21 @@ if (customRenderer) {
   return applyEntityToContentState(withoutEntities, selectionState, entityKey);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-&#x27;use strict&#x27;;
 
-var CharacterMetadata = require(&#x27;./CharacterMetadata&#x27;);
+	      var start = _getRemovalRange.start;
+	      var end = _getRemovalRange.end;
 
-function applyEntityToContentBlock(contentBlock, start, end, entityKey) {
-  var characterList = contentBlock.getCharacterList();
-  while (start &#x3c; end) {
-    characterList = characterList.set(start, CharacterMetadata.<span class="apidocCodeKeywordSpan">applyEntity</span>(characterList
-.get(start), entityKey));
-    start++;
-  }
-  return contentBlock.set(&#x27;characterList&#x27;, characterList);
-}
+	      var current;
+	      while (start &#x3c; end) {
+	        current = chars.get(start);
+	        chars = chars.set(start, CharacterMetadata.<span class="apidocCodeKeywordSpan">applyEntity</span>(current, null));
+	        start++;
+	      }
+	      return block.set(&#x27;characterList&#x27;, chars);
+	    }
+	  }
 
-module.exports = applyEntityToContentBlock;
+	  return block;
 ...</pre></li>
     </ul>
 
@@ -9064,7 +9506,23 @@ module.exports = applyEntityToContentBlock;
     <li>description and source-code<pre class="apidocCodePre">function applyInlineStyle(contentState, selectionState, inlineStyle) {
   return ContentStateInlineStyle.add(contentState, selectionState, inlineStyle);
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+	    var newContent;
+
+	    // If the style is already present for the selection range, remove it.
+	    // Otherwise, apply it.
+	    if (currentStyle.has(inlineStyle)) {
+	      newContent = DraftModifier.removeInlineStyle(content, selection, inlineStyle);
+	    } else {
+	      newContent = DraftModifier.<span class="apidocCodeKeywordSpan">applyInlineStyle</span>(content, selection, inlineStyle);
+	    }
+
+	    return EditorState.push(editorState, newContent, &#x27;change-inline-style&#x27;);
+	  },
+
+	  toggleLink: function toggleLink(editorState, targetSelection, entityKey) {
+	    var withoutLink = DraftModifier.applyEntity(editorState.getCurrentContent(), targetSelection, entityKey);
+...</pre></li>
     </ul>
 
 
@@ -9082,19 +9540,22 @@ module.exports = applyEntityToContentBlock;
   return DraftModifier.replaceText(contentState, targetRange, text, inlineStyle, entityKey);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-  return EditorState.push(editorState, newContentState, &#x27;insert-fragment&#x27;);
-}
+	  return EditorState.push(editorState, newContentState, &#x27;insert-fragment&#x27;);
+	}
 
-/**
- * Insert text at a specified selection.
- */
-function insertTextAtSelection(editorState, selection, text) {
-  var newContentState = DraftModifier.<span class="apidocCodeKeywordSpan">insertText</span>(editorState.getCurrentContent(), selection
+	/**
+	 * Insert text at a specified selection.
+	 */
+	function insertTextAtSelection(editorState, selection, text) {
+	  var newContentState = DraftModifier.<span class="apidocCodeKeywordSpan">insertText</span>(editorState.getCurrentContent(), selection
 , text, editorState.getCurrentInlineStyle());
-  return EditorState.push(editorState, newContentState, &#x27;insert-fragment&#x27;);
-}
+	  return EditorState.push(editorState, newContentState, &#x27;insert-fragment&#x27;);
+	}
 
-module.exports = DraftEditorDragHandler;
+	module.exports = DraftEditorDragHandler;
+
+/***/ },
+/* 66 */
 ...</pre></li>
     </ul>
 
@@ -9133,21 +9594,21 @@ module.exports = DraftEditorDragHandler;
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
 
-    editor.update(insertTextAtSelection(editorState, dropSelection, data.getText()));
-  }
+	    editor.update(insertTextAtSelection(editorState, dropSelection, data.getText()));
+	  }
 
-};
+	};
 
-function moveText(editorState, targetSelection) {
-  var newContentState = DraftModifier.<span class="apidocCodeKeywordSpan">moveText</span>(editorState.getCurrentContent(), editorState
+	function moveText(editorState, targetSelection) {
+	  var newContentState = DraftModifier.<span class="apidocCodeKeywordSpan">moveText</span>(editorState.getCurrentContent(), editorState
 .getSelection(), targetSelection);
-  return EditorState.push(editorState, newContentState, &#x27;insert-fragment&#x27;);
-}
+	  return EditorState.push(editorState, newContentState, &#x27;insert-fragment&#x27;);
+	}
 
-/**
- * Insert text at a specified selection.
- */
-function insertTextAtSelection(editorState, selection, text) {
+	/**
+	 * Insert text at a specified selection.
+	 */
+	function insertTextAtSelection(editorState, selection, text) {
 ...</pre></li>
     </ul>
 
@@ -9163,7 +9624,22 @@ function insertTextAtSelection(editorState, selection, text) {
     <li>description and source-code<pre class="apidocCodePre">function removeInlineStyle(contentState, selectionState, inlineStyle) {
   return ContentStateInlineStyle.remove(contentState, selectionState, inlineStyle);
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+	    // inline style on the document state itself.
+	    var content = editorState.getCurrentContent();
+	    var newContent;
+
+	    // If the style is already present for the selection range, remove it.
+	    // Otherwise, apply it.
+	    if (currentStyle.has(inlineStyle)) {
+	      newContent = DraftModifier.<span class="apidocCodeKeywordSpan">removeInlineStyle</span>(content, selection, inlineStyle);
+	    } else {
+	      newContent = DraftModifier.applyInlineStyle(content, selection, inlineStyle);
+	    }
+
+	    return EditorState.push(editorState, newContent, &#x27;change-inline-style&#x27;);
+	  },
+...</pre></li>
     </ul>
 
 
@@ -9196,22 +9672,23 @@ function insertTextAtSelection(editorState, selection, text) {
   return removeRangeFromContentState(withoutEntities, rangeToRemove);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-  } else {
-    targetRange = selection;
-  }
+	    !targetRange.isCollapsed() ?  true ? invariant(false, &#x27;Target range must be collapsed for `insertText`.&#x27;) : invariant
+(false) : void 0;
+	    return DraftModifier.replaceText(contentState, targetRange, text, inlineStyle, entityKey);
+	  },
 
-  targetRange = nullthrows(targetRange);
-  clipboard = getContentStateFragment(content, targetRange);
+	  moveText: function moveText(contentState, removalRange, targetRange) {
+	    var movedFragment = getContentStateFragment(contentState, removalRange);
 
-  var afterRemoval = DraftModifier.<span class="apidocCodeKeywordSpan">removeRange</span>(content, targetRange, &#x27;forward&#x27
-;);
+	    var afterRemoval = DraftModifier.<span class="apidocCodeKeywordSpan">removeRange</span>(contentState, removalRange, &#x27;backward
+&#x27;);
 
-  if (afterRemoval === content) {
-    return editorState;
-  }
+	    return DraftModifier.replaceWithFragment(afterRemoval, targetRange, movedFragment);
+	  },
 
-  return EditorState.push(editorState, afterRemoval, &#x27;remove-range&#x27;);
-},
+	  replaceWithFragment: function replaceWithFragment(contentState, targetRange, fragment) {
+	    var withoutEntities = removeEntitiesAtEdges(contentState, targetRange);
+	    var withoutText = removeRangeFromContentState(withoutEntities, targetRange);
 ...</pre></li>
     </ul>
 
@@ -9236,22 +9713,22 @@ function insertTextAtSelection(editorState, selection, text) {
   return insertTextIntoContentState(withoutText, withoutText.getSelectionAfter(), text, character);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-}
+	    });
 
-editor.exitCurrentMode();
+	    return insertTextIntoContentState(withoutText, withoutText.getSelectionAfter(), text, character);
+	  },
 
-if (composedChars) {
-  // If characters have been composed, re-rendering with the update
-  // is sufficient to reset the editor.
-  var contentState = DraftModifier.<span class="apidocCodeKeywordSpan">replaceText</span>(editorState.getCurrentContent(), editorState
-.getSelection(), composedChars, currentStyle, entityKey);
-  editor.update(EditorState.push(editorState, contentState, &#x27;insert-characters&#x27;));
-  return;
-}
+	  insertText: function insertText(contentState, targetRange, text, inlineStyle, entityKey) {
+	    !targetRange.isCollapsed() ?  true ? invariant(false, &#x27;Target range must be collapsed for `insertText`.&#x27;) : invariant
+(false) : void 0;
+	    return DraftModifier.<span class="apidocCodeKeywordSpan">replaceText</span>(contentState, targetRange, text, inlineStyle, entityKey
+);
+	  },
 
-if (mustReset) {
-  editor.update(EditorState.set(editorState, {
-    nativelyRenderedContent: null,
+	  moveText: function moveText(contentState, removalRange, targetRange) {
+	    var movedFragment = getContentStateFragment(contentState, removalRange);
+
+	    var afterRemoval = DraftModifier.removeRange(contentState, removalRange, &#x27;backward&#x27;);
 ...</pre></li>
     </ul>
 
@@ -9271,21 +9748,22 @@ if (mustReset) {
   return insertFragmentIntoContentState(withoutText, withoutText.getSelectionAfter(), fragment);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-  },
+	  },
 
-  paste: function paste(editorState) {
-    if (!clipboard) {
-      return editorState;
-    }
+	  moveText: function moveText(contentState, removalRange, targetRange) {
+	    var movedFragment = getContentStateFragment(contentState, removalRange);
 
-    var newContent = DraftModifier.<span class="apidocCodeKeywordSpan">replaceWithFragment</span>(editorState.getCurrentContent(),
-editorState.getSelection(), clipboard);
+	    var afterRemoval = DraftModifier.removeRange(contentState, removalRange, &#x27;backward&#x27;);
 
-    return EditorState.push(editorState, newContent, &#x27;insert-fragment&#x27;);
-  }
-};
+	    return DraftModifier.<span class="apidocCodeKeywordSpan">replaceWithFragment</span>(afterRemoval, targetRange, movedFragment
+);
+	  },
 
-module.exports = SecondaryClipboard;
+	  replaceWithFragment: function replaceWithFragment(contentState, targetRange, fragment) {
+	    var withoutEntities = removeEntitiesAtEdges(contentState, targetRange);
+	    var withoutText = removeRangeFromContentState(withoutEntities, targetRange);
+
+	    return insertFragmentIntoContentState(withoutText, withoutText.getSelectionAfter(), fragment);
 ...</pre></li>
     </ul>
 
@@ -9320,7 +9798,24 @@ module.exports = SecondaryClipboard;
     return block.merge({ type: blockType, depth: 0 });
   });
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+	    var afterRemoval = DraftModifier.removeRange(contentState, selectionState, &#x27;backward&#x27;);
+
+	    var targetSelection = afterRemoval.getSelectionAfter();
+	    var afterSplit = DraftModifier.splitBlock(afterRemoval, targetSelection);
+	    var insertionTarget = afterSplit.getSelectionAfter();
+
+	    var asAtomicBlock = DraftModifier.<span class="apidocCodeKeywordSpan">setBlockType</span>(afterSplit, insertionTarget, &#x27
+;atomic&#x27;);
+
+	    var charData = CharacterMetadata.create({ entity: entityKey });
+
+	    var fragmentArray = [new ContentBlock({
+	      key: generateRandomKey(),
+	      type: &#x27;atomic&#x27;,
+	      text: character,
+...</pre></li>
     </ul>
 
 
@@ -9339,19 +9834,21 @@ module.exports = SecondaryClipboard;
   return splitBlockInContentState(withoutText, withoutText.getSelectionAfter());
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
+	  insertAtomicBlock: function insertAtomicBlock(editorState, entityKey, character) {
+	    var contentState = editorState.getCurrentContent();
+	    var selectionState = editorState.getSelection();
 
-&#x27;use strict&#x27;;
+	    var afterRemoval = DraftModifier.removeRange(contentState, selectionState, &#x27;backward&#x27;);
 
-var DraftModifier = require(&#x27;./DraftModifier&#x27;);
-var EditorState = require(&#x27;./EditorState&#x27;);
+	    var targetSelection = afterRemoval.getSelectionAfter();
+	    var afterSplit = DraftModifier.<span class="apidocCodeKeywordSpan">splitBlock</span>(afterRemoval, targetSelection);
+	    var insertionTarget = afterSplit.getSelectionAfter();
 
-function keyCommandInsertNewline(editorState) {
-  var contentState = DraftModifier.<span class="apidocCodeKeywordSpan">splitBlock</span>(editorState.getCurrentContent(), editorState
-.getSelection());
-  return EditorState.push(editorState, contentState, &#x27;split-block&#x27;);
-}
+	    var asAtomicBlock = DraftModifier.setBlockType(afterSplit, insertionTarget, &#x27;atomic&#x27;);
 
-module.exports = keyCommandInsertNewline;
+	    var charData = CharacterMetadata.create({ entity: entityKey });
+
+	    var fragmentArray = [new ContentBlock({
 ...</pre></li>
     </ul>
 
@@ -9522,7 +10019,23 @@ if (newState !== editorState) {
 
   return null;
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+	      case &#x27;underline&#x27;:
+	        return RichTextEditorUtil.toggleInlineStyle(editorState, &#x27;UNDERLINE&#x27;);
+	      case &#x27;code&#x27;:
+	        return RichTextEditorUtil.toggleCode(editorState);
+	      case &#x27;backspace&#x27;:
+	      case &#x27;backspace-word&#x27;:
+	      case &#x27;backspace-to-start-of-line&#x27;:
+	        return RichTextEditorUtil.<span class="apidocCodeKeywordSpan">onBackspace</span>(editorState);
+	      case &#x27;delete&#x27;:
+	      case &#x27;delete-word&#x27;:
+	      case &#x27;delete-to-end-of-block&#x27;:
+	        return RichTextEditorUtil.onDelete(editorState);
+	      default:
+	        // they may have custom editor commands; ignore those
+	        return null;
+...</pre></li>
     </ul>
 
 
@@ -9569,7 +10082,23 @@ if (newState !== editorState) {
 
   return null;
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+	      case &#x27;backspace&#x27;:
+	      case &#x27;backspace-word&#x27;:
+	      case &#x27;backspace-to-start-of-line&#x27;:
+	        return RichTextEditorUtil.onBackspace(editorState);
+	      case &#x27;delete&#x27;:
+	      case &#x27;delete-word&#x27;:
+	      case &#x27;delete-to-end-of-block&#x27;:
+	        return RichTextEditorUtil.<span class="apidocCodeKeywordSpan">onDelete</span>(editorState);
+	      default:
+	        // they may have custom editor commands; ignore those
+	        return null;
+	    }
+	  },
+
+	  insertSoftNewline: function insertSoftNewline(editorState) {
+...</pre></li>
     </ul>
 
 
@@ -9687,7 +10216,23 @@ case Keys.DOWN:
 
   return EditorState.push(editorState, DraftModifier.setBlockType(content, target, typeToSet), &#x27;change-block-type&#x27;);
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+	  toggleCode: function toggleCode(editorState) {
+	    var selection = editorState.getSelection();
+	    var anchorKey = selection.getAnchorKey();
+	    var focusKey = selection.getFocusKey();
+
+	    if (selection.isCollapsed() || anchorKey !== focusKey) {
+	      return RichTextEditorUtil.<span class="apidocCodeKeywordSpan">toggleBlockType</span>(editorState, &#x27;code-block&#x27;);
+	    }
+
+	    return RichTextEditorUtil.toggleInlineStyle(editorState, &#x27;CODE&#x27;);
+	  },
+
+	  /**
+	   * Toggle the specified inline style for the selection. If the
+...</pre></li>
     </ul>
 
 
@@ -9710,7 +10255,23 @@ case Keys.DOWN:
 
   return RichTextEditorUtil.toggleInlineStyle(editorState, &#x27;CODE&#x27;);
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+	      case &#x27;bold&#x27;:
+	        return RichTextEditorUtil.toggleInlineStyle(editorState, &#x27;BOLD&#x27;);
+	      case &#x27;italic&#x27;:
+	        return RichTextEditorUtil.toggleInlineStyle(editorState, &#x27;ITALIC&#x27;);
+	      case &#x27;underline&#x27;:
+	        return RichTextEditorUtil.toggleInlineStyle(editorState, &#x27;UNDERLINE&#x27;);
+	      case &#x27;code&#x27;:
+	        return RichTextEditorUtil.<span class="apidocCodeKeywordSpan">toggleCode</span>(editorState);
+	      case &#x27;backspace&#x27;:
+	      case &#x27;backspace-word&#x27;:
+	      case &#x27;backspace-to-start-of-line&#x27;:
+	        return RichTextEditorUtil.onBackspace(editorState);
+	      case &#x27;delete&#x27;:
+	      case &#x27;delete-word&#x27;:
+	      case &#x27;delete-to-end-of-block&#x27;:
+...</pre></li>
     </ul>
 
 
@@ -9749,7 +10310,23 @@ case Keys.DOWN:
 
   return EditorState.push(editorState, newContent, &#x27;change-inline-style&#x27;);
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+	  getDataObjectForLinkURL: function getDataObjectForLinkURL(uri) {
+	    return { url: uri.toString() };
+	  },
+
+	  handleKeyCommand: function handleKeyCommand(editorState, command) {
+	    switch (command) {
+	      case &#x27;bold&#x27;:
+	        return RichTextEditorUtil.<span class="apidocCodeKeywordSpan">toggleInlineStyle</span>(editorState, &#x27;BOLD&#x27;);
+	      case &#x27;italic&#x27;:
+	        return RichTextEditorUtil.toggleInlineStyle(editorState, &#x27;ITALIC&#x27;);
+	      case &#x27;underline&#x27;:
+	        return RichTextEditorUtil.toggleInlineStyle(editorState, &#x27;UNDERLINE&#x27;);
+	      case &#x27;code&#x27;:
+	        return RichTextEditorUtil.toggleCode(editorState);
+	      case &#x27;backspace&#x27;:
+...</pre></li>
     </ul>
 
 
@@ -9801,7 +10378,23 @@ case Keys.DOWN:
   }
   return null;
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+	      var withoutAtomicBlock = content.merge({ blockMap: blockMap, selectionAfter: selection });
+	      if (withoutAtomicBlock !== content) {
+	        return EditorState.push(editorState, withoutAtomicBlock, &#x27;remove-range&#x27;);
+	      }
+	    }
+
+	    // If that doesn&#x27;t succeed, try to remove the current block style.
+	    var withoutBlockStyle = RichTextEditorUtil.<span class="apidocCodeKeywordSpan">tryToRemoveBlockStyle</span>(editorState);
+
+	    if (withoutBlockStyle) {
+	      return EditorState.push(editorState, withoutBlockStyle, &#x27;change-block-type&#x27;);
+	    }
+
+	    return null;
+	  },
+...</pre></li>
     </ul>
 
 
@@ -9980,21 +10573,21 @@ render() {
   return this.get(&#x27;anchorKey&#x27;);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-var SecondaryClipboard = {
-  cut: function cut(editorState) {
-    var content = editorState.getCurrentContent();
-    var selection = editorState.getSelection();
-    var targetRange = null;
 
-    if (selection.isCollapsed()) {
-var anchorKey = selection.<span class="apidocCodeKeywordSpan">getAnchorKey</span>();
-var blockEnd = content.getBlockForKey(anchorKey).getLength();
+	    return insertFragmentIntoContentState(withoutText, withoutText.getSelectionAfter(), fragment);
+	  },
 
-if (blockEnd === selection.getAnchorOffset()) {
-  return editorState;
-}
+	  removeRange: function removeRange(contentState, rangeToRemove, removalDirection) {
+	    // Check whether the selection state overlaps with a single entity.
+	    // If so, try to remove the appropriate substring of the entity text.
+	    if (rangeToRemove.<span class="apidocCodeKeywordSpan">getAnchorKey</span>() === rangeToRemove.getFocusKey()) {
+	      var key = rangeToRemove.getAnchorKey();
+	      var startOffset = rangeToRemove.getStartOffset();
+	      var endOffset = rangeToRemove.getEndOffset();
+	      var block = contentState.getBlockForKey(key);
 
-targetRange = selection.set(&#x27;focusOffset&#x27;, blockEnd);
+	      var startEntity = block.getEntityAt(startOffset);
+	      var endEntity = block.getEntityAt(endOffset - 1);
 ...</pre></li>
     </ul>
 
@@ -10011,21 +10604,23 @@ targetRange = selection.set(&#x27;focusOffset&#x27;, blockEnd);
   return this.get(&#x27;anchorOffset&#x27;);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-var selection = editorState.getSelection();
-var targetRange = null;
+	  function SelectionState() {
+	    _classCallCheck(this, SelectionState);
 
-if (selection.isCollapsed()) {
-  var anchorKey = selection.getAnchorKey();
-  var blockEnd = content.getBlockForKey(anchorKey).getLength();
+	    return _possibleConstructorReturn(this, _SelectionStateRecord.apply(this, arguments));
+	  }
 
-  if (blockEnd === selection.<span class="apidocCodeKeywordSpan">getAnchorOffset</span>()) {
-    return editorState;
-  }
+	  SelectionState.prototype.serialize = function serialize() {
+	    return &#x27;Anchor: &#x27; + this.getAnchorKey() + &#x27;:&#x27; + this.<span class="apidocCodeKeywordSpan">getAnchorOffset
+</span>() + &#x27;, &#x27; + &#x27;Focus: &#x27; + this.getFocusKey() + &#x27;:&#x27; + this.getFocusOffset() + &#x27;, &#x27; + &#
+x27;Is Backward: &#x27; + String(this.getIsBackward()) + &#x27;, &#x27; + &#x27;Has Focus: &#x27; + String(this.getHasFocus());
+	  };
 
-  targetRange = selection.set(&#x27;focusOffset&#x27;, blockEnd);
-} else {
-  targetRange = selection;
-}
+	  SelectionState.prototype.getAnchorKey = function getAnchorKey() {
+	    return this.get(&#x27;anchorKey&#x27;);
+	  };
+
+	  SelectionState.prototype.getAnchorOffset = function getAnchorOffset() {
 ...</pre></li>
     </ul>
 
@@ -10042,21 +10637,20 @@ if (selection.isCollapsed()) {
   return this.getIsBackward() ? this.getAnchorKey() : this.getFocusKey();
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-}
-};
 
-function modifyInlineStyle(contentState, selectionState, inlineStyle, addOrRemove) {
-var blockMap = contentState.getBlockMap();
-var startKey = selectionState.getStartKey();
-var startOffset = selectionState.getStartOffset();
-var endKey = selectionState.<span class="apidocCodeKeywordSpan">getEndKey</span>();
-var endOffset = selectionState.getEndOffset();
+	var generateRandomKey = __webpack_require__(7);
+	var removeEntitiesAtEdges = __webpack_require__(53);
 
-var newBlocks = blockMap.skipUntil(function (_, k) {
-  return k === startKey;
-}).takeUntil(function (_, k) {
-  return k === endKey;
-}).concat(Map([[endKey, blockMap.get(endKey)]])).map(function (block, blockKey) {
+	function getContentStateFragment(contentState, selectionState) {
+	  var startKey = selectionState.getStartKey();
+	  var startOffset = selectionState.getStartOffset();
+	  var endKey = selectionState.<span class="apidocCodeKeywordSpan">getEndKey</span>();
+	  var endOffset = selectionState.getEndOffset();
+
+	  // Edge entities should be stripped to ensure that we don&#x27;t preserve
+	  // invalid partial entities when the fragment is reused. We do, however,
+	  // preserve entities that are entirely within the selection range.
+	  var contentWithoutEdgeEntities = removeEntitiesAtEdges(contentState, selectionState);
 ...</pre></li>
     </ul>
 
@@ -10073,21 +10667,22 @@ var newBlocks = blockMap.skipUntil(function (_, k) {
   return this.getIsBackward() ? this.getAnchorOffset() : this.getFocusOffset();
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-};
 
-function modifyInlineStyle(contentState, selectionState, inlineStyle, addOrRemove) {
-var blockMap = contentState.getBlockMap();
-var startKey = selectionState.getStartKey();
-var startOffset = selectionState.getStartOffset();
-var endKey = selectionState.getEndKey();
-var endOffset = selectionState.<span class="apidocCodeKeywordSpan">getEndOffset</span>();
+	  removeRange: function removeRange(contentState, rangeToRemove, removalDirection) {
+	    // Check whether the selection state overlaps with a single entity.
+	    // If so, try to remove the appropriate substring of the entity text.
+	    if (rangeToRemove.getAnchorKey() === rangeToRemove.getFocusKey()) {
+	      var key = rangeToRemove.getAnchorKey();
+	      var startOffset = rangeToRemove.getStartOffset();
+	      var endOffset = rangeToRemove.<span class="apidocCodeKeywordSpan">getEndOffset</span>();
+	      var block = contentState.getBlockForKey(key);
 
-var newBlocks = blockMap.skipUntil(function (_, k) {
-  return k === startKey;
-}).takeUntil(function (_, k) {
-  return k === endKey;
-}).concat(Map([[endKey, blockMap.get(endKey)]])).map(function (block, blockKey) {
-  var sliceStart;
+	      var startEntity = block.getEntityAt(startOffset);
+	      var endEntity = block.getEntityAt(endOffset - 1);
+	      if (startEntity &#x26;&#x26; startEntity === endEntity) {
+	        var adjustedRemovalRange = getCharacterRemovalRange(contentState.getEntityMap(), block, rangeToRemove, removalDirection
+);
+	        return removeRangeFromContentState(contentState, adjustedRemovalRange);
 ...</pre></li>
     </ul>
 
@@ -10105,22 +10700,20 @@ var newBlocks = blockMap.skipUntil(function (_, k) {
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
 
-var anchorLeafStart = anchorLeaf.get(&#x27;start&#x27;);
-var focusLeafStart = focusLeaf.get(&#x27;start&#x27;);
+	    return insertFragmentIntoContentState(withoutText, withoutText.getSelectionAfter(), fragment);
+	  },
 
-var anchorBlockOffset = anchorLeaf ? anchorLeafStart + anchorOffset : null;
-var focusBlockOffset = focusLeaf ? focusLeafStart + focusOffset : null;
+	  removeRange: function removeRange(contentState, rangeToRemove, removalDirection) {
+	    // Check whether the selection state overlaps with a single entity.
+	    // If so, try to remove the appropriate substring of the entity text.
+	    if (rangeToRemove.getAnchorKey() === rangeToRemove.<span class="apidocCodeKeywordSpan">getFocusKey</span>()) {
+	      var key = rangeToRemove.getAnchorKey();
+	      var startOffset = rangeToRemove.getStartOffset();
+	      var endOffset = rangeToRemove.getEndOffset();
+	      var block = contentState.getBlockForKey(key);
 
-var areEqual = selection.getAnchorKey() === anchorBlockKey &#x26;&#x26; selection.getAnchorOffset() === anchorBlockOffset &#x26;&#
-x26; selection.<span class="apidocCodeKeywordSpan">getFocusKey</span>() === focusBlockKey &#x26;&#x26; selection.getFocusOffset() ===
-focusBlockOffset;
-
-if (areEqual) {
-  return selection;
-}
-
-var isBackward = false;
-if (anchorBlockKey === focusBlockKey) {
+	      var startEntity = block.getEntityAt(startOffset);
+	      var endEntity = block.getEntityAt(endOffset - 1);
 ...</pre></li>
     </ul>
 
@@ -10137,23 +10730,23 @@ if (anchorBlockKey === focusBlockKey) {
   return this.get(&#x27;focusOffset&#x27;);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
+	  function SelectionState() {
+	    _classCallCheck(this, SelectionState);
 
-var anchorLeafStart = anchorLeaf.get(&#x27;start&#x27;);
-var focusLeafStart = focusLeaf.get(&#x27;start&#x27;);
+	    return _possibleConstructorReturn(this, _SelectionStateRecord.apply(this, arguments));
+	  }
 
-var anchorBlockOffset = anchorLeaf ? anchorLeafStart + anchorOffset : null;
-var focusBlockOffset = focusLeaf ? focusLeafStart + focusOffset : null;
+	  SelectionState.prototype.serialize = function serialize() {
+	    return &#x27;Anchor: &#x27; + this.getAnchorKey() + &#x27;:&#x27; + this.getAnchorOffset() + &#x27;, &#x27; + &#x27;Focus: &#
+x27; + this.getFocusKey() + &#x27;:&#x27; + this.<span class="apidocCodeKeywordSpan">getFocusOffset</span>() + &#x27;, &#x27; + &#
+x27;Is Backward: &#x27; + String(this.getIsBackward()) + &#x27;, &#x27; + &#x27;Has Focus: &#x27; + String(this.getHasFocus());
+	  };
 
-var areEqual = selection.getAnchorKey() === anchorBlockKey &#x26;&#x26; selection.getAnchorOffset() === anchorBlockOffset &#x26;&#
-x26; selection.getFocusKey() === focusBlockKey &#x26;&#x26; selection.<span class="apidocCodeKeywordSpan">getFocusOffset</span>() ===
-focusBlockOffset;
+	  SelectionState.prototype.getAnchorKey = function getAnchorKey() {
+	    return this.get(&#x27;anchorKey&#x27;);
+	  };
 
-if (areEqual) {
-  return selection;
-}
-
-var isBackward = false;
-if (anchorBlockKey === focusBlockKey) {
+	  SelectionState.prototype.getAnchorOffset = function getAnchorOffset() {
 ...</pre></li>
     </ul>
 
@@ -10170,21 +10763,21 @@ if (anchorBlockKey === focusBlockKey) {
   return this.get(&#x27;hasFocus&#x27;);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-var nextDirectionMap = nextEditorState.getDirectionMap();
+	   * This method should be used in cases where you need to explicitly
+	   * move the DOM selection from one place to another without a change
+	   * in ContentState.
+	   */
 
-// Text direction has changed for one or more blocks. We must re-render.
-if (prevDirectionMap !== nextDirectionMap) {
-  return true;
-}
 
-var didHaveFocus = prevEditorState.getSelection().<span class="apidocCodeKeywordSpan">getHasFocus</span>();
-var nowHasFocus = nextEditorState.getSelection().getHasFocus();
+	  EditorState.forceSelection = function forceSelection(editorState, selection) {
+	    if (!selection.<span class="apidocCodeKeywordSpan">getHasFocus</span>()) {
+	      selection = selection.set(&#x27;hasFocus&#x27;, true);
+	    }
+	    return updateSelection(editorState, selection, true);
+	  };
 
-if (didHaveFocus !== nowHasFocus) {
-  return true;
-}
-
-var nextNativeContent = nextEditorState.getNativelyRenderedContent();
+	  /**
+	   * Move selection to the end of the editor without forcing focus.
 ...</pre></li>
     </ul>
 
@@ -10201,21 +10794,23 @@ var nextNativeContent = nextEditorState.getNativelyRenderedContent();
   return this.get(&#x27;isBackward&#x27;);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-}
+	  function SelectionState() {
+	    _classCallCheck(this, SelectionState);
 
-var selection = global.getSelection();
-var anchorKey = selectionState.getAnchorKey();
-var anchorOffset = selectionState.getAnchorOffset();
-var focusKey = selectionState.getFocusKey();
-var focusOffset = selectionState.getFocusOffset();
-var isBackward = selectionState.<span class="apidocCodeKeywordSpan">getIsBackward</span>();
+	    return _possibleConstructorReturn(this, _SelectionStateRecord.apply(this, arguments));
+	  }
 
-// IE doesn&#x27;t support backward selection. Swap key/offset pairs.
-if (!selection.extend &#x26;&#x26; isBackward) {
-  var tempKey = anchorKey;
-  var tempOffset = anchorOffset;
-  anchorKey = focusKey;
-  anchorOffset = focusOffset;
+	  SelectionState.prototype.serialize = function serialize() {
+	    return &#x27;Anchor: &#x27; + this.getAnchorKey() + &#x27;:&#x27; + this.getAnchorOffset() + &#x27;, &#x27; + &#x27;Focus: &#
+x27; + this.getFocusKey() + &#x27;:&#x27; + this.getFocusOffset() + &#x27;, &#x27; + &#x27;Is Backward: &#x27; + String(this.<span
+ class="apidocCodeKeywordSpan">getIsBackward</span>()) + &#x27;, &#x27; + &#x27;Has Focus: &#x27; + String(this.getHasFocus());
+	  };
+
+	  SelectionState.prototype.getAnchorKey = function getAnchorKey() {
+	    return this.get(&#x27;anchorKey&#x27;);
+	  };
+
+	  SelectionState.prototype.getAnchorOffset = function getAnchorOffset() {
 ...</pre></li>
     </ul>
 
@@ -10232,21 +10827,22 @@ if (!selection.extend &#x26;&#x26; isBackward) {
   return this.getIsBackward() ? this.getFocusKey() : this.getAnchorKey();
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-remove: function remove(contentState, selectionState, inlineStyle) {
-  return modifyInlineStyle(contentState, selectionState, inlineStyle, false);
-}
-};
+	 */
+	function mustBecomeBoundary(editorState, changeType) {
+	  var lastChangeType = editorState.getLastChangeType();
+	  return changeType !== lastChangeType || changeType !== &#x27;insert-characters&#x27; &#x26;&#x26; changeType !== &#x27;backspace
+-character&#x27; &#x26;&#x26; changeType !== &#x27;delete-character&#x27;;
+	}
 
-function modifyInlineStyle(contentState, selectionState, inlineStyle, addOrRemove) {
-var blockMap = contentState.getBlockMap();
-var startKey = selectionState.<span class="apidocCodeKeywordSpan">getStartKey</span>();
-var startOffset = selectionState.getStartOffset();
-var endKey = selectionState.getEndKey();
-var endOffset = selectionState.getEndOffset();
+	function getInlineStyleForCollapsedSelection(content, selection) {
+	  var startKey = selection.<span class="apidocCodeKeywordSpan">getStartKey</span>();
+	  var startOffset = selection.getStartOffset();
+	  var startBlock = content.getBlockForKey(startKey);
 
-var newBlocks = blockMap.skipUntil(function (_, k) {
-  return k === startKey;
-}).takeUntil(function (_, k) {
+	  // If the cursor is not at the start of the block, look backward to
+	  // preserve the style of the preceding character.
+	  if (startOffset &#x3e; 0) {
+	    return startBlock.getInlineStyleAt(startOffset - 1);
 ...</pre></li>
     </ul>
 
@@ -10263,21 +10859,22 @@ var newBlocks = blockMap.skipUntil(function (_, k) {
   return this.getIsBackward() ? this.getFocusOffset() : this.getAnchorOffset();
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-  return modifyInlineStyle(contentState, selectionState, inlineStyle, false);
-}
-};
+	function mustBecomeBoundary(editorState, changeType) {
+	  var lastChangeType = editorState.getLastChangeType();
+	  return changeType !== lastChangeType || changeType !== &#x27;insert-characters&#x27; &#x26;&#x26; changeType !== &#x27;backspace
+-character&#x27; &#x26;&#x26; changeType !== &#x27;delete-character&#x27;;
+	}
 
-function modifyInlineStyle(contentState, selectionState, inlineStyle, addOrRemove) {
-var blockMap = contentState.getBlockMap();
-var startKey = selectionState.getStartKey();
-var startOffset = selectionState.<span class="apidocCodeKeywordSpan">getStartOffset</span>();
-var endKey = selectionState.getEndKey();
-var endOffset = selectionState.getEndOffset();
+	function getInlineStyleForCollapsedSelection(content, selection) {
+	  var startKey = selection.getStartKey();
+	  var startOffset = selection.<span class="apidocCodeKeywordSpan">getStartOffset</span>();
+	  var startBlock = content.getBlockForKey(startKey);
 
-var newBlocks = blockMap.skipUntil(function (_, k) {
-  return k === startKey;
-}).takeUntil(function (_, k) {
-  return k === endKey;
+	  // If the cursor is not at the start of the block, look backward to
+	  // preserve the style of the preceding character.
+	  if (startOffset &#x3e; 0) {
+	    return startBlock.getInlineStyleAt(startOffset - 1);
+	  }
 ...</pre></li>
     </ul>
 
@@ -10310,20 +10907,20 @@ var newBlocks = blockMap.skipUntil(function (_, k) {
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
 
-var _props = this.props;
-var blockKey = _props.blockKey;
-var start = _props.start;
-var text = _props.text;
+	  EditorState.prototype.getBlockTree = function getBlockTree(blockKey) {
+	    return this.getImmutable().getIn([&#x27;treeMap&#x27;, blockKey]);
+	  };
 
-var end = start + text.length;
-if (!selection.<span class="apidocCodeKeywordSpan">hasEdgeWithin</span>(blockKey, start, end)) {
-  return;
-}
+	  EditorState.prototype.isSelectionAtStartOfContent = function isSelectionAtStartOfContent() {
+	    var firstKey = this.getCurrentContent().getBlockMap().first().getKey();
+	    return this.getSelection().<span class="apidocCodeKeywordSpan">hasEdgeWithin</span>(firstKey, 0, 0);
+	  };
 
-// Determine the appropriate target node for selection. If the child
-// is not a text node, it is a &#x3c;br /&#x3e; spacer. In this case, use the
-// &#x3c;span&#x3e; itself as the selection target.
-var node = ReactDOM.findDOMNode(this);
+	  EditorState.prototype.isSelectionAtEndOfContent = function isSelectionAtEndOfContent() {
+	    var content = this.getCurrentContent();
+	    var blockMap = content.getBlockMap();
+	    var last = blockMap.last();
+	    var end = last.getLength();
 ...</pre></li>
     </ul>
 
@@ -10340,20 +10937,21 @@ var node = ReactDOM.findDOMNode(this);
   return this.getAnchorKey() === this.getFocusKey() &#x26;&#x26; this.getAnchorOffset() === this.getFocusOffset();
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
- */
-var SecondaryClipboard = {
-  cut: function cut(editorState) {
-    var content = editorState.getCurrentContent();
-    var selection = editorState.getSelection();
-    var targetRange = null;
+	    if (override != null) {
+	      return override;
+	    }
 
-    if (selection.<span class="apidocCodeKeywordSpan">isCollapsed</span>()) {
-var anchorKey = selection.getAnchorKey();
-var blockEnd = content.getBlockForKey(anchorKey).getLength();
+	    var content = this.getCurrentContent();
+	    var selection = this.getSelection();
 
-if (blockEnd === selection.getAnchorOffset()) {
-  return editorState;
-}
+	    if (selection.<span class="apidocCodeKeywordSpan">isCollapsed</span>()) {
+	      return getInlineStyleForCollapsedSelection(content, selection);
+	    }
+
+	    return getInlineStyleForNonCollapsedSelection(content, selection);
+	  };
+
+	  EditorState.prototype.getBlockTree = function getBlockTree(blockKey) {
 ...</pre></li>
     </ul>
 
