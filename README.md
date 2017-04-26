@@ -1,6 +1,6 @@
 # npmdoc-draft-js
 
-#### api documentation for  [draft-js (v0.10.0)](https://facebook.github.io/draft-js)  [![npm package](https://img.shields.io/npm/v/npmdoc-draft-js.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-draft-js) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-draft-js.svg)](https://travis-ci.org/npmdoc/node-npmdoc-draft-js)
+#### basic api documentation for  [draft-js (v0.10.0)](https://facebook.github.io/draft-js)  [![npm package](https://img.shields.io/npm/v/npmdoc-draft-js.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-draft-js) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-draft-js.svg)](https://travis-ci.org/npmdoc/node-npmdoc-draft-js)
 
 #### A React framework for building text editors.
 
@@ -153,7 +153,8 @@
         "test": "NODE_ENV=test jest",
         "test-ci": "NODE_ENV=test npm run lint && npm run flow && npm run test"
     },
-    "version": "0.10.0"
+    "version": "0.10.0",
+    "bin": {}
 }
 ```
 
